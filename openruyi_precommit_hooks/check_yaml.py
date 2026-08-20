@@ -1,10 +1,25 @@
 from __future__ import annotations
 
 import argparse
+from collections.abc import Generator
 from collections.abc import Sequence
 from typing import Any
 
 import yaml
+
+
+def _exhaust(gen: Generator) -> None:
+    for _ in gen:
+        pass
+
+
+def _parse_unsafe(stream: Any) -> None:
+    """Syntax-only check: parse tokens without constructing objects."""
+    _exhaust(yaml.parse(stream))
+
+
+def _load_all(stream: Any) -> None:
+    _exhaust(yaml.load_all(stream, Loader=yaml.SafeLoader))
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -26,14 +41,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     def _load(stream: Any) -> None:
-        loader = yaml.SafeLoader
         if args.unsafe:
-            loader = yaml.Loader  # syntax-only: allow unsafe constructs
-        if args.multi or args.unsafe:
-            for _ in yaml.load_all(stream, Loader=loader):
-                pass
+            _parse_unsafe(stream)
+        elif args.multi:
+            _load_all(stream)
         else:
-            yaml.load(stream, Loader=loader)
+            yaml.load(stream, Loader=yaml.SafeLoader)
 
     retval = 0
     for filename in args.filenames:
