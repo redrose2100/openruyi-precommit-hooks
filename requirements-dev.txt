@@ -1,0 +1,6 @@
+coverage
+pytest
+types-PyYAML
+mypy
+flake8
+pre-commit

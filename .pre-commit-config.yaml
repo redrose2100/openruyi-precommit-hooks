@@ -1,0 +1,49 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: name-tests-test
+    -   id: requirements-txt-fixer
+-   repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.17.0
+    hooks:
+    -   id: reorder-python-imports
+        args: [--py310-plus, --add-import, 'from __future__ import annotations']
+-   repo: https://github.com/asottile/add-trailing-comma
+    rev: v4.0.0
+    hooks:
+    -   id: add-trailing-comma
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v3.21.2
+    hooks:
+    -   id: pyupgrade
+        args: [--py310-plus]
+-   repo: https://github.com/hhatto/autopep8
+    rev: v2.3.2
+    hooks:
+    -   id: autopep8
+-   repo: https://github.com/PyCQA/flake8
+    rev: 7.3.0
+    hooks:
+    -   id: flake8
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v2.3.0
+    hooks:
+    -   id: mypy
+        additional_dependencies: [types-PyYAML]
+-   repo: local
+    hooks:
+    -   id: self-check-ast
+        name: self check python ast
+        entry: check-ast
+        language: system
+        types: [python]
+    -   id: self-check-yaml
+        name: self check yaml
+        entry: check-yaml
+        language: system
+        types: [yaml]
