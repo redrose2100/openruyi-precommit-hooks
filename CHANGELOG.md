@@ -14,9 +14,17 @@
   SPDX 版权与许可证声明（ISCAS + openRuyi Project Contributors +
   `SPDX-License-Identifier: MulanPSL-2.0`），contributor 行为可选；
   版权行与许可证行之间必须有且仅有一行 `#` 空注释行。
+- 规则 hook `check-spec-structure`：校验 spec 文件主包头部字段必须按
+  `Name → Version → Release → Summary → License → URL → VCS → Source →
+  BuildSystem → BuildRequires → Requires` 顺序出现（允许缺失），且
+  `%description` / `%files` / `%changelog` / `%package` / `%prep` /
+  `%build` / `%install` / `%check` 段落之间必须用空行隔开
+  （`%if` 条件块后紧跟段落属合法写法）。
 - 规则文档 `docs/check-spdx-header.md`，README 增加 Hooks 列表。
+- 规则文档 `docs/check-spec-structure.md`。
 - 扫描结果目录 `openruyi-scan-results/`，存放对 openRuyi 仓库的
-  各规则扫描结果（`check-spdx-header-results.md`）。
+  各规则扫描结果（`check-spdx-header-results.md`、
+  `check-spec-structure-results.md`）。
 
 ### 移除
 

@@ -43,3 +43,10 @@ repos:
         entry: check-spdx-header
         language: python
         types_or: [spec]
+
+    -   id: check-spec-structure
+        name: check-spec-structure
+        description: Ensure spec files follow the canonical field order and section separation rules.
+        entry: check-spec-structure
+        language: python
+        types_or: [spec]

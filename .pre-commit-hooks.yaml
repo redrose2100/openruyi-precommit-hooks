@@ -6,3 +6,12 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+
+- id: check-spec-structure
+  name: check-spec-structure
+  description: Ensure spec files follow the canonical field order and section separation rules.
+  entry: check-spec-structure
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
