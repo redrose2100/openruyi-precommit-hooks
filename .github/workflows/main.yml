@@ -2,7 +2,7 @@ name: main
 
 on:
   push:
-    branches: [main, dev, test-me-*]
+    branches: [master, dev, test-me-*]
     tags: '*'
   pull_request:
 
