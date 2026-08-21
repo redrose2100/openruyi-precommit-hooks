@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 未发布
+
+### 新增
+
+- 规则 hook `check-spec-name`：校验 spec 文件 `Name` 字段符合
+  openRuyi 命名规则（必须存在、全小写、优先短横线分隔、不编码
+  ABI/主版本号）；`perl-*` 模块豁免小写检查，宏展开名称跳过静态检查。
+- 规则文档 `docs/check-spec-name.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-name-results.md`：
+  5337 个 spec 文件中 65 个存在命名违规（33 个非全小写、24 个含
+  下划线、8 个编码 ABI/主版本号）。
+
 ## 0.1.0 (2026-08-20)
 
 ### 新增

@@ -90,5 +90,3 @@ This is a test package.
 - 字段乱序（如 `Summary` 与 `Release` 颠倒）→ `header fields out of order`
 - `Requires:` 后直接跟 `%description`（段落前无空行）→ 段落空行检查失败
 - 文件为空或非 UTF-8 编码 → 失败
-
-

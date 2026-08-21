@@ -117,5 +117,3 @@ Name:           foo
 
 Name:           foo
 ```
-
-
