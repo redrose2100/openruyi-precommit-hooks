@@ -73,8 +73,10 @@ def _header_seq(lines: list[str], cut: int) -> list[str]:
     seq: list[str] = []
     for line in lines[:cut]:
         stripped = line.strip()
-        if (not stripped or stripped.startswith('#') or
-                stripped.startswith('%')):
+        if (
+            not stripped or stripped.startswith('#') or
+            stripped.startswith('%')
+        ):
             continue
         field = _field_name(stripped)
         if field is not None:
