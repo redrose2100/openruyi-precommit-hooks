@@ -2,6 +2,12 @@
 
 > 规则 ID：`check-spdx-header`
 
+## 扫描结果
+
+对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) 仓库 spec 文件的扫描结果见：
+
+- [openruyi-scan-results/check-spdx-header-results.md](../openruyi-scan-results/check-spdx-header-results.md)
+
 ## 规则说明
 
 Spec 文件（RPM `.spec`）的**起始位置**必须包含 SPDX 形式的版权与许可证声明。
@@ -112,8 +118,4 @@ Name:           foo
 Name:           foo
 ```
 
-## 扫描结果
 
-对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) 仓库 spec 文件的扫描结果见：
-
-- [openruyi-scan-results/check-spdx-header-results.md](../openruyi-scan-results/check-spdx-header-results.md)

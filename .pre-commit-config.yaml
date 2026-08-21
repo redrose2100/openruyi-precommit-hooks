@@ -43,3 +43,10 @@ repos:
         entry: check-spdx-header
         language: python
         types_or: [spec]
+
+    -   id: check-spec-structure
+        name: check-spec-structure
+        description: Ensure spec files contain all required header fields in canonical order and sections separated by blank lines.
+        entry: check-spec-structure
+        language: python
+        types_or: [spec]
