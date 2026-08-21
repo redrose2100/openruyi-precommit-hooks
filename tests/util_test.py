@@ -27,7 +27,12 @@ def test_cmd_output_bad_retcode() -> None:
 
 
 def test_cmd_output_retcode_none() -> None:
-    out = cmd_output(sys.executable, '-c', 'import sys; sys.exit(3)', retcode=None)
+    out = cmd_output(
+        sys.executable,
+        '-c',
+        'import sys; sys.exit(3)',
+        retcode=None,
+    )
     assert out == ''
 
 
