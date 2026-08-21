@@ -35,3 +35,11 @@ repos:
     hooks:
     -   id: mypy
         additional_dependencies: [types-PyYAML]
+-   repo: local
+    hooks:
+    -   id: check-spdx-header
+        name: check-spdx-header
+        description: Ensure spec files start with the required SPDX header.
+        entry: check-spdx-header
+        language: python
+        types_or: [spec]

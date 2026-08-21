@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 0.2.0 (2026-08-21)
+
+### 新增
+
+- 首个规则 hook `check-spdx-header`：校验 spec 文件起始位置包含
+  SPDX 版权与许可证声明（ISCAS + openRuyi Project Contributors +
+  `SPDX-License-Identifier: MulanPSL-2.0`），contributor 行为可选。
+- 规则文档 `docs/check-spdx-header.md`，README 增加 Hooks 列表。
+- 扫描结果目录 `openruyi-scan-results/`，存放对 openRuyi 仓库的
+  各规则扫描结果（`check-spdx-header-results.md`）。
+
 ## 0.1.0 (2026-08-20)
 
 ### 新增
