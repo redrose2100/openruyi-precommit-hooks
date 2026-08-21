@@ -5,8 +5,8 @@ import re
 from collections.abc import Sequence
 
 # The mandatory header fields of an openRuyi spec file and the order in
-# which they must appear (fields are allowed to be absent, e.g. VCS is
-# only present for packages whose sources come from a VCS checkout).
+# which they must appear.  Every field must be present -- a package
+# without a VCS checkout simply does not qualify.
 _HEADER_FIELDS = (
     'Name',
     'Version',
@@ -17,6 +17,8 @@ _HEADER_FIELDS = (
     'VCS',
     'Source',
     'BuildSystem',
+    'BuildRequires',
+    'Requires',
 )
 
 # Sections that must be separated from the preceding content by a blank
@@ -47,26 +49,41 @@ def _is_section_line(line: str) -> bool:
     return False
 
 
+def _field_name(stripped: str) -> str | None:
+    """Return the header field name of ``stripped``, or None.
+
+    ``Source`` also matches the numbered variants ``Source0`` …
+    ``SourceN``; continuation lines (indented field bodies) return None.
+    """
+    for field in _HEADER_FIELDS:
+        if field == 'Source':
+            if re.match(r'^Source\d*:', stripped):
+                return 'Source'
+            continue
+        if stripped.startswith(field + ':'):
+            return field
+    return None
+
+
 def _header_seq(lines: list[str], cut: int) -> list[str]:
-    """Extract the order of header fields up to line ``cut``."""
+    """Extract header field order up to line ``cut``.
+
+    Continuation lines and blank/comment/directive lines are ignored.
+    """
     seq: list[str] = []
     for line in lines[:cut]:
         stripped = line.strip()
-        if (
-            not stripped or
-            stripped.startswith('#') or
-            stripped.startswith('%')
-        ):
+        if (not stripped or stripped.startswith('#') or
+                stripped.startswith('%')):
             continue
-        for field in _HEADER_FIELDS:
-            if stripped.startswith(field + ':'):
-                seq.append(field)
-                break
+        field = _field_name(stripped)
+        if field is not None:
+            seq.append(field)
     return seq
 
 
 def _check_header_order(lines: list[str], filename: str) -> list[str]:
-    """Check that header fields appear in the canonical order."""
+    """Check that all header fields are present and in canonical order."""
     errors: list[str] = []
     cut = len(lines)
     for i, line in enumerate(lines):
@@ -74,6 +91,14 @@ def _check_header_order(lines: list[str], filename: str) -> list[str]:
             cut = i
             break
     seq = _header_seq(lines, cut)
+
+    missing = [f for f in _HEADER_FIELDS if f not in seq]
+    if missing:
+        errors.append(
+            f'{filename}: missing required header field(s): '
+            f'{", ".join(missing)}',
+        )
+        # still report ordering problems below if any are present
     order = {field: idx for idx, field in enumerate(_HEADER_FIELDS)}
     positions: list[tuple[str, int]] = []
     for field in seq:

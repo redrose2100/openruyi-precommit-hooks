@@ -60,13 +60,22 @@ def test_ok_spec(tmp_path: Path) -> None:
     assert retv == 0
 
 
-def test_ok_spec_without_vcs(tmp_path: Path) -> None:
-    # VCS is optional; absence must not fail the check.
+def test_missing_vcs_fails(tmp_path: Path) -> None:
+    # VCS is now mandatory; a package without it must fail the check.
     content = GOOD_SPEC.replace(
         'VCS:            git:https://github.com/example/foo.git\n', '',
     )
-    retv = main([_write(tmp_path, 'good2.spec', content)])
-    assert retv == 0
+    retv = main([_write(tmp_path, 'bad1.spec', content)])
+    assert retv == 1
+
+
+def test_missing_requires_fails(tmp_path: Path) -> None:
+    content = GOOD_SPEC.replace(
+        'Requires:       glibc\n\n%description\n',
+        '%description\n',
+    )
+    retv = main([_write(tmp_path, 'bad2.spec', content)])
+    assert retv == 1
 
 
 def test_fields_out_of_order(tmp_path: Path) -> None:
@@ -78,7 +87,7 @@ def test_fields_out_of_order(tmp_path: Path) -> None:
         'Name:           foo\nVersion:        1.0.0\n',
         'Name:           foo\n',
     )
-    retv = main([_write(tmp_path, 'bad1.spec', content)])
+    retv = main([_write(tmp_path, 'bad3.spec', content)])
     assert retv == 1
 
 
@@ -97,6 +106,10 @@ License:        MIT
 URL:            https://example.com
 BuildSystem:    autotools
 
+BuildRequires:  gcc
+
+Requires:       glibc
+
 %description
 Test.
 
@@ -106,7 +119,7 @@ Test.
 %changelog
 %autochangelog
 '''
-    retv = main([_write(tmp_path, 'bad2.spec', content)])
+    retv = main([_write(tmp_path, 'bad4.spec', content)])
     assert retv == 1
 
 
@@ -116,7 +129,7 @@ def test_missing_blank_before_description(tmp_path: Path) -> None:
         'Requires:       glibc\n\n%description\n',
         'Requires:       glibc\n%description\n',
     )
-    retv = main([_write(tmp_path, 'bad3.spec', content)])
+    retv = main([_write(tmp_path, 'bad5.spec', content)])
     assert retv == 1
 
 
@@ -125,7 +138,7 @@ def test_missing_blank_before_changelog(tmp_path: Path) -> None:
         '%{_bindir}/foo\n\n%changelog\n',
         '%{_bindir}/foo\n%changelog\n',
     )
-    retv = main([_write(tmp_path, 'bad4.spec', content)])
+    retv = main([_write(tmp_path, 'bad6.spec', content)])
     assert retv == 1
 
 
@@ -147,12 +160,12 @@ def test_comment_between_content_and_section(tmp_path: Path) -> None:
         'Requires:       glibc\n\n%description\n',
         'Requires:       glibc\n# some comment\n%description\n',
     )
-    retv = main([_write(tmp_path, 'bad5.spec', content)])
+    retv = main([_write(tmp_path, 'bad7.spec', content)])
     assert retv == 1
 
 
 def test_empty_file(tmp_path: Path) -> None:
-    retv = main([_write(tmp_path, 'bad6.spec', '')])
+    retv = main([_write(tmp_path, 'bad8.spec', '')])
     assert retv == 1
 
 

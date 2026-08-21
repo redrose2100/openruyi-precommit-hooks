@@ -15,8 +15,8 @@ Spec 文件（RPM `.spec`）的主包头部字段与段落布局必须保持规�
 
 ## 检查点 1：头部字段顺序
 
-主包头部（第一个 `%description` 段落之前）中，以下字段**若出现则必须按此顺序**
-排列：
+主包头部（第一个 `%description` 段落之前）**必须**包含以下全部字段，
+且必须按如下顺序出现：
 
 ```spec
 Name:
@@ -34,20 +34,20 @@ Requires:
 
 | 字段 | 说明 |
 | --- | --- |
-| `Name` / `Version` / `Release` / `Summary` / `License` | 基本标识字段，通常全部出现 |
-| `URL` / `VCS` / `Source` | 上游与源代码来源；`VCS` 仅在使用版本控制仓库作为源码来源时出现 |
+| `Name` / `Version` / `Release` / `Summary` / `License` | 基本标识字段 |
+| `URL` / `VCS` / `Source` | 上游与源代码来源 |
 | `BuildSystem` | 构建系统，openRuyi 扩展字段 |
 | `BuildRequires` / `Requires` | 构建与运行时依赖，可有多行（多行视为同一字段的延续） |
 
 校验规则：
 
-- 每个字段**允许缺失**——例如不通过 VCS 获取源码的包可以没有 `VCS` 字段
-  （openRuyi 中约 82% 的 spec 没有 `VCS`，属正常情况）；
-- 字段**若出现则必须按上述顺序**，出现顺序违反则报错；
+- **每个字段都是必填的**，缺失任一字段即报错；
+- 字段必须按上述顺序出现，顺序违反则报错；
 - `Source` 匹配 `Source`/`Source0`/`Source1`/`SourceN` 等所有变体；
 - `BuildRequires` 与 `Requires` 允许多行，以首次出现位置参与顺序比较。
 
-违反示例：`Version` 出现在 `Summary` 之后、或 `Summary` 出现在 `License` 之后。
+违反示例：缺少 `VCS` 字段、`Version` 出现在 `Summary` 之后、或
+`Summary` 出现在 `License` 之后。
 
 ## 检查点 2：段落之间的空行
 
@@ -77,14 +77,16 @@ Requires:
 
 对每个 `.spec` 文件，本规则检查：
 
-1. 主包头部（第一个 `%description` 之前）中出现的字段是否按
+1. 主包头部（第一个 `%description` 之前）是否包含
    `Name → Version → Release → Summary → License → URL → VCS → Source →
-   BuildSystem → BuildRequires → Requires` 顺序排列。
+   BuildSystem → BuildRequires → Requires` **全部字段并按此顺序排列**
+   （任一字段缺失即失败）。
 2. 每行段落标签（`%description`/`%package`/`%prep`/`%build`/`%install`/
    `%check`/`%files`/`%changelog` 及其带参数变体）之前是否有空行分隔。
 
 以下情况会被判定为**失败**：
 
+- 缺少任一必填字段；
 - 出现字段乱序；
 - 段落前缺少空行（前一行是字段内容、文件列表或脚本内容）；
 - 文件不是 UTF-8 编码；
@@ -150,14 +152,21 @@ This is a test package.
 %autochangelog
 ```
 
-### 不通过 ❌（字段乱序）
+### 不通过 ❌（缺少必填字段）
 
 ```spec
 Name:           foo
-Summary:        A test package
 Version:        1.0.0
 Release:        %autorelease
+Summary:        A test package
 License:        MIT
+URL:            https://example.com
+Source0:        https://example.com/foo-%{version}.tar.gz
+BuildSystem:    autotools
+
+BuildRequires:  gcc
+
+Requires:       glibc
 
 %description
 This is a test package.
@@ -169,7 +178,36 @@ This is a test package.
 %autochangelog
 ```
 
-`Version` 出现在 `Summary` 之后，违反字段顺序。
+缺少 `VCS` 字段，违反"全部字段必填"要求。
+
+### 不通过 ❌（字段乱序）
+
+```spec
+Name:           foo
+Version:        1.0.0
+Summary:        A test package
+Release:        %autorelease
+License:        MIT
+URL:            https://example.com
+VCS:            git:https://github.com/example/foo
+Source0:        https://example.com/foo-%{version}.tar.gz
+BuildSystem:    autotools
+
+BuildRequires:  gcc
+
+Requires:       glibc
+
+%description
+This is a test package.
+
+%files
+%{_bindir}/foo
+
+%changelog
+%autochangelog
+```
+
+`Summary` 出现在 `Release` 之前，违反字段顺序。
 
 ### 不通过 ❌（段落前缺少空行）
 
@@ -179,8 +217,14 @@ Version:        1.0.0
 Release:        %autorelease
 Summary:        A test package
 License:        MIT
+URL:            https://example.com
+VCS:            git:https://github.com/example/foo
+Source0:        https://example.com/foo-%{version}.tar.gz
+BuildSystem:    autotools
 
 BuildRequires:  gcc
+
+Requires:       glibc
 %description
 This is a test package.
 
@@ -191,7 +235,7 @@ This is a test package.
 %autochangelog
 ```
 
-`%description` 前一行是 `BuildRequires:` 内容而非空行，违反段落空行要求。
+`%description` 前一行是 `Requires:` 内容而非空行，违反段落空行要求。
 
 ## 扫描结果
 
