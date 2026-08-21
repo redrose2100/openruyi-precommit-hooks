@@ -18,8 +18,12 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 
 ## 可用的 Hooks
 
-当前规则列表为空，仓库仅保留了框架（打包配置、测试基础设施、CI）。
-后续新增规则时，将在此处补充文档。
+| Hook ID | 说明 | 文档 |
+| --- | --- | --- |
+| `check-spdx-header` | 校验 spec 文件起始位置包含 SPDX 版权与许可证声明（ISCAS + openRuyi Contributors + MulanPSL-2.0） | [docs/check-spdx-header.md](docs/check-spdx-header.md) |
+
+> 对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) 仓库各规则的扫描结果见
+> [`openruyi-scan-results/`](openruyi-scan-results/) 目录，每个规则一个结果文件（文件名以规则名开头）。
 
 ## 新增一个 Hook
 

@@ -10,6 +10,13 @@
   `resources/`，以及 `tox.ini`、`requirements-dev.txt`、GitHub Actions CI。
 - 公共工具 `openruyi_precommit_hooks/util.py`：
   `cmd_output` / `added_files` / `zsplit` / `CalledProcessError`。
+- 首个规则 hook `check-spdx-header`：校验 spec 文件起始位置包含
+  SPDX 版权与许可证声明（ISCAS + openRuyi Project Contributors +
+  `SPDX-License-Identifier: MulanPSL-2.0`），contributor 行为可选；
+  版权行与许可证行之间必须有且仅有一行 `#` 空注释行。
+- 规则文档 `docs/check-spdx-header.md`，README 增加 Hooks 列表。
+- 扫描结果目录 `openruyi-scan-results/`，存放对 openRuyi 仓库的
+  各规则扫描结果（`check-spdx-header-results.md`）。
 
 ### 移除
 
