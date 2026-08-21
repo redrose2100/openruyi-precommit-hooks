@@ -23,9 +23,6 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spdx-header` | 校验 spec 文件起始位置包含 SPDX 版权与许可证声明（ISCAS + openRuyi Contributors + MulanPSL-2.0） | [docs/check-spdx-header.md](docs/check-spdx-header.md) |
 | `check-spec-structure` | 校验 spec 文件必填头部字段（全字段必填 + 顺序）与段落之间空行分隔 | [docs/check-spec-structure.md](docs/check-spec-structure.md) |
 
-> 对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) 仓库各规则的扫描结果见
-> [`openruyi-scan-results/`](openruyi-scan-results/) 目录，每个规则一个结果文件（文件名以规则名开头）。
-
 ## 新增一个 Hook
 
 1. 在 `openruyi_precommit_hooks/` 下新建 `your_hook.py`，实现

@@ -2,6 +2,12 @@
 
 > 规则 ID：`check-spec-structure`
 
+## 扫描结果
+
+对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) 仓库 spec 文件的扫描结果见：
+
+- [openruyi-scan-results/check-spec-structure-results.md](../openruyi-scan-results/check-spec-structure-results.md)
+
 ## 规则
 
 ### 1. 头部字段
@@ -85,7 +91,4 @@ This is a test package.
 - `Requires:` 后直接跟 `%description`（段落前无空行）→ 段落空行检查失败
 - 文件为空或非 UTF-8 编码 → 失败
 
-## 扫描结果
 
-对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) `main`
-分支的扫描结果见 [check-spec-structure-results](../openruyi-scan-results/check-spec-structure-results.md)。
