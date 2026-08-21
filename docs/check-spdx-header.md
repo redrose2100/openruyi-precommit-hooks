@@ -22,15 +22,23 @@ spec 文件开头的连续注释块中，必须按以下顺序出现（仅允许
 
 | 行 | 必选/可选 | 说明 |
 | --- | --- | --- |
-| `# SPDX-FileCopyrightText: (C) <年份> Institute of Software, Chinese Academy of Sciences (ISCAS)` | **必选** | 中国科学院软件研究所版权声明，`<年份>` 可为 `2025`、`2026`、`2025, 2026` 或 `2025-2026` 等 |
+| `# SPDX-FileCopyrightText: (C) <年份> Institute of Software, Chinese Academy of Sciences (ISCAS)` | **必选** | 中国科学院软件研究所（ISCAS）版权声明 |
 | `# SPDX-FileCopyrightText: (C) <年份> openRuyi Project Contributors` | **必选** | openRuyi 项目贡献者版权声明 |
-
-> 版权声明行年份正则形式：`SPDX-FileCopyrightText: (C) \d{4}((,|-) \d{4})* <组织名>`
 | `# SPDX-FileContributor: ...` | 可选 | 贡献者署名，可有多行或没有 |
-| `#` | 必选 | 版权块与许可证之间的空注释行 |
+| `#` | **必选** | 版权块与许可证之间的空注释行 |
 | `# SPDX-License-Identifier: MulanPSL-2.0` | **必选** | 许可证标识，必须为 `MulanPSL-2.0` |
 
-> 版权声明行正则形式：`SPDX-FileCopyrightText: (C) \d{4}(, \d{4})* <组织名>`
+### 年份写法
+
+两个版权声明行中的 `<年份>` 支持以下写法（正则形式：`\d{4}((,|-) \d{4})*`）：
+
+| 写法 | 示例 |
+| --- | --- |
+| 单个年份 | `2026` |
+| 逗号分隔多个年份 | `2025, 2026` |
+| 连字符年份区间 | `2025-2026` |
+
+正则校验示例：`SPDX-FileCopyrightText: (C) \d{4}((,|-) \d{4})* <组织名>`
 
 ## 检查内容
 
