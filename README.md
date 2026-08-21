@@ -30,6 +30,36 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 4. 在 `tests/` 下新建对应测试，测试资源放在 `testing/resources/`。
 5. 更新 `README.md` 的 Hooks 列表与 `CHANGELOG.md`。
 
+## 提交规范
+
+本仓库的提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/v1.0.0/)
+规范，格式为：
+
+```
+<type>(<scope>): <description>
+```
+
+常见的 `type`：
+
+| type | 用途 |
+|------|------|
+| `feat` | 新增功能（如新增一个 hook / 新特性） |
+| `fix` | 修复 Bug |
+| `refactor` | 重构，不改变外部行为 |
+| `test` | 新增或修改测试 |
+| `ci` | CI 配置或脚本的改动（`ci.yml`、`.github/` 等） |
+| `chore` | 杂项（依赖、构建工具、配置文件等） |
+| `docs` | 文档改动 |
+
+示例：
+
+```
+feat: add check-commit-msg hook
+fix: handle empty stdin in check-yaml
+chore: bump pre-commit-hooks to v6.0.0
+docs: add commit message conventions
+```
+
 ## 开发
 
 ```sh
