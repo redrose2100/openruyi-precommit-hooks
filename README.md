@@ -39,23 +39,35 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 <type>(<scope>): <description>
 ```
 
-常见的 `type`：
+常见的 `type`（完整列表，参考 Angular Commit Convention）：
 
 | type | 用途 |
 |------|------|
 | `feat` | 新增功能（如新增一个 hook / 新特性） |
 | `fix` | 修复 Bug |
-| `refactor` | 重构，不改变外部行为 |
-| `test` | 新增或修改测试 |
-| `ci` | CI 配置或脚本的改动（`ci.yml`、`.github/` 等） |
-| `chore` | 杂项（依赖、构建工具、配置文件等） |
 | `docs` | 文档改动 |
+| `style` | 不影响逻辑的格式改动（空格、分号、缩进等） |
+| `refactor` | 重构，不改变外部行为 |
+| `perf` | 性能优化 |
+| `test` | 新增或修改测试 |
+| `build` | 构建系统或外部依赖的改动（如 `setup.cfg`、`requirements-dev.txt`） |
+| `ci` | CI 配置或脚本的改动（`ci.yml`、`.github/` 等） |
+| `chore` | 其他维护性改动，不修改源码或测试（如 `.gitignore`、工具配置） |
+| `revert` | 回滚之前的提交 |
+
+补充说明：
+
+- **scope**（可选）：用于缩小影响范围，如 `feat(check-yaml): ...`。
+- **破坏性变更**：在 `type` 后加 `!`（如 `feat!: ...`），并在正文中写明
+  `BREAKING CHANGE:` 说明。
 
 示例：
 
 ```
 feat: add check-commit-msg hook
 fix: handle empty stdin in check-yaml
+perf: cache added_files results across invocations
+style: format code with autopep8
 chore: bump pre-commit-hooks to v6.0.0
 docs: add commit message conventions
 ```
