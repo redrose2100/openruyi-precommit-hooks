@@ -25,7 +25,7 @@ spec 文件开头的连续注释块中，必须按以下顺序出现（仅允许
 | `# SPDX-FileCopyrightText: (C) <年份> Institute of Software, Chinese Academy of Sciences (ISCAS)` | **必选** | 中国科学院软件研究所（ISCAS）版权声明 |
 | `# SPDX-FileCopyrightText: (C) <年份> openRuyi Project Contributors` | **必选** | openRuyi 项目贡献者版权声明 |
 | `# SPDX-FileContributor: ...` | 可选 | 贡献者署名，可有多行或没有 |
-| `#` | **必选** | 版权块与许可证之间的空注释行 |
+| `#` | **必选** | 版权块与许可证之间的空注释行，**且恰好只有一行** |
 | `# SPDX-License-Identifier: MulanPSL-2.0` | **必选** | 许可证标识，必须为 `MulanPSL-2.0` |
 
 ### 年份写法
@@ -47,11 +47,13 @@ spec 文件开头的连续注释块中，必须按以下顺序出现（仅允许
 1. 文件开头（允许空行后）是否是注释块（`#` 开头）。
 2. 注释块中是否包含 ISCAS 的 `SPDX-FileCopyrightText` 行。
 3. 注释块中是否包含 openRuyi Project Contributors 的 `SPDX-FileCopyrightText` 行。
-4. 注释块中是否包含 `# SPDX-License-Identifier: MulanPSL-2.0` 行。
+4. 版权两行与许可证行之间是否存在**恰好一行** `#` 空注释行。
+5. 注释块中是否包含 `# SPDX-License-Identifier: MulanPSL-2.0` 行。
 
 以下情况会被判定为**失败**：
 
 - 缺少任一必选行；
+- 版权块与许可证之间缺少 `#` 空注释行，或空注释行超过一行；
 - `SPDX-License-Identifier` 不是 `MulanPSL-2.0`；
 - 文件不是 UTF-8 编码；
 - 文件为空或不是以注释开头。

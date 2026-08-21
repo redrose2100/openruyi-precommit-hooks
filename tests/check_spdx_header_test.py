@@ -103,6 +103,36 @@ Name:           foo
     assert retv == 1
 
 
+def test_missing_blank_comment_line(tmp_path: Path) -> None:
+    # The blank "#" separator between the copyright lines and the
+    # license identifier is mandatory.
+    content = '''\
+# SPDX-FileCopyrightText: (C) 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2026 openRuyi Project Contributors
+# SPDX-License-Identifier: MulanPSL-2.0
+
+Name:           foo
+'''
+    retv = main([_write(tmp_path, 'bad7.spec', content)])
+    assert retv == 1
+
+
+def test_too_many_blank_comment_lines(tmp_path: Path) -> None:
+    # Only one blank "#" comment line is allowed between the copyright
+    # lines and the license identifier.
+    content = '''\
+# SPDX-FileCopyrightText: (C) 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2026 openRuyi Project Contributors
+#
+#
+# SPDX-License-Identifier: MulanPSL-2.0
+
+Name:           foo
+'''
+    retv = main([_write(tmp_path, 'bad8.spec', content)])
+    assert retv == 1
+
+
 def test_no_comments_at_start(tmp_path: Path) -> None:
     content = '''\
 Name:           foo

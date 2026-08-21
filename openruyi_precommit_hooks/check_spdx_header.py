@@ -51,12 +51,19 @@ def _header_block(lines: list[str]) -> list[str]:
     return block
 
 
-def _is_spdx_line(line: str) -> bool:
-    return (
-        line.startswith('# SPDX-FileCopyrightText:') or
-        line.startswith('# SPDX-FileContributor:') or
-        line.startswith('# SPDX-License-Identifier:')
-    )
+def _classify(line: str) -> str:
+    """Classify a stripped header line for presence/order checking."""
+    if _RE_COPYRIGHT_ISCAS.match(line):
+        return 'iscas'
+    if _RE_COPYRIGHT_RUYI.match(line):
+        return 'ruyi'
+    if _RE_CONTRIBUTOR.match(line):
+        return 'contributor'
+    if _RE_BLANK_COMMENT.match(line):
+        return 'blank'
+    if _RE_LICENSE.match(line):
+        return 'license'
+    return 'other'
 
 
 def _dedup(errors: list[str]) -> list[str]:
@@ -87,9 +94,11 @@ def _check_spdx_header(filename: str) -> list[str]:
     if not block:
         return [f'{filename}: file is empty or does not start with comments']
 
-    has_iscas = any(_RE_COPYRIGHT_ISCAS.match(line) for line in block)
-    has_ruyi = any(_RE_COPYRIGHT_RUYI.match(line) for line in block)
-    has_license = any(_RE_LICENSE.match(line) for line in block)
+    seq = [_classify(line) for line in block]
+
+    has_iscas = 'iscas' in seq
+    has_ruyi = 'ruyi' in seq
+    has_license = 'license' in seq
 
     if not has_iscas:
         errors.append(
@@ -110,24 +119,38 @@ def _check_spdx_header(filename: str) -> list[str]:
             '"# SPDX-License-Identifier: MulanPSL-2.0"',
         )
 
-    # order check: ISCAS -> ruyi -> (contributors) -> blank "#" -> license
-    ordered = [line for line in block if _is_spdx_line(line)]
-    required_seq = [
-        _RE_COPYRIGHT_ISCAS,
-        _RE_COPYRIGHT_RUYI,
-        _RE_LICENSE,
-    ]
-    pos = 0
-    for pat in required_seq:
-        found = False
-        while pos < len(ordered):
-            if pat.match(ordered[pos]):
-                found = True
-                pos += 1
-                break
-            pos += 1
-        if not found:
-            break
+    # order check: ISCAS -> ruyi -> (contributors) -> one blank "#"
+    #               -> license
+    if has_iscas and has_ruyi and has_license:
+        i_iscas = seq.index('iscas')
+        i_ruyi = seq.index('ruyi')
+        i_license = seq.index('license')
+        if i_iscas < i_ruyi < i_license:
+            between = seq[i_ruyi + 1:i_license]
+            n_blank = between.count('blank')
+            if n_blank == 0:
+                errors.append(
+                    f'{filename}: missing required blank "#" comment '
+                    'line between the copyright lines and '
+                    'SPDX-License-Identifier',
+                )
+            elif n_blank > 1:
+                errors.append(
+                    f'{filename}: there must be exactly one blank "#" '
+                    'comment line between the copyright lines and '
+                    'SPDX-License-Identifier',
+                )
+            elif seq[i_license - 1] != 'blank':
+                errors.append(
+                    f'{filename}: the blank "#" comment line must '
+                    'directly precede SPDX-License-Identifier',
+                )
+        else:
+            errors.append(
+                f'{filename}: header lines are out of order, expected '
+                'ISCAS copyright, openRuyi copyright, blank "#", then '
+                'SPDX-License-Identifier',
+            )
     return _dedup(errors)
 
 
