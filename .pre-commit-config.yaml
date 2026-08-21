@@ -35,15 +35,3 @@ repos:
     hooks:
     -   id: mypy
         additional_dependencies: [types-PyYAML]
--   repo: local
-    hooks:
-    -   id: self-check-ast
-        name: self check python ast
-        entry: check-ast
-        language: system
-        types: [python]
-    -   id: self-check-yaml
-        name: self check yaml
-        entry: check-yaml
-        language: system
-        types: [yaml]

@@ -13,35 +13,13 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 -   repo: https://github.com/redrose2100/openruyi-precommit-hooks
     rev: v0.1.0  # 填写你要引用的版本
     hooks:
-    -   id: check-ast
-    -   id: check-yaml
     # -   id: ...
 ```
 
 ## 可用的 Hooks
 
-### `check-ast`
-简单地检查文件是否能够被解析为合法的 Python。
-
-### `check-executables-have-shebangs`
-确保（非二进制）可执行文件带有 shebang。
-
-### `check-yaml`
-尝试加载所有 yaml 文件以验证语法。
-  - `--allow-multiple-documents` / `-m` - 允许使用
-    [多文档语法](http://www.yaml.org/spec/1.2/spec.html#YAML) 的 yaml 文件。
-  - `--unsafe` - 只做语法解析而不是加载文件。语法级检查允许扩展与不安全的
-    构造，但会失去跨 yaml 实现的移植性保证，同时隐含
-    `--allow-multiple-documents`。
-
-### `require-ascii`
-确保文件只包含 ASCII 字符。
-
-### `trailing-whitespace`
-去除行尾空白。
-  - `--markdown-linebreak-ext EXT|*` - Markdown 文件保留行尾两空格（换行语义），
-    可多次指定或以 `*` 表示所有文件。
-  - `--chars CHARS` - 自定义需要从行尾剥离的字符集合。
+当前规则列表为空，仓库仅保留了框架（打包配置、测试基础设施、CI）。
+后续新增规则时，将在此处补充文档。
 
 ## 新增一个 Hook
 
