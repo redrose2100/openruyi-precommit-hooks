@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pytest
-
 from openruyi_precommit_hooks.trailing_whitespace_fixer import main
 
 

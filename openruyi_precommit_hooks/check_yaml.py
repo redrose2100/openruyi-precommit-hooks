@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import argparse
-from collections.abc import Generator
+from collections.abc import Iterator
 from collections.abc import Sequence
 from typing import Any
 
 import yaml
 
 
-def _exhaust(gen: Generator) -> None:
+def _exhaust(gen: Iterator[Any]) -> None:
     for _ in gen:
         pass
 

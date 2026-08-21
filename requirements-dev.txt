@@ -1,6 +1,6 @@
 coverage
+flake8
+mypy
+pre-commit
 pytest
 types-PyYAML
-mypy
-flake8
-pre-commit
