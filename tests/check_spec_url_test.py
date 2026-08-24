@@ -1,4 +1,5 @@
 # flake8: noqa: E501  -- spec file contents are reproduced verbatim
+from __future__ import annotations
 
 from openruyi_precommit_hooks.check_spec_url import main
 
