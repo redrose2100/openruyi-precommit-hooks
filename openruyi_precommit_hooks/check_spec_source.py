@@ -44,7 +44,7 @@ _RE_REMOTE_ASSET = re.compile(r'^#!RemoteAsset\s*:?\s*(.*)')
 _RE_SHA256 = re.compile(r'^sha256\s*:\s*[0-9a-fA-F]{64}$')
 # SourceForge download links must use the ``downloads`` host.
 _RE_SF_DOWNLOADS = re.compile(
-    r'^https?://downloads\.sourceforge\.net/', re.IGNORECASE
+    r'^https?://downloads\.sourceforge\.net/', re.IGNORECASE,
 )
 # Avoid echoing a very long value verbatim in an error message.
 _MAX_SHOWN = 60

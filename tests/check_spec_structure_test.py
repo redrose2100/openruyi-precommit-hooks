@@ -61,12 +61,60 @@ def test_ok_spec(tmp_path: Path) -> None:
 
 
 def test_missing_vcs_fails(tmp_path: Path) -> None:
-    # VCS is now mandatory; a package without it must fail the check.
+    # VCS is mandatory when URL is not a source repository link; a
+    # package without it must fail the check.
     content = GOOD_SPEC.replace(
         'VCS:            git:https://github.com/example/foo.git\n', '',
     )
     retv = main([_write(tmp_path, 'bad1.spec', content)])
     assert retv == 1
+
+
+def test_missing_vcs_ok_when_url_is_repo(tmp_path: Path) -> None:
+    # When URL already points at the source repository, VCS may be
+    # omitted (see the packaging guidelines).
+    content = GOOD_SPEC.replace(
+        'URL:            https://example.com\n',
+        'URL:            https://github.com/example/foo\n',
+    ).replace(
+        'VCS:            git:https://github.com/example/foo.git\n', '',
+    )
+    retv = main([_write(tmp_path, 'ok1.spec', content)])
+    assert retv == 0
+
+
+def test_missing_vcs_ok_when_url_is_gitlab(tmp_path: Path) -> None:
+    content = GOOD_SPEC.replace(
+        'URL:            https://example.com\n',
+        'URL:            https://gitlab.com/example/foo\n',
+    ).replace(
+        'VCS:            git:https://github.com/example/foo.git\n', '',
+    )
+    retv = main([_write(tmp_path, 'ok2.spec', content)])
+    assert retv == 0
+
+
+def test_missing_vcs_ok_when_url_ends_with_git(tmp_path: Path) -> None:
+    # A URL ending in ``.git`` is a cloneable repository link.
+    content = GOOD_SPEC.replace(
+        'URL:            https://example.com\n',
+        'URL:            https://example.org/foo.git\n',
+    ).replace(
+        'VCS:            git:https://github.com/example/foo.git\n', '',
+    )
+    retv = main([_write(tmp_path, 'ok3.spec', content)])
+    assert retv == 0
+
+
+def test_missing_vcs_ok_when_url_uses_git_scheme(tmp_path: Path) -> None:
+    content = GOOD_SPEC.replace(
+        'URL:            https://example.com\n',
+        'URL:            git:https://example.org/foo.git\n',
+    ).replace(
+        'VCS:            git:https://github.com/example/foo.git\n', '',
+    )
+    retv = main([_write(tmp_path, 'ok4.spec', content)])
+    assert retv == 0
 
 
 def test_missing_requires_fails(tmp_path: Path) -> None:

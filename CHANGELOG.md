@@ -16,6 +16,14 @@
   用法 / 示例」：原始需求引用官方打包指南的 Name 规则原文，检查点以
   表格形式逐项列出（字段存在、全小写、分隔符、版本编码、上游别名）
   并保留跳过与注意说明。
+- 规则 `check-spec-structure` 检查标准更新：当 `URL` 已为源代码仓库
+  链接时，`VCS` 字段可以省略（不再判为缺失违规）；判定依据为
+  `git:` 前缀、`.git` 结尾或已知源码托管平台域名（github.com、
+  gitlab.com、codeberg.org、bitbucket.org、git.sr.ht 等）。规则文档
+  `docs/check-spec-structure.md` 增加 `VCS` 豁免规则说明与示例，扫描
+  结果 `openruyi-scan-results/check-spec-structure-results.md` 重新
+  生成：缺 `VCS` 文件数由 4363 降至 772（其余 3591 个 URL 为源码仓库
+  链接获豁免），不合规总数由 4066 降至 3474。
 
 ### 新增
 
