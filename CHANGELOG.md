@@ -19,6 +19,14 @@
 
 ### 新增
 
+- 规则 hook `check-spec-version`：校验 spec 文件 `Version` 字段符合
+  openRuyi 版本号规范化规则（点号/日期版本直用、预发布标记小写加 `~`、
+  `-`/`_` 替换为 `.`、提交哈希转换为快照格式）；宏展开版本跳过静态检查，
+  字段缺失交由 `check-spec-structure` 覆盖。
+- 规则文档 `docs/check-spec-version.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-version-results.md`：
+  5337 个 spec 文件中 6 个存在版本规范化问题（2 个含下划线、
+  2 个预发布标记未规范化、2 个快照格式不合规）。
 - 规则 hook `check-spec-name`：校验 spec 文件 `Name` 字段符合
   openRuyi 命名规则（必须存在、全小写、优先短横线分隔、不编码
   ABI/主版本号）；`perl-*` 模块豁免小写检查，宏展开名称跳过静态检查。

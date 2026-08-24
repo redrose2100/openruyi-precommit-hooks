@@ -57,3 +57,10 @@ repos:
         entry: check-spec-name
         language: python
         types_or: [spec]
+
+    -   id: check-spec-version
+        name: check-spec-version
+        description: Ensure the spec file Version field follows the openRuyi versioning guidelines (dots for separators, ~ for prereleases, snapshot format for VCS revisions).
+        entry: check-spec-version
+        language: python
+        types_or: [spec]
