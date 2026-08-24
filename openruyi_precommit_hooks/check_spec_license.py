@@ -55,9 +55,9 @@ def _truncate(value: str) -> str:
 def _has_lowercase_operator(value: str) -> bool:
     """Return True if ``value`` uses a lowercase SPDX operator."""
     return bool(
-        _RE_LOWER_AND.search(value)
-        or _RE_LOWER_OR.search(value)
-        or _RE_LOWER_WITH.search(value),
+        _RE_LOWER_AND.search(value) or
+        _RE_LOWER_OR.search(value) or
+        _RE_LOWER_WITH.search(value),
     )
 
 
