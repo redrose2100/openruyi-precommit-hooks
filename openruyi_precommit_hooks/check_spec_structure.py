@@ -21,6 +21,23 @@ _HEADER_FIELDS = (
     'Requires',
 )
 
+# Well-known source-code hosting platforms.  When the ``URL`` field of a
+# spec points at one of these, the ``VCS`` field may be omitted (see the
+# packaging guidelines:
+# https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#vcs).
+_SOURCE_REPO_HOSTS = frozenset({
+    'github.com',
+    'gitlab.com',
+    'codeberg.org',
+    'bitbucket.org',
+    'hg.sr.ht',
+    'invent.kde.org',
+    'salsa.debian.org',
+    'pagure.io',
+    'code.videolan.org',
+    'src.fedoraproject.org',
+})
+
 # Sections that must be separated from the preceding content by a blank
 # line (conditional blocks like `%if` are exempt).
 _SECTIONS = (
@@ -84,6 +101,43 @@ def _header_seq(lines: list[str], cut: int) -> list[str]:
     return seq
 
 
+def _get_url_value(lines: list[str], cut: int) -> str | None:
+    """Return the value of the ``URL`` header field, or None.
+
+    Only the first uncommented ``URL:`` line before ``cut`` is used.
+    """
+    for line in lines[:cut]:
+        stripped = line.strip()
+        if stripped.startswith('URL:'):
+            return stripped[len('URL:'):].strip()
+    return None
+
+
+def _is_source_repo_url(value: str) -> bool:
+    """Return True if ``value`` looks like a source repository link.
+
+    The packaging guidelines allow ``VCS`` to be omitted when ``URL``
+    already points at the source repository.  A link is treated as a
+    source repository when it uses the ``git:`` scheme, ends with
+    ``.git``, or is hosted on a well-known source-code hosting platform
+    (``github.com``, ``gitlab.*``, ``git.*``, ``codeberg.org``, …).
+    """
+    value = value.strip()
+    if value.startswith('git:'):
+        return True
+    if value.endswith('.git'):
+        return True
+    m = re.match(r'^https?://([^/\s]+)', value, re.IGNORECASE)
+    if not m:
+        return False
+    host = m.group(1).lower()
+    if host in _SOURCE_REPO_HOSTS:
+        return True
+    if host.startswith('gitlab.') or host.startswith('git.'):
+        return True
+    return False
+
+
 def _check_header_order(lines: list[str], filename: str) -> list[str]:
     """Check that all header fields are present and in canonical order."""
     errors: list[str] = []
@@ -95,6 +149,12 @@ def _check_header_order(lines: list[str], filename: str) -> list[str]:
     seq = _header_seq(lines, cut)
 
     missing = [f for f in _HEADER_FIELDS if f not in seq]
+    # ``VCS`` may be omitted when ``URL`` already points at the source
+    # repository (see the packaging guidelines).
+    if 'VCS' in missing:
+        url = _get_url_value(lines, cut)
+        if url is not None and _is_source_repo_url(url):
+            missing.remove('VCS')
     if missing:
         errors.append(
             f'{filename}: missing required header field(s): '
