@@ -19,6 +19,14 @@
 
 ### 新增
 
+- 规则 hook `check-spec-release`：校验 spec 文件 `Release` 字段符合
+  openRuyi Release 规则（应当使用 `%autorelease`、修订序号为从 `1` 开始
+  的整数且不为 `0`、不得硬编码发行版后缀如 `1.fc40`、不得覆盖 `dist` 宏）；
+  宏展开值跳过静态检查，递增/复位规则需版本历史无法静态判定，字段缺失
+  交由 `check-spec-structure` 覆盖。
+- 规则文档 `docs/check-spec-release.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-release-results.md`：
+  5337 个 spec 文件全部使用 `%autorelease`，扫描无违规记录。
 - 规则 hook `check-spec-version`：校验 spec 文件 `Version` 字段符合
   openRuyi 版本号规范化规则（点号/日期版本直用、预发布标记小写加 `~`、
   `-`/`_` 替换为 `.`、提交哈希转换为快照格式）；宏展开版本跳过静态检查，
