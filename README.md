@@ -27,6 +27,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spec-release` | 校验 spec 文件 `Release` 字段符合官方 Release 规则（使用 `%autorelease`、修订序号从 `1` 开始的整数、不硬编码发行版后缀、不覆盖 `dist` 宏） | [docs/check-spec-release.md](docs/check-spec-release.md) |
 | `check-spec-summary` | 校验 spec 文件 `Summary` 字段符合官方 Summary 规则（简短英文描述、不以英文句号 `.` 结尾） | [docs/check-spec-summary.md](docs/check-spec-summary.md) |
 | `check-spec-license` | 校验 spec 文件 `License` 字段使用合法 SPDX 标识符或表达式（大写 `AND`/`OR`/`WITH` 连接符、不用逗号分隔、不用老式 `+` 后缀） | [docs/check-spec-license.md](docs/check-spec-license.md) |
+| `check-spec-url` | 校验 spec 文件 `URL` 字段为合法的 http(s) 官网或源码仓库链接（不用 `%{name}` 等宏拼接） | [docs/check-spec-url.md](docs/check-spec-url.md) |
 
 ## 新增一个 Hook
 

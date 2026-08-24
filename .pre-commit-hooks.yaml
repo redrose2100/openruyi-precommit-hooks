@@ -60,3 +60,12 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+
+- id: check-spec-url
+  name: check-spec-url
+  description: Ensure the spec file URL field is a valid http(s) website or source repository link and is not built with macros such as %{name}.
+  entry: check-spec-url
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
