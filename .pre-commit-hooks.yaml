@@ -33,3 +33,12 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+
+- id: check-spec-release
+  name: check-spec-release
+  description: Ensure the spec file Release field follows the openRuyi guidelines (%autorelease, integer revision starting at 1, no hardcoded dist suffix or dist override).
+  entry: check-spec-release
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

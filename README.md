@@ -24,6 +24,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spec-structure` | 校验 spec 文件必填头部字段（全字段必填 + 顺序）与段落之间空行分隔 | [docs/check-spec-structure.md](docs/check-spec-structure.md) |
 | `check-spec-name` | 校验 spec 文件 `Name` 字段符合命名规则（小写、短横线分隔、不编码 ABI/版本号） | [docs/check-spec-name.md](docs/check-spec-name.md) |
 | `check-spec-version` | 校验 spec 文件 `Version` 字段按官方规则规范化（点号/日期直用、`~` 预发布、`-`/`_` 换点、哈希转快照格式） | [docs/check-spec-version.md](docs/check-spec-version.md) |
+| `check-spec-release` | 校验 spec 文件 `Release` 字段符合官方 Release 规则（使用 `%autorelease`、修订序号从 `1` 开始的整数、不硬编码发行版后缀、不覆盖 `dist` 宏） | [docs/check-spec-release.md](docs/check-spec-release.md) |
 
 ## 新增一个 Hook
 
