@@ -28,6 +28,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spec-summary` | 校验 spec 文件 `Summary` 字段符合官方 Summary 规则（简短英文描述、不以英文句号 `.` 结尾） | [docs/check-spec-summary.md](docs/check-spec-summary.md) |
 | `check-spec-license` | 校验 spec 文件 `License` 字段使用合法 SPDX 标识符或表达式（大写 `AND`/`OR`/`WITH` 连接符、不用逗号分隔、不用老式 `+` 后缀） | [docs/check-spec-license.md](docs/check-spec-license.md) |
 | `check-spec-url` | 校验 spec 文件 `URL` 字段为合法的 http(s) 官网或源码仓库链接（不用 `%{name}` 等宏拼接） | [docs/check-spec-url.md](docs/check-spec-url.md) |
+| `check-spec-source` | 校验 spec 文件网络来源 `Source` 行前有 `#!RemoteAsset` 注释并携带 sha256 校验值（SourceForge 链接须用 `downloads.sourceforge.net`） | [docs/check-spec-source.md](docs/check-spec-source.md) |
 
 ## 新增一个 Hook
 
