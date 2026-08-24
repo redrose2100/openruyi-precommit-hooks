@@ -8,36 +8,55 @@
 
 - [openruyi-scan-results/check-spec-structure-results.md](../openruyi-scan-results/check-spec-structure-results.md)
 
-## 规则
+## 原始需求
+
+来源：[openRuyi 打包指南 · 基础字段与段落](https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#%E5%9F%BA%E7%A1%80%E5%AD%97%E6%AE%B5%E4%B8%8E%E6%AE%B5%E8%90%BD)
+
+> Spec 必须包含以下字段与段落，且应当按如下顺序出现：
+>
+> ```specfile
+> Name:
+> Version:
+> Release:
+> Summary:
+> License:
+> URL:
+> VCS:
+> Source:
+> BuildSystem:
+>
+> BuildRequires:
+>
+> Requires:
+>
+> %description
+>
+> %files
+>
+> %changelog
+> ```
+>
+> 其他情况可以按照 A-Z 的顺序排列。
+>
+> 段落与段落之间必须用空行隔开。
+
+## 检查点
 
 ### 1. 头部字段
 
-主包头部（第一个 `%description` 之前）**必须**包含以下全部字段，且按此顺序出现。
-任一字段缺失或顺序不对即失败：
-
-```spec
-Name:
-Version:
-Release:
-Summary:
-License:
-URL:
-VCS:
-Source:
-BuildSystem:
-BuildRequires:
-Requires:
-```
-
-> `Source` 匹配 `Source0` / `Source1` 等变体；`BuildRequires` / `Requires`
-> 允许多行延续，以首次出现位置参与顺序比较。
+| 序号 | 检查点 | 要求 | 违规判定 |
+| --- | --- | --- | --- |
+| 1 | 字段完整性 | 主包头部（第一个 `%description` 之前）必须包含 `Name` / `Version` / `Release` / `Summary` / `License` / `URL` / `VCS` / `Source` / `BuildSystem` / `BuildRequires` / `Requires` 全部 11 个字段 | 任一字段缺失即失败 |
+| 2 | 字段顺序 | 上述字段必须按上述顺序出现（其他情况可以按照 A-Z 的顺序排列） | 字段顺序不对即失败 |
+| 3 | 变体与延续 | `Source` 匹配 `Source0` / `Source1` 等变体；`BuildRequires` / `Requires` 允许多行延续，以首次出现位置参与顺序比较 | 不参与判定 |
 
 ### 2. 段落空行
 
-`%description` / `%package` / `%prep` / `%build` / `%install` / `%check` /
-`%files` / `%changelog` 段落之间必须用空行隔开。段落标签可带参数
-（如 `%description devel`、`%files -f %{name}.lang`），同样参与检查；
-`%if` / `%endif` 条件块后紧跟段落是 RPM 合法写法，不判违规。
+| 序号 | 检查点 | 要求 | 违规判定 |
+| --- | --- | --- | --- |
+| 1 | 段落分隔 | `%description` / `%package` / `%prep` / `%build` / `%install` / `%check` / `%files` / `%changelog` 段落之间必须用空行隔开 | 段落之间无空行即失败 |
+| 2 | 段落带参数 | 段落标签可带参数（如 `%description devel`、`%files -f %{name}.lang`），同样参与检查 | 与序号 1 相同 |
+| 3 | 条件块 | `%if` / `%endif` 条件块后紧跟段落是 RPM 合法写法 | 不判违规 |
 
 ## 用法
 
@@ -90,5 +109,3 @@ This is a test package.
 - 字段乱序（如 `Summary` 与 `Release` 颠倒）→ `header fields out of order`
 - `Requires:` 后直接跟 `%description`（段落前无空行）→ 段落空行检查失败
 - 文件为空或非 UTF-8 编码 → 失败
-
-

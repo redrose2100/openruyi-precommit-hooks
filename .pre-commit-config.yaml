@@ -50,3 +50,10 @@ repos:
         entry: check-spec-structure
         language: python
         types_or: [spec]
+
+    -   id: check-spec-name
+        name: check-spec-name
+        description: Ensure the spec file Name field follows the openRuyi naming guidelines (lowercase, hyphen separator, no ABI/version encoded).
+        entry: check-spec-name
+        language: python
+        types_or: [spec]
