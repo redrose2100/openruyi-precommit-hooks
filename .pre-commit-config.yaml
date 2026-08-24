@@ -71,3 +71,10 @@ repos:
         entry: check-spec-release
         language: python
         types_or: [spec]
+
+    -   id: check-spec-summary
+        name: check-spec-summary
+        description: Ensure the spec file Summary field follows the openRuyi guidelines (short English description, no trailing English period).
+        entry: check-spec-summary
+        language: python
+        types_or: [spec]

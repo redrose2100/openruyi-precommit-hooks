@@ -25,6 +25,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spec-name` | 校验 spec 文件 `Name` 字段符合命名规则（小写、短横线分隔、不编码 ABI/版本号） | [docs/check-spec-name.md](docs/check-spec-name.md) |
 | `check-spec-version` | 校验 spec 文件 `Version` 字段按官方规则规范化（点号/日期直用、`~` 预发布、`-`/`_` 换点、哈希转快照格式） | [docs/check-spec-version.md](docs/check-spec-version.md) |
 | `check-spec-release` | 校验 spec 文件 `Release` 字段符合官方 Release 规则（使用 `%autorelease`、修订序号从 `1` 开始的整数、不硬编码发行版后缀、不覆盖 `dist` 宏） | [docs/check-spec-release.md](docs/check-spec-release.md) |
+| `check-spec-summary` | 校验 spec 文件 `Summary` 字段符合官方 Summary 规则（简短英文描述、不以英文句号 `.` 结尾） | [docs/check-spec-summary.md](docs/check-spec-summary.md) |
 
 ## 新增一个 Hook
 
