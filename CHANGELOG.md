@@ -49,8 +49,10 @@
   `git:` 来源跳过静态检查，字段缺失交由 `check-spec-structure` 覆盖。
 - 规则文档 `docs/check-spec-source.md`，README 增加 Hooks 列表项。
 - 扫描结果 `openruyi-scan-results/check-spec-source-results.md`：
-  5337 个 spec 文件中 725 个违规（852 条网络来源缺 sha256 校验值、
-  11 条 SourceForge 域名不合规）。
+  5337 个 spec 文件中 725 个违规（852 条 `#!RemoteAsset` 注释为空
+  缺少 sha256 校验值、11 条 SourceForge 域名不合规：
+  3 条 `download.sourceforge.net`、2 条 `prdownloads.sourceforge.net`、
+  6 条 `sourceforge.net/projects/...`）；违规清单逐条注明违规原因。
 - 规则 hook `check-spec-url`：校验 spec 文件 `URL` 字段必须为软件包
   官方网站或源码仓库链接（以 `http://`/`https://` 开头），且不得使用
   `%{name}` 等宏进行拼接；链接是否为真实官网/仓库需人工核对无法静态
