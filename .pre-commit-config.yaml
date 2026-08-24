@@ -78,3 +78,10 @@ repos:
         entry: check-spec-summary
         language: python
         types_or: [spec]
+
+    -   id: check-spec-license
+        name: check-spec-license
+        description: Ensure the spec file License field uses valid SPDX identifiers or expressions (uppercase AND/OR/WITH operators, no comma separators, no legacy + suffix).
+        entry: check-spec-license
+        language: python
+        types_or: [spec]
