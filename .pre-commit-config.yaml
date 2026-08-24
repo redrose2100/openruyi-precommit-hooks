@@ -92,3 +92,10 @@ repos:
         entry: check-spec-url
         language: python
         types_or: [spec]
+
+    -   id: check-spec-source
+        name: check-spec-source
+        description: Ensure network Source lines carry a #!RemoteAsset marker with a sha256 checksum and SourceForge links use downloads.sourceforge.net.
+        entry: check-spec-source
+        language: python
+        types_or: [spec]
