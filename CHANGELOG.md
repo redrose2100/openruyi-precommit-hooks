@@ -19,6 +19,14 @@
 
 ### 新增
 
+- 规则 hook `check-spec-summary`：校验 spec 文件 `Summary` 字段符合
+  openRuyi Summary 规则（不得以英文句号 `.` 结尾、应当仅包含必要的英文
+  介绍）；含宏展开的 `Summary` 值跳过静态检查，「简短描述」为定性要求
+  无法静态判定，字段缺失交由 `check-spec-structure` 覆盖。
+- 规则文档 `docs/check-spec-summary.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-summary-results.md`：
+  5337 个 spec 文件中 113 个 `Summary` 以英文句号结尾（违规），
+  未发现含 CJK/全角字符的非英文 `Summary`。
 - 规则 hook `check-spec-release`：校验 spec 文件 `Release` 字段符合
   openRuyi Release 规则（应当使用 `%autorelease`、修订序号为从 `1` 开始
   的整数且不为 `0`、不得硬编码发行版后缀如 `1.fc40`、不得覆盖 `dist` 宏）；
