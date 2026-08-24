@@ -8,33 +8,32 @@
 
 - [openruyi-scan-results/check-spec-name-results.md](../openruyi-scan-results/check-spec-name-results.md)
 
-## 规则说明
+## 原始需求
 
-Spec 文件的 `Name` 字段必须遵循
-[openRuyi 打包指南·命名规则](https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines/Naming)：
+来源：[openRuyi 打包指南 · Name](https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#name)
 
-1. `Name` 必须定义软件包名称。
-2. 软件包名称应当为小写，并优先使用短横线（`-`）作为分隔符；
-   下划线（`_`）仅在补充规范允许的例外情形下使用
-   （如上游名称自然含下划线的 `nss_wrapper`）。
-3. 软件包名称不得编码 ABI（如 SONAME major）或上游主版本号
-   （例如不得为 `libfoo2` 之类命名）。
-4. 当包名与上游常用名称不一致时，Spec 可以通过 `Provides:` 提供上游
-   名称别名；是否提供由兼容性需求决定。
+> 1. `Name` 必须定义软件包名称。
+> 2. 软件包名称应当为小写，并优先使用短横线（`-`）作为分隔符；下划线
+>    （`_`）仅在补充规范允许的例外情形下使用。
+> 3. 软件包名称不得编码 ABI（如 SONAME major）或上游主版本号
+>    （例如不得为 `libfoo2` 之类命名）。
+> 4. 当包名与上游常用名称不一致时，Spec 可以通过 `Provides:` 提供上游
+>    名称别名；是否提供由兼容性需求决定。
+>
+> 命名的完整策略（例如模块包、Perl/Python/字体包等专门规则），
+> 请见补充规范[命名规则](https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines/Naming)。
 
-命名的完整策略（例如模块包、Perl/Python/字体包等专门规则），
-请见补充规范[命名规则](https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines/Naming)。
+## 检查点
 
-## 检查内容
+| 序号 | 检查点 | 要求 | 违规判定 |
+| --- | --- | --- | --- |
+| 1 | 字段存在 | `Name` 必须定义软件包名称 | 缺失 `Name` 字段即失败 |
+| 2 | 全小写 | 软件包名称应当为小写 | 名称含大写字母即失败（`perl-*` 模块例外豁免） |
+| 3 | 分隔符 | 优先使用短横线 `-` 作为分隔符；下划线 `_` 仅在补充规范允许的例外情形下使用 | 名称含 `_` 即报告 |
+| 4 | 版本编码 | 软件包名称不得编码 ABI（如 SONAME major）或上游主版本号 | 名称形如 `lib<字母><数字>`（如 `libfoo2`）即失败 |
+| 5 | 上游别名 | 包名与上游名称不一致时，可通过 `Provides:` 提供上游名称别名 | 不参与判定 |
 
-对每个 `.spec` 文件，本规则检查：
-
-1. 是否存在 `Name:` 字段。
-2. `Name` 值是否全小写 —— `perl-*` 模块例外（CPAN 分发组名需大写）。
-3. `Name` 值中是否含下划线 `_`（应优先用短横线）。
-4. `Name` 值是否形如 `lib<字母><数字>`（如 `libfoo2`，编码了 ABI/主版本号）。
-
-以下情况会被**跳过**（无法静态判定）：
+**跳过**（无法静态判定）：
 
 - `Name` 值含宏展开（如 `python-%{pypi_name}`）；
 - `perl-*` 名称的大写检查。
