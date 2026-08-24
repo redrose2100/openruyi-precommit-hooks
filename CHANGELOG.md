@@ -33,6 +33,15 @@
   宏展开值跳过静态检查，递增/复位规则需版本历史无法静态判定，字段缺失
   交由 `check-spec-structure` 覆盖。
 - 规则文档 `docs/check-spec-release.md`，README 增加 Hooks 列表项。
+- 规则 hook `check-spec-license`：校验 spec 文件 `License` 字段使用
+  SPDX License Identifier 或表达式（连接符必须大写 `AND`/`OR`/`WITH`、
+  不得用逗号分隔、不得用老式 `+` 后缀、括号须配对）；标识符准确性
+  与 `%files` 中 `%license` 标记为定性/跨段落要求无法静态判定，字段缺失
+  交由 `check-spec-structure` 覆盖。
+- 规则文档 `docs/check-spec-license.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-license-results.md`：
+  5337 个 spec 文件中 21 个 `License` 字段违规（15 个小写连接符、
+  1 个逗号分隔、5 个老式 `+` 后缀）。
 - 扫描结果 `openruyi-scan-results/check-spec-release-results.md`：
   5337 个 spec 文件全部使用 `%autorelease`，扫描无违规记录。
 - 规则 hook `check-spec-version`：校验 spec 文件 `Version` 字段符合

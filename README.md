@@ -26,6 +26,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spec-version` | 校验 spec 文件 `Version` 字段按官方规则规范化（点号/日期直用、`~` 预发布、`-`/`_` 换点、哈希转快照格式） | [docs/check-spec-version.md](docs/check-spec-version.md) |
 | `check-spec-release` | 校验 spec 文件 `Release` 字段符合官方 Release 规则（使用 `%autorelease`、修订序号从 `1` 开始的整数、不硬编码发行版后缀、不覆盖 `dist` 宏） | [docs/check-spec-release.md](docs/check-spec-release.md) |
 | `check-spec-summary` | 校验 spec 文件 `Summary` 字段符合官方 Summary 规则（简短英文描述、不以英文句号 `.` 结尾） | [docs/check-spec-summary.md](docs/check-spec-summary.md) |
+| `check-spec-license` | 校验 spec 文件 `License` 字段使用合法 SPDX 标识符或表达式（大写 `AND`/`OR`/`WITH` 连接符、不用逗号分隔、不用老式 `+` 后缀） | [docs/check-spec-license.md](docs/check-spec-license.md) |
 
 ## 新增一个 Hook
 
