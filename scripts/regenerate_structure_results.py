@@ -7,7 +7,8 @@ from __future__ import annotations
 import os
 import re
 import sys
-from collections import Counter, defaultdict
+from collections import Counter
+from collections import defaultdict
 
 sys.path.insert(0, r'e:\code\ai_agent\openruyi-precommit-hooks')
 from openruyi_precommit_hooks.check_spec_structure import (  # noqa: E402
@@ -43,9 +44,9 @@ def main() -> None:
             path = os.path.join(root, fn)
             rel = os.path.relpath(path, SPECS_DIR).replace('\\', '/')
             total += 1
-            with open(path, encoding='utf-8', errors='replace') as f:
-                lines = f.read().splitlines()
-            for err in _check_header_order(lines, rel):
+            with open(path, encoding='utf-8', errors='replace') as fh:
+                content = fh.read().splitlines()
+            for err in _check_header_order(content, rel):
                 if 'missing required header field' in err:
                     m = re.search(
                         r'missing required header field\(s\): (.+)$', err,
@@ -55,7 +56,7 @@ def main() -> None:
                     missing_files[fields].append(rel)
                 else:
                     order_errors.append((rel, err))
-            for err in _check_section_spacing(lines, rel):
+            for err in _check_section_spacing(content, rel):
                 spacing_errors.append((rel, err))
 
     missing_total = sum(missing_combos.values())
@@ -71,28 +72,49 @@ def main() -> None:
     lines: list[str] = []
     lines.append('# check-spec-structure 扫描结果')
     lines.append('')
-    lines.append('> 扫描仓库：[openRuyi-Project/openRuyi]'
-                 '(https://github.com/openRuyi-Project/openRuyi) `main` 分支')
-    lines.append('> 扫描时间：2026-08-21')
-    lines.append(f'> 扫描文件数：{total} 个 `.spec` 文件')
-    lines.append(f'> 不合规：**{non_compliant} 个**'
-                 f'（缺少必填字段 {missing_total} 个 + 头部字段乱序 '
-                 f'{order_total} 个 + 段落前缺少空行 {spacing_total} 个）')
+    lines.append(
+        '对 [openRuyi-Project/openRuyi]'
+        '(https://github.com/openRuyi-Project/openRuyi)',
+    )
+    lines.append('仓库的 spec 文件（`SPECS/{pkg}/{pkg}.spec`，默认分支 `main`）执行')
+    lines.append('`check-spec-structure` 规则的扫描结果。')
     lines.append('')
-    lines.append('## 检查点 1：头部必填字段')
+    lines.append('## 结果概览')
     lines.append('')
-    lines.append('主包头部（第一个 `%description` 之前）**必须**包含以下全部字段，'
-                 '且按顺序出现：')
+    lines.append('| 项目 | 数量 |')
+    lines.append('| --- | --- |')
+    lines.append(f'| 扫描 spec 文件数 | {total} |')
+    lines.append(f'| 通过 | {total - non_compliant} |')
+    lines.append(f'| 违规 | {non_compliant} |')
+    lines.append('')
+    lines.append('## 问题类型分布')
+    lines.append('')
+    lines.append('| 问题类型 | 数量 |')
+    lines.append('| --- | --- |')
+    lines.append(f'| 缺少必填字段 | {missing_total} |')
+    lines.append(f'| 头部字段乱序 | {order_total} |')
+    lines.append(f'| 段落前缺少空行 | {spacing_total} |')
+    lines.append('')
+    lines.append('## 问题清单')
+    lines.append('')
+    lines.append('### 1. 缺少必填字段')
+    lines.append('')
+    lines.append(
+        '主包头部（第一个 `%description` 之前）**必须**包含以下全部字段，'
+        '且按顺序出现：',
+    )
     lines.append('')
     lines.append('```spec')
     for f in _HEADER_FIELDS:
         lines.append(f'{f}:')
     lines.append('```')
     lines.append('')
-    lines.append('> **`VCS` 豁免**：若 `URL` 已为源代码仓库链接'
-                 '（如 `github.com`、`gitlab.*`、`git.*`、`codeberg.org`、'
-                 '`bitbucket.org` 等源码托管平台，或以 `git:` 开头、'
-                 '以 `.git` 结尾），则 `VCS` 可以省略。')
+    lines.append(
+        '> **`VCS` 豁免**：若 `URL` 已为源代码仓库链接'
+        '（如 `github.com`、`gitlab.*`、`git.*`、`codeberg.org`、'
+        '`bitbucket.org` 等源码托管平台，或以 `git:` 开头、'
+        '以 `.git` 结尾），则 `VCS` 可以省略。',
+    )
     lines.append('')
     lines.append('各字段缺失文件数：')
     lines.append('')
@@ -105,8 +127,6 @@ def main() -> None:
     for f in _HEADER_FIELDS:
         lines.append(f'| `{f}` | {missing_counter[f]} |')
     lines.append('')
-    lines.append(f'### 缺失字段（{missing_total} 个文件）')
-    lines.append('')
     lines.append('按缺失字段组合统计：')
     lines.append('')
     lines.append('| 缺失字段组合 | 文件数 |')
@@ -116,10 +136,7 @@ def main() -> None:
     ):
         lines.append(f'| `{", ".join(combo)}` | {cnt} |')
     lines.append('')
-    lines.append('### 缺失文件清单')
-    lines.append('')
-    lines.append('以下为全部缺失必填字段的文件，按缺失组合分组'
-                 '（链接指向 openRuyi 仓库 `main` 分支）：')
+    lines.append('缺失文件清单（按缺失组合分组，链接指向 openRuyi 仓库 `main` 分支）：')
     lines.append('')
     for combo, files in sorted(
         missing_files.items(), key=lambda x: (-missing_combos[x[0]], x[0]),
@@ -129,13 +146,11 @@ def main() -> None:
         for rel in files:
             lines.append(f'- {link(rel)}')
         lines.append('')
-    lines.append('---')
+    lines.append('### 2. 头部字段乱序')
     lines.append('')
-    lines.append(f'### 字段乱序（{order_total} 个文件）')
-    lines.append('')
-    lines.append('| openRuyi 仓库文件链接 | 问题原因简述 |')
-    lines.append('| --- | --- |')
-    for rel, err in order_errors:
+    lines.append('| # | spec 文件 | 问题原因简述 |')
+    lines.append('| --- | --- | --- |')
+    for i, (rel, err) in enumerate(order_errors, 1):
         # ``header fields out of order: "Summary" appears after "License"
         # (expected 4 < 5)`` -> ``Summary`` 出现在 ``License`` 之后
         m = re.search(
@@ -146,44 +161,53 @@ def main() -> None:
             reason = f'`{m.group(1)}` 出现在 `{m.group(2)}` 之后'
         else:
             reason = err
-        lines.append(f'| {link(rel)} | {reason} |')
+        lines.append(f'| {i} | {link(rel)} | {reason} |')
     lines.append('')
-    lines.append(f'## 检查点 2：段落之间的空行（{spacing_total} 个文件）')
+    lines.append('### 3. 段落前缺少空行')
     lines.append('')
-    lines.append('`%description`、`%files`、`%changelog`、`%package`、'
-                 '`%prep`、`%build`、`%install`、`%check`')
+    lines.append(
+        '`%description`、`%files`、`%changelog`、`%package`、'
+        '`%prep`、`%build`、`%install`、`%check`',
+    )
     lines.append('段落之间必须以空行分隔。')
     lines.append('')
-    lines.append('| openRuyi 仓库文件链接 | 问题原因简述 |')
-    lines.append('| --- | --- |')
-    for rel, err in spacing_errors:
+    lines.append('| # | spec 文件 | 问题原因简述 |')
+    lines.append('| --- | --- | --- |')
+    for i, (rel, err) in enumerate(spacing_errors, 1):
         # ``section "%files tui" must be preceded by a blank line``
         # -> 段落 `"%files tui"` 前缺少空行分隔
         m = re.search(
-            r'section "([^"]+)" must be preceded by a blank line', err)
+            r'section "([^"]+)" must be preceded by a blank line', err,
+        )
         if m:
             reason = f'段落 `"{m.group(1)}"` 前缺少空行分隔'
         else:
             reason = err
-        lines.append(f'| {link(rel)} | {reason} |')
+        lines.append(f'| {i} | {link(rel)} | {reason} |')
     lines.append('')
     lines.append('## 说明')
     lines.append('')
-    lines.append('- 本次扫描基于 [check-spec-structure]'
-                 '(../docs/check-spec-structure.md) 规则的校验逻辑。')
-    lines.append('- 扫描脚本与本仓库 hook 使用同一套判定逻辑'
-                 '（`_check_spec_structure`），无额外过滤。')
+    lines.append(
+        '- 本次扫描基于 [check-spec-structure]'
+        '(../docs/check-spec-structure.md) 规则的校验逻辑。',
+    )
+    lines.append(
+        '- 扫描脚本与本仓库 hook 使用同一套判定逻辑'
+        '（`_check_spec_structure`），无额外过滤。',
+    )
     lines.append('- `%if`/`%endif` 条件块后紧跟段落属于 RPM 合法写法，不判违规。')
     lines.append('- `Source` 匹配 `Source`/`Source0`/`Source1` 等所有变体。')
     lines.append('- 当 `URL` 为源代码仓库链接时，`VCS` 缺失不判违规。')
     lines.append('')
 
-    with open(OUT, 'w', encoding='utf-8', newline='\n') as f:
-        f.write('\n'.join(lines))
+    with open(OUT, 'w', encoding='utf-8', newline='\n') as fh:
+        fh.write('\n'.join(lines))
 
     print(f'written {OUT}')
-    print(f'total={total} missing={missing_total} order={order_total} '
-          f'spacing={spacing_total} non_compliant={non_compliant}')
+    print(
+        f'total={total} missing={missing_total} order={order_total} '
+        f'spacing={spacing_total} non_compliant={non_compliant}',
+    )
 
 
 if __name__ == '__main__':

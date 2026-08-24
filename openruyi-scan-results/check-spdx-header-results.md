@@ -1,18 +1,31 @@
 # check-spdx-header 扫描结果
 
-> 扫描仓库：[openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) `main` 分支
-> 扫描时间：2026-08-21
-> 扫描文件数：5337 个 `.spec` 文件
-> 不合规：**4 个**
+对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi)
+仓库的 spec 文件（`SPECS/{pkg}/{pkg}.spec`，默认分支 `main`）执行
+`check-spdx-header` 规则的扫描结果。
 
-## 结果
+## 结果概览
 
-| openRuyi 仓库文件链接 | 问题原因简述 |
+| 项目 | 数量 |
 | --- | --- |
-| [SPECS/go-github-google-certtostore/go-github-google-certtostore.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-google-certtostore/go-github-google-certtostore.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
-| [SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
-| [SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
-| [SPECS/llvmir-converter/llvmir-converter.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvmir-converter/llvmir-converter.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
+| 扫描 spec 文件数 | 5337 |
+| 通过 | 5333 |
+| 违规 | 4 |
+
+## 问题类型分布
+
+| 问题类型 | 数量 |
+| --- | --- |
+| `SPDX-License-Identifier` 非 `MulanPSL-2.0` | 4 |
+
+## 问题清单（4 条）
+
+| # | spec 文件 | 问题原因 |
+| --- | --- | --- |
+| 1 | [SPECS/go-github-google-certtostore/go-github-google-certtostore.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-google-certtostore/go-github-google-certtostore.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
+| 2 | [SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
+| 3 | [SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
+| 4 | [SPECS/llvmir-converter/llvmir-converter.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvmir-converter/llvmir-converter.spec) | `SPDX-License-Identifier` 为 `Apache-2.0`，应为 `MulanPSL-2.0` |
 
 ## 说明
 
