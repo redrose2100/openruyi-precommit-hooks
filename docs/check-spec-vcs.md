@@ -12,32 +12,40 @@
 
 来源：[openRuyi 打包指南 · VCS](https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#vcs)
 
-打包指南对 `VCS` 字段给出了明确的四点要求：
-
-1. `VCS` 应当为源代码仓库链接，用于定位源代码位置。
-2. 若 `URL` 已为源代码仓库链接，则 `VCS` 可以省略。
-3. 若不存在可用的源代码仓库链接，则必须在 `VCS` 字段位置写入以下注释（`# VCS:` 前缀必须保留）：
-
-    `# VCS: No VCS link available` 
-
-4. 当源代码托管于 Git 仓库时，`VCS` 应当使用可克隆链接，例如：
-
-    `VCS:            git:https://git.example.org/project.git`
+> 1. `VCS` 应当为源代码仓库链接，用于定位源代码位置。
+> 2. 若 `URL` 已为源代码仓库链接，则 `VCS` 可以省略。
+> 3. 若不存在可用的源代码仓库链接，则必须在 `VCS` 字段位置写入以下注释（`# VCS:` 前缀必须保留）：
+>
+>    ```spec
+>    # VCS: No VCS link available
+>    ```
+>
+> 4. 当源代码托管于 Git 仓库时，`VCS` 应当使用可克隆链接，例如：
+>
+>    ```spec
+>    VCS:            git:https://git.example.org/project.git
+>    ```
 
 ## 检查点
 
 | 序号 | 检查点 | 要求 | 违规判定 |
 | --- | --- | --- | --- |
-| 1 | `VCS` 字段存在性 | 当 `URL` 未指向源码仓库时，应在 Spec 中提供 `VCS:` 字段指向源码仓库 | 缺少 `VCS:` 且 `URL` 不指向源码仓库时报告 |
-| 2 | 允许的占位 | 若确实无仓库可用，应在 `VCS` 字段处以注释形式保留前缀 `# VCS:` 并写 `No VCS link available` | 非注释或注释内容不匹配 `# VCS: No VCS link available` 时报告 |
-| 3 | Git 可克隆链接形式建议 | 对于 Git 托管，建议使用可克隆形式（例如 `git:https://.../.git`）或标准 HTTPS/SCP 可克隆地址 | 明显的非仓库 URL（如指向 release 页面或文件 blob 链接）时报错 |
-| 4 | 宏展开跳过 | 含 `%{...}` 宏展开的 `VCS` 值跳过检查以避免误报 | 含宏的值不判定、不报告 |
-| 5 | 格式健全性 | 基本的 URL/SCHEME 校验（例如不得只写 `blob/` 或 `tree/` 等引用） | 明显非仓库引用（包含 `blob/`、`tree/`、`raw` 等路径）即报告 |
+| 1 | 可克隆链接 | `VCS` 为源代码仓库链接，用于定位源代码位置；Git 仓库应使用可克隆链接（`git:` 前缀，或指向已知源码托管平台的 http(s) 链接） | 值不以 `git:` 开头、也不是指向已知源码托管平台（github.com、gitlab.*、git.*、codeberg.org 等）的 http(s) 链接即失败（如 `FIXME` 占位符、裸主机名、`ftp://` 链接） |
+| 2 | 无链接注释 | 不存在可用源码仓库链接时，必须在 `VCS` 字段位置写入 `# VCS: No VCS link available`（`# VCS:` 前缀必须保留） | `# VCS:` 注释内容不是精确的 `No VCS link available` 即失败 |
+| 3 | 不使用宏拼接 | `VCS` 是固定的永久链接，不得用 `%{name}` 等宏在构建期拼接 | 值中出现 `%{...}` 宏即失败 |
+| 4 | URL 已为仓库时省略 | 若 `URL` 已为源代码仓库链接，则 `VCS` 可以省略 | 由 `check-spec-structure` 规则覆盖，本规则不重复报告 |
 
-**跳过**（无法静态判定或由其它规则覆盖）：
+**跳过**（无法静态判定）：
 
-- 含宏展开的 `VCS` 值（如 `%{vcs}`）不参与判定；
-- 字段缺失或文件结构问题由 `check-spec-structure` 规则检测，本规则不重复报告；
+- 字段缺失或为空：由 `check-spec-structure` 规则覆盖，本规则不重复报告（`URL` 已为源码仓库链接时 `VCS` 可省略）；
+- 链接是否确实是上游规范源码仓库：需人工核对，不判定；
+- 链接是否真实可达、可克隆：需联网验证，不判定。
+
+**注意**：检查点 1 为「应当」级要求，检查点 2 为「必须」级要求。
+检查点 2 是强制性禁止（`# VCS:` 注释必须精确匹配），检查点 1 是
+推荐性要求（Git 仓库应使用可克隆链接）。两者任一违反即报告。
+`VCS` 是否与 `Source` 前缀一致、是否指向真实可达的仓库等语义问题
+不在本规则静态检查范围内。
 
 ## 用法
 
@@ -51,7 +59,7 @@
 ```
 
 也可独立运行：`check-spec-vcs path/to/foo.spec`。
-返回码：0 表示通过，1 表示有违规。
+返回码 0 表示通过，1 表示有违规。
 
 ## 示例
 
@@ -62,37 +70,31 @@ VCS:            git:https://git.example.org/project.git
 ```
 
 ```spec
-# VCS: No VCS link available
+VCS:            https://github.com/foo/bar
 ```
 
 ```spec
-URL:            https://github.com/example/project
-# VCS 可省略（当 URL 明确指向源码仓库时）
+# VCS: No VCS link available
 ```
 
 ### 不通过 ❌
 
 ```spec
-VCS:            https://github.com/example/project/blob/main/SPECS/foo/foo.spec
+VCS:            FIXME
 ```
-→ `VCS must point to a repository clone URL, not a blob/tree reference`。
+→ `VCS must be a cloneable source repository link (git: scheme or http(s) link to a source-code hosting platform) (found "FIXME")`
 
 ```spec
-VCS:            http://example.com/downloads/release-1.2.tar.gz
+VCS:            git.example.org/project.git
 ```
-→ `VCS should point to a VCS repository, not an archive or release download`。
+→ `VCS must be a cloneable source repository link (git: scheme or http(s) link to a source-code hosting platform) (found "git.example.org/project.git")`
 
 ```spec
-VCS:            %{vcs}
+VCS:            git:https://git.example.org/%{name}.git
 ```
-→ `Skipped (macro-expanded value)`。
+→ `VCS must not be built with macros such as %{name} (found "git:https://git.example.org/%{name}.git")`
 
-## 实现
-
-规则实现位于 `openruyi_precommit_hooks/check_spec_vcs.py`，在含有 `SPECS/` 工作树的环境中可运行：
-
-```bash
-python -m openruyi_precommit_hooks.check_spec_vcs SPECS/**/*.spec
+```spec
+# VCS: no repository available
 ```
-
-当把规则集成到 `pre-commit` 时，请在 `.pre-commit-hooks.yaml` 中声明对应 hook 元数据并在 `README.md` 的 Hooks 列表中同步更新链接。
+→ `VCS comment must be exactly "# VCS: No VCS link available" (found "# VCS: no repository available")`

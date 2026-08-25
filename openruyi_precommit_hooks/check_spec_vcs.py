@@ -4,33 +4,101 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# Check the `VCS` field according to openRuyi packaging guidelines
-# (VCS section):
-#   - `VCS` should point to a source repository link used to locate
-#     source code.
-#   - If `URL` already points to the source repository, `VCS` may be
-#     omitted.
-#   - If no VCS link is available, a comment line with the exact
-#     prefix `# VCS:` must be present and contain
-#     `No VCS link available`.
-#   - For Git repositories, prefer a cloneable link such as
-#     `VCS:            git:https://git.example.org/project.git`.
+# The ``VCS`` field of an openRuyi spec file must follow the packaging
+# guidelines
+# (https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#vcs):
+#
+#   1. ``VCS`` should be a source repository link used to locate the
+#      source code.
+#   2. When ``URL`` is already a source repository link, ``VCS`` may be
+#      omitted.
+#   3. When no usable source repository link exists, the following
+#      comment must be written at the ``VCS`` field position (the
+#      ``# VCS:`` prefix must be kept):
+#
+#          # VCS: No VCS link available
+#
+#   4. When the source is hosted in a Git repository, ``VCS`` should be
+#      a cloneable link, e.g.:
+#
+#          VCS:            git:https://git.example.org/project.git
+#
+# Statically checkable rules in this hook:
+#   * a ``VCS:`` field must be a cloneable source repository link
+#     (``git:`` scheme, or a plain ``http(s)://`` link to a well-known
+#     source-code hosting platform);
+#   * a ``# VCS: No VCS link available`` comment is accepted in place of
+#     a real link;
+#   * a ``# VCS:`` comment with any other text is not a valid
+#     declaration and is reported.
+#
+# Field presence is covered by ``check-spec-structure`` (which also
+# allows ``VCS`` to be omitted when ``URL`` already points at a source
+# repository).  Whether a link is really the canonical upstream
+# repository cannot be judged statically.
 
-_RE_VCS = re.compile(r'^VCS\s*:\s*(.*)')
-_RE_VCS_COMMENT = re.compile(r'^#\s*VCS\s*:\s*(.*)')
-_RE_URL = re.compile(r'^URL\s*:\s*(.*)')
+_RE_VCS = re.compile(r'^#?\s*VCS\s*:\s*(.*)')
+# ``%{name}``, ``%{srcname}`` ... -- any macro reference.
+_RE_MACRO = re.compile(r'%\{[^}]*\}')
+# A cloneable link uses the ``git:`` scheme or is an http(s) link.
+_RE_GIT_SCHEME = re.compile(r'^git:', re.IGNORECASE)
+_RE_HTTP_SCHEME = re.compile(r'^https?://', re.IGNORECASE)
+# The exact comment that must be used when no VCS link is available.
+_NO_VCS_COMMENT = 'No VCS link available'
+# Well-known source-code hosting platforms.  A plain http(s) link to one
+# of these is treated as a source repository link.
+_SOURCE_REPO_HOSTS = frozenset({
+    'github.com',
+    'gitlab.com',
+    'codeberg.org',
+    'bitbucket.org',
+    'hg.sr.ht',
+    'invent.kde.org',
+    'salsa.debian.org',
+    'pagure.io',
+    'code.videolan.org',
+    'src.fedoraproject.org',
+})
+# Avoid echoing a very long value verbatim in an error message.
+_MAX_SHOWN = 60
 
-# heuristics for repository-like URLs
-_RE_REPO_HINT = re.compile(r'(github\.com|gitlab\.com|bitbucket\.org|gitee\.com|codeberg\.org|\.git)')
+
+def _truncate(value: str) -> str:
+    if len(value) <= _MAX_SHOWN:
+        return value
+    return value[:_MAX_SHOWN - 3] + '...'
 
 
-def _is_repo_like(url: str) -> bool:
-    if not url:
+def _is_source_repo_link(value: str) -> bool:
+    """Return True if ``value`` looks like a source repository link.
+
+    A link is treated as a source repository when it uses the ``git:``
+    scheme, or is an http(s) link hosted on a well-known source-code
+    hosting platform (``github.com``, ``gitlab.*``, ``git.*``,
+    ``codeberg.org``, …).
+    """
+    value = value.strip()
+    if _RE_GIT_SCHEME.match(value):
+        return True
+    m = _RE_HTTP_SCHEME.match(value)
+    if not m:
         return False
-    return bool(_RE_REPO_HINT.search(url))
+    host = re.match(r'^https?://([^/\s]+)', value, re.IGNORECASE)
+    if not host:
+        return False
+    host = host.group(1).lower()
+    if host in _SOURCE_REPO_HOSTS:
+        return True
+    if host.startswith('gitlab.') or host.startswith('git.'):
+        return True
+    return False
 
 
 def _check_spec_vcs(filename: str) -> list[str]:
+    """Validate the ``VCS`` field of ``filename``.
+
+    Returns a list of human readable error messages; empty on success.
+    """
     errors: list[str] = []
     try:
         with open(filename, encoding='utf-8') as f:
@@ -44,45 +112,56 @@ def _check_spec_vcs(filename: str) -> list[str]:
         return [f'{filename}: file is empty']
 
     vcs_value = None
-    vcs_comment = None
-    url_value = None
-
-    for raw in lines:
-        line = raw.strip()
-        m = _RE_VCS.match(line)
-        if m:
+    vcs_is_comment = False
+    for line in lines:
+        stripped = line.strip()
+        m = _RE_VCS.match(stripped)
+        if not m:
+            continue
+        if stripped.startswith('#'):
+            # A commented-out ``# VCS:`` line is only meaningful when it
+            # carries the exact "No VCS link available" text.
             vcs_value = m.group(1).strip()
-            break
-        mc = _RE_VCS_COMMENT.match(line)
-        if mc and vcs_comment is None:
-            vcs_comment = mc.group(1).strip()
-        mu = _RE_URL.match(line)
-        if mu and url_value is None:
-            url_value = mu.group(1).strip()
+            vcs_is_comment = True
+        else:
+            vcs_value = m.group(1).strip()
+            vcs_is_comment = False
+        break
 
-    # If VCS is present
-    if vcs_value:
-        # Skip macro-expanded values
-        if '%' in vcs_value:
+    if vcs_value is None:
+        # Field presence is checked by ``check-spec-structure``.
+        return errors
+
+    if vcs_is_comment:
+        if vcs_value == _NO_VCS_COMMENT:
             return errors
-        # When using the git: prefix, ensure it contains a cloneable target
-        if vcs_value.startswith('git:'):
-            rest = vcs_value.split(':', 1)[1]
-            if not rest or (not rest.startswith('http') and '@' not in rest and '.git' not in rest):
-                errors.append(
-                    f"{filename}: VCS uses 'git:' but the value after the prefix is not a recognizable clone URL (found '{vcs_value}')",
-                )
-    else:
-        # No VCS field found. If URL points to a repo-like host, omission is allowed.
-        if url_value and '%' not in url_value and _is_repo_like(url_value):
-            return errors
-        # If a VCS comment explicitly states no link is available, that's allowed
-        if vcs_comment and 'No VCS link available' in vcs_comment:
-            return errors
+        shown = _truncate(vcs_value)
         errors.append(
-            f"{filename}: missing VCS field; either provide a cloneable 'VCS:' value, set 'URL:' to the source repo, or add '# VCS: No VCS link available'",
+            f'{filename}: VCS comment must be exactly '
+            f'"# VCS: {_NO_VCS_COMMENT}" (found "# VCS: {shown}")',
         )
+        return errors
 
+    if not vcs_value:
+        # An empty ``VCS:`` value is not a usable declaration.
+        errors.append(
+            f'{filename}: VCS must be a source repository link or the '
+            f'comment "# VCS: {_NO_VCS_COMMENT}" (found empty value)',
+        )
+        return errors
+
+    shown = _truncate(vcs_value)
+    if _RE_MACRO.search(vcs_value):
+        errors.append(
+            f'{filename}: VCS must not be built with macros such as '
+            f'%{{name}} (found "{shown}")',
+        )
+    if not _is_source_repo_link(vcs_value):
+        errors.append(
+            f'{filename}: VCS must be a cloneable source repository link '
+            f'(git: scheme or http(s) link to a source-code hosting '
+            f'platform) (found "{shown}")',
+        )
     return errors
 
 

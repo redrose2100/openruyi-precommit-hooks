@@ -29,7 +29,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spec-license` | 校验 spec 文件 `License` 字段使用合法 SPDX 标识符或表达式（大写 `AND`/`OR`/`WITH` 连接符、不用逗号分隔、不用老式 `+` 后缀） | [docs/check-spec-license.md](docs/check-spec-license.md) |
 | `check-spec-url` | 校验 spec 文件 `URL` 字段为合法的 http(s) 官网或源码仓库链接（不用 `%{name}` 等宏拼接） | [docs/check-spec-url.md](docs/check-spec-url.md) |
 | `check-spec-source` | 校验 spec 文件网络来源 `Source` 行前有 `#!RemoteAsset` 注释并携带 sha256 校验值（SourceForge 链接须用 `downloads.sourceforge.net`） | [docs/check-spec-source.md](docs/check-spec-source.md) |
-| `check-spec-vcs` | 校验 spec 文件 `VCS` 字段是否提供可定位的源码仓库（支持 `git:` 前缀的可克隆链接，或接受注释 `# VCS: No VCS link available`） | [docs/check-spec-vcs.md](docs/check-spec-vcs.md) |
+| `check-spec-vcs` | 校验 spec 文件 `VCS` 字段为可克隆的源码仓库链接（`git:` 前缀或指向源码托管平台的 http(s) 链接），无可用链接时须写 `# VCS: No VCS link available` 注释 | [docs/check-spec-vcs.md](docs/check-spec-vcs.md) |
 
 ## 新增一个 Hook
 
