@@ -35,6 +35,17 @@
 
 ### 新增
 
+- 规则 hook `check-spec-vcs`：校验 spec 文件 `VCS` 字段符合 openRuyi
+  VCS 规则（`VCS` 应当为源代码仓库链接；若 `URL` 已为源码仓库链接则
+  `VCS` 可以省略；不存在可用链接时必须在 `VCS` 字段位置写入精确的
+  `# VCS: No VCS link available` 注释；Git 仓库应使用 `git:` 可克隆
+  链接）。静态检查：`VCS` 值须为 `git:` 前缀或指向已知源码托管平台
+  的 http(s) 链接、不得用 `%{name}` 等宏拼接、`# VCS:` 注释必须精确
+  匹配；字段缺失交由 `check-spec-structure` 覆盖。
+- 规则文档 `docs/check-spec-vcs.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-vcs-results.md`：
+  5267 个 spec 文件中 23 个 `VCS` 字段违规（13 个 `# VCS:` 注释不
+  精确、10 个非 `git:` 可克隆链接如 `hg:`/`svn:` 前缀）。
 - 规则 hook `check-spec-summary`：校验 spec 文件 `Summary` 字段符合
   openRuyi Summary 规则（不得以英文句号 `.` 结尾、应当仅包含必要的英文
   介绍）；含宏展开的 `Summary` 值跳过静态检查，「简短描述」为定性要求

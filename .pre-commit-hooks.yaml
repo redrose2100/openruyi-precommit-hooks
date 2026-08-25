@@ -78,3 +78,12 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+
+- id: check-spec-vcs
+  name: check-spec-vcs
+  description: Ensure the spec file VCS field is a cloneable source repository link (git: scheme or http(s) link to a source-code hosting platform), or uses the exact "# VCS: No VCS link available" comment when no link exists.
+  entry: check-spec-vcs
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
