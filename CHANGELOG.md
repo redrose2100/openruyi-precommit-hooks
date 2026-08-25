@@ -45,10 +45,10 @@
   的补丁顺序由 `%patchlist` 或 `%patch` 行号决定，不静态判定。
 - 规则文档 `docs/check-spec-patch.md`，README 增加 Hooks 列表项。
 - 扫描结果 `openruyi-scan-results/check-spec-patch-results.md`：5267 个
-  spec 文件中 462 个含 `Patch`/`%patchlist`，204 个违规（`Patch` 上方
-  无注释 333 条、文件名非四位数字开头 121 条、放置顺序错误 26 条、
-  >3 补丁未用 `%patchlist` 25 条、前缀不在 `0001-2999` 4 条、
-  `%patchlist` 位于 `%description` 之下 4 条）。
+  spec 文件中 204 个违规（共 513 条：`Patch` 上方无注释 276 条、
+  `%patchlist` 条目无注释 57 条、文件名非四位数字开头 121 条、放置
+  顺序错误 26 条、>3 补丁未用 `%patchlist` 25 条、前缀不在
+  `0001-2999` 4 条、`%patchlist` 位于 `%description` 之下 4 条）。
 - 规则 hook `check-spec-buildsystem`：校验 spec 文件 `BuildSystem` 字段
   符合 openRuyi BuildSystem 规则（Spec 必须包含 `BuildSystem` 字段；取值
   应当为官方列出的构建系统之一或其它新增的值；当软件包不适用上述类型或

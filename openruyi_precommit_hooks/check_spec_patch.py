@@ -49,7 +49,9 @@ _RE_COMMENT = re.compile(r'^\s*#')
 _RE_BUILDSYSTEM = re.compile(r'^BuildSystem\s*:')
 _RE_BUILDOPTION = re.compile(r'^BuildOption\s*\(')
 _RE_BUILDREQUIRES = re.compile(r'^BuildRequires\s*:')
-_RE_SECTION = re.compile(r'^%(?:description|package|prep|build|install|check|files|changelog)\b')
+_RE_SECTION = re.compile(
+    r'^%(?:description|package|prep|build|install|check|files|changelog)\b'
+)
 # A patch file name must start with a four digit number in one of the
 # documented ranges.
 _RE_PATCH_NAME = re.compile(r'^(\d{4})')
@@ -141,7 +143,9 @@ def _check_spec_patch(filename: str) -> list[str]:
 
     # Checkpoint 2: patch file names must start with a four digit number
     # in one of the documented ranges.
-    all_names = [name for _, name in patches] + [name for _, name in patchlist_entries]
+    all_names = [
+        name for _, name in patches
+    ] + [name for _, name in patchlist_entries]
     for name in all_names:
         m = _RE_PATCH_NAME.match(name)
         if not m:

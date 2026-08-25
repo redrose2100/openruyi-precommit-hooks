@@ -1,14 +1,12 @@
 # check-spec-patch 扫描结果
 
-对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi)
-仓库 spec 文件（`SPECS/{pkg}/{pkg}.spec`，默认分支 `main`）执行
-`check-spec-patch` 规则的扫描结果。
+对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi) 仓库的 spec 文件（`SPECS/{pkg}/{pkg}.spec`）执行 `check-spec-patch` 规则的扫描结果。
 
 ## 结果概览
 
-| 扫描 spec 文件数 | 含 `Patch`/`%patchlist` | 通过 | 违规 |
-| --- | ---: | ---: | ---: |
-| 5267 | 462 | 258 | 204 |
+| 扫描 spec 文件数 | 通过 | 违规 |
+| --- | ---: | ---: |
+| 5267 | 5063 | 204 |
 
 > 说明：违规数按 spec 文件去重统计（一个文件可能命中多条规则）。
 
@@ -16,124 +14,538 @@
 
 | 问题类型 | 数量 |
 | --- | ---: |
-| `Patch` 字段上方缺少注释行 | 333 |
+| `Patch` 字段上方缺少注释行 | 276 |
+| `%patchlist` 条目上方缺少注释行 | 57 |
 | 补丁文件名未以四位数字开头 | 121 |
-| `Patch` 字段放置顺序错误 | 26 |
-| 补丁数量 > 3 未使用 `%patchlist` | 25 |
 | 补丁文件名前缀不在 `0001-2999` 范围内 | 4 |
+| 补丁数量 > 3 未使用 `%patchlist` | 25 |
 | `%patchlist` 位于 `%description` 之下 | 4 |
+| `Patch` 字段放置顺序错误 | 26 |
 
-## 问题清单
+## 问题清单（513 条）
 
-### 1. `Patch` 字段上方缺少注释行（333 条，涉及 168 个 spec）
-
-规则要求每个 `Patch:` 字段上方必须有一行注释（以 `#` 开头）说明补丁
-用途。以下 spec 存在至少一处 `Patch` 字段上方无注释：
-
-`angelscript`, `arrow`, `aspell`, `attr`, `audiofile`, `autoconf`,
-`autofs`, `bash`, `bdfresize`, `bison`, `cgctl`, `cloud-init`,
-`console-setup`, `crash`, `cunit`, `cups`, `cyrus-sasl`, `dbus-broker`,
-`dejagnu`, `desktop-file-utils`, `docbook-dtds`, `dosfstools`,
-`doxygen`, `dpdk`, `duktape`, `dwz`, `eigen3`, `ethtool`, `expect`,
-`f2fs-tools`, `fakeroot`, `fcoe-utils`, `firefox`, `freetype`,
-`fscryptctl`, `gcc15`, `gcc16`, `gdbm`, `gflags`, `giflib`, `glib`,
-`go-github-envoyproxy-protoc-gen-validate`, `go-gopkg-tomb.v1`, `gpm`,
-`gpsd`, `gptfdisk`, `grpc`, `guile`, `gzip`, `hipfft`, `hipify`,
-`i2c-tools`, `icu4c`, `isa-l_crypto`, `itstool`, `kf6-ksvg`, `kiwi`,
-`libburn`, `libdwarf`, `libfaketime`, `libjpeg-turbo`, `liblc3`,
-`liblognorm`, `libmodulemd`, `libosinfo`, `libseccomp`, `libselinux`,
-`libsquish`, `libtiff`, `libunwind`, `libutempter`, `libvdpau`,
-`libwebp`, `libyuv`, `llvm22`, `llvm-snapshot`, `lsof`, `lua`,
-`lua-json`, `lz4`, `mariadb`, `mergerfs`, `miopen`, `mkosi`, `msgpack`,
-`nghttp3`, `nodejs`, `nss`, `numad`, `openldap`, `openzl`, `orbit2`,
-`otf2bdf`, `perl-Log-Any`, `perl-rpm-packaging`, `pesign`, `pinfo`,
-`plasma-desktop`, `popt`, `postgresql`, `powertop`, `python-cart`,
-`python-cppheaderparser`, `python-gcloud-aio-auth`, `python-optimum`,
-`python-optimum-benchmark`, `python-propcache`, `python-pytest-xdist`,
-`python-tensile`, `python-tokenizers`, `python-torchvision`,
-`qt6-qtwebengine`, `quota`, `readline`, `recutils`, `rocblas`,
-`rocclr`, `rocfft`, `rocksdb`, `rocminfo`, `rocr-runtime`, `rpm`,
-`rrdtool`, `rust-async-std-1`, `rust-dlib-0.5`, `rust-generator-0.8`,
-`rust-hyper-util-0.1`, `rust-malloc-buf-0.0.6`, `rust-nom-locate-5`,
-`rust-objc-0.2`, `rust-pyo3-introspection-0.28`,
-`rust-python-pkginfo-0.6`, `rust-reflink-copy-0.1`,
-`rust-shellexpand-3`, `rust-signal-hook-registry-1`,
-`rust-system-deps-7`, `rust-tracy-client-0.18`, `rust-v-frame-0.3`,
-`rust-wasite-1`, `scap-security-guide`, `sddm`, `shadow`, `sharutils`,
-`soxr`, `srt`, `startup-notification`, `symlinks`, `tcsh`, `texlive`,
-`unzip`, `xdg-utils`, `xevd`, `xeve`, `xinetd`, `xtrans`, `yaml-cpp`,
-`zimg`, `zip`
-
-### 2. 补丁文件名未以四位数字开头（121 条，涉及 59 个 spec）
-
-规则要求补丁文件名必须以四位数字开头（如 `0001-xxx.patch`）。以下
-spec 存在文件名不符合要求：
-
-`autoconf`, `autofs`, `bdfresize`, `bison`, `blake3`, `busybox`,
-`compsize`, `crash`, `dblatex`, `dbus-broker`, `dejagnu`, `dotnet10.0`,
-`doxygen`, `dwz`, `efivar`, `eigen3`, `fakeroot`, `findutils`,
-`freetype`, `gcc15`, `gdbm`, `glib`, `glibc`, `glmark2`, `grub`,
-`gtk-doc`, `guile`, `gzip`, `keybinder`, `krb5`, `libaio`, `libdwarf`,
-`libselinux`, `libsemanage`, `libtiff`, `libxcrypt`, `libxkbcommon`,
-`lz4`, `mariadb`, `mdevd`, `mesa`, `mesa-demos`, `multipath-tools`,
-`nmap`, `nodejs`, `otf2bdf`, `patch`, `policycoreutils`, `postgresql`,
-`powertop`, `quota`, `rpm`, `rrdtool`, `utf8cpp`, `util-linux`, `uuid`,
-`valkey`, `xtrans`, `xxhash`, `zlib-ng`
-
-### 3. `Patch` 字段放置顺序错误（26 条，涉及 26 个 spec）
-
-规则要求 `Patch` 字段位于 `BuildSystem` 与 `BuildOption`（或
-`BuildRequires`）之间。以下 spec 的 `Patch` 字段位置不符合要求：
-
-`aom`, `aspell`, `cgctl`, `compsize`, `crash`, `dbus-broker`, `eigen3`,
-`giflib`, `guile`, `hipfft`, `hipify`, `hipsparselt`, `keybinder`,
-`libaio`, `libdwarf`, `libjpeg-turbo`, `libunwind`, `lua-json`,
-`msgpack`, `powertop`, `python-python-dateutil`, `qhull`, `rocblas`,
-`rocsolver`, `soxr`, `vdo`
-
-### 4. 补丁数量 > 3 未使用 `%patchlist`（25 条，涉及 25 个 spec）
-
-规则要求补丁数量超过 3 个时应使用 `%patchlist` 统一管理。以下 spec
-存在 4 个及以上 `Patch` 字段但未使用 `%patchlist`：
-
-`audiofile`(11), `binutils`(5), `cyrus-sasl`(4), `expect`(7),
-`gcc15`(40), `gpm`(4), `grub`(4), `icu4c`(4), `indent`(4),
-`libselinux`(4), `lua`(4), `ncurses`(4), `nodejs`(4), `openjade`(4),
-`openldap`(4), `orbit2`(4), `otf2bdf`(4), `pesign`(4), `pinfo`(4),
-`procmail`(4), `qt6-qtbase`(4), `qt6-qtwebengine`(4), `readline`(4),
-`rpm`(4), `zip`(4)
-
-> 括号内为 `Patch` 字段数量。
-
-### 5. 补丁文件名前缀不在 `0001-2999` 范围内（4 条，涉及 3 个 spec）
-
-| # | spec 文件 | 补丁文件名 |
+| # | spec 文件 | 详情 |
 | --- | --- | --- |
-| 1 | `libunwind/libunwind.spec` | `3000-libunwind-no-dl-iterate-phdr.patch` |
-| 2 | `nodejs/nodejs.spec` | `60588.diff` |
-| 3 | `nodejs/nodejs.spec` | `60591.diff` |
-| 4 | `rpm/rpm.spec` | `6464-auto-config-update.diff` |
-
-### 6. `%patchlist` 位于 `%description` 之下（4 条，涉及 4 个 spec）
-
-规则要求 `%patchlist` 必须位于 `%description` 之上。以下 spec 的
-`%patchlist` 位置不符合要求：
-
-`cdparanoia`, `openssl`, `python-torch`, `spdk`
+| 1 | [angelscript/angelscript.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/angelscript/angelscript.spec) | `Patch "2000-install-libraries-and-CMake-files-to-GNUInstallDirs...." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 2 | [arrow/arrow.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/arrow/arrow.spec) | `Patch "0002-test-use-approximate-comparison-for-quantile.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 3 | [aspell/aspell.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/aspell/aspell.spec) | `Patch "0002-aspell-quotes.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 4 | [attr/attr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/attr/attr.spec) | `Patch "0001-bypass-wrong-output-when-enabled-selinux.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 5 | [attr/attr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/attr/attr.spec) | `Patch "0002-dont-skip-security.evm-when-copy-xattr.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 6 | [audiofile/audiofile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/audiofile/audiofile.spec) | `Patch "0007-822b732fd31ffcb78f6920001e9b1fbd815fa712.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 7 | [autoconf/autoconf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/autoconf/autoconf.spec) | `Patch "autoreconf-ltdl.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 8 | [autofs/autofs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/autofs/autofs.spec) | `Patch "autofs-5.1.9-Fix-incompatible-function-pointer-types-in-c..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 9 | [bash/bash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bash/bash.spec) | `Patch "0002-bash-5.3-patch-2.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 10 | [bash/bash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bash/bash.spec) | `Patch "0003-bash-5.3-patch-3.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 11 | [bdfresize/bdfresize.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bdfresize/bdfresize.spec) | `Patch "020_minus-sign.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 12 | [bison/bison.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bison/bison.spec) | `Patch "glr2-cc-ensure-yylookaheadNeeds-is-same-size-as-yystates...." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 13 | [cgctl/cgctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cgctl/cgctl.spec) | `Patch "2000-cgroups-root-adapt-to-runtime-spec-1.3.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 14 | [cgctl/cgctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cgctl/cgctl.spec) | `Patch "2001-cgroups-v3-adapt-to-runtime-spec-1.3.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 15 | [cloud-init/cloud-init.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cloud-init/cloud-init.spec) | `Patch "2000-Add-openruyi-support.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 16 | [console-setup/console-setup.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/console-setup/console-setup.spec) | `Patch "0001-fix-makefile.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 17 | [crash/crash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/crash/crash.spec) | `Patch "lzo_snappy_zstd.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 18 | [crash/crash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/crash/crash.spec) | `Patch "crash-9.0.1_build.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 19 | [cunit/cunit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cunit/cunit.spec) | `Patch "0001-cunit-link-ncurses.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 20 | [cunit/cunit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cunit/cunit.spec) | `Patch "0002-cunit-ncurses6.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 21 | [cunit/cunit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cunit/cunit.spec) | `Patch "0003-avoid-Wformat-security-bug.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 22 | [cyrus-sasl/cyrus-sasl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cyrus-sasl/cyrus-sasl.spec) | `Patch "0001-cyrus-sasl-lfs.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 23 | [cyrus-sasl/cyrus-sasl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cyrus-sasl/cyrus-sasl.spec) | `Patch "0002-fix_libpq-fe_include.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 24 | [cyrus-sasl/cyrus-sasl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cyrus-sasl/cyrus-sasl.spec) | `Patch "0003-Fix-time.h-check.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 25 | [cyrus-sasl/cyrus-sasl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cyrus-sasl/cyrus-sasl.spec) | `Patch "0004-cyrus-sasl-make-digestmd5-work-ssl3.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 26 | [dbus-broker/dbus-broker.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dbus-broker/dbus-broker.spec) | `Patch "test-sockopt-loosen-verification-of-stale-pidfds.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 27 | [dejagnu/dejagnu.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dejagnu/dejagnu.spec) | `Patch "testsuite-legacy.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 28 | [desktop-file-utils/desktop-file-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/desktop-file-utils/desktop-file-utils.spec) | `Patch "0001-validate-Add-Phosh-to-list-of-valid-OnlyShowIn-envir..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 29 | [dosfstools/dosfstools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dosfstools/dosfstools.spec) | `Patch "0001-Fix-vasprintf-implementation.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 30 | [doxygen/doxygen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/doxygen/doxygen.spec) | `Patch "doxygen-no-lowercase-man-names.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 31 | [doxygen/doxygen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/doxygen/doxygen.spec) | `Patch "reproducible.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 32 | [duktape/duktape.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/duktape/duktape.spec) | `Patch "0001-duktape-link-m.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 33 | [dwz/dwz.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dwz/dwz.spec) | `Patch "remove-gold-tests.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 34 | [eigen3/eigen3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/eigen3/eigen3.spec) | `Patch "eigen3_libinstalldir.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 35 | [ethtool/ethtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ethtool/ethtool.spec) | `Patch "0001-netlink-fix-missing-headers-in-text-output.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 36 | [ethtool/ethtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ethtool/ethtool.spec) | `Patch "0002-netlink-fix-print_string-when-the-value-is-NULL.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 37 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `Patch "0001-expect.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 38 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `Patch "0002-expect-fixes.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 39 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `Patch "0003-expect-log.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 40 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `Patch "0004-config-guess-sub-update.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 41 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `Patch "0005-expect-errorfd.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 42 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `Patch "0006-expect-5.45-format-security.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 43 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `Patch "0007-expect-fix-implicit.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 44 | [f2fs-tools/f2fs-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/f2fs-tools/f2fs-tools.spec) | `Patch "0001-f2fs-tools-1.16.0-c23.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 45 | [fakeroot/fakeroot.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/fakeroot/fakeroot.spec) | `Patch "debian_fix-shell-in-fakeroot.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 46 | [fcoe-utils/fcoe-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/fcoe-utils/fcoe-utils.spec) | `Patch "0001-fcoemon-add-snprintf-string-precision-modifiers-in-f..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 47 | [fcoe-utils/fcoe-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/fcoe-utils/fcoe-utils.spec) | `Patch "0002-Don-t-attempt-to-memcpy-zero-bytes.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 48 | [fcoe-utils/fcoe-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/fcoe-utils/fcoe-utils.spec) | `Patch "0003-Fix-build-against-glibc-2.43.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 49 | [fscryptctl/fscryptctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/fscryptctl/fscryptctl.spec) | `Patch "0001-disable-doc.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 50 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "gcc-add-defaultsspec.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 51 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "gcc44-textdomain.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 52 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "gcc44-rename-info-files.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 53 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0002-RISC-V-Fix-missing-implied-Zicsr-from-Zve32x.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 54 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0003-RISC-V-Add-new-option-param-gpr2vr-cost-for-rvv-insn..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 55 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0004-PATCH-RISC-V-Recognized-svadu-and-svade-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 56 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0005-PATCH-RISC-V-Minimal-support-for-sdtrig-and-ssstrict..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 57 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0006-PATCH-RISC-V-Minimal-support-for-zama16b-extension.p..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 58 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0007-RISC-V-Support-RISC-V-Profiles-20-22.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 59 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0008-RISC-V-Support-RISC-V-Profiles-23.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 60 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0009-RISC-V-Support-for-zilsd-and-zclsd-extensions.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 61 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0010-RISC-V-Minimal-support-for-ssnpm-smnpm-and-smmpm-ext..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 62 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0011-RISC-V-Introduce-riscv-ext-.def-to-define-extensions..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 63 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0012-RISC-V-Use-riscv-ext.def-to-generate-target-options-..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 64 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0013-RISC-V-Generate-extension-table-in-documentation-fro..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 65 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0014-RISC-V-Adjust-riscv_can_inline_p.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 66 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0015-RISC-V-Introduce-riscv_ext_info_t-to-hold-extension-..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 67 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0016-RISC-V-Drop-riscv_implied_info-and-riscv_combine_inf..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 68 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0017-RISC-V-Drop-riscv_ext_version_table-in-favor-of-risc..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 69 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0018-RISC-V-Drop-riscv_ext_flag_table-in-favor-of-riscv_e..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 70 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0019-RISC-V-Add-augmented-hypervisor-series-extensions.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 71 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0020-RISC-V-Support-CPUs-in-march.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 72 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0021-RISC-V-Add-minimal-support-of-double-trap-extension-..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 73 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0022-PATCH-RISC-V-Add-smcntrpmf-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 74 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0023-RISC-V-Add-Shlcofideleg-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 75 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0024-PATCH-v2-RISC-V-Add-svbare-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 76 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0025-PATCH-RISC-V-Imply-zicsr-for-svade-and-svadu-extensi..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 77 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0026-RISC-V-Update-extension-defination.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 78 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0027-RISC-V-Support-Sm-scsrind-extensions.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 79 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0028-RISC-V-Support-Smrnmi-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 80 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0029-RISC-V-Support-Ssccptr-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 81 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0030-RISC-V-Support-Sscounterenw-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 82 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0031-RISC-V-Support-Sstvala-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 83 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0032-RISC-V-Support-Sstvecd-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 84 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0033-RISC-V-Support-Ssu64xl-extension.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 85 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0034-RISC-V-Update-Profiles-string-in-RV23.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 86 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0035-RISC-V-Add-Profiles-RVA-B23S64-support.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 87 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `Patch "0036-RISC-V-check-if-we-can-vec_extract.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 88 | [gcc16/gcc16.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc16/gcc16.spec) | `Patch "2000-textdomain.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 89 | [gcc16/gcc16.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc16/gcc16.spec) | `Patch "2001-rename-info-files.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 90 | [gdbm/gdbm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gdbm/gdbm.spec) | `Patch "gdbm-no-build-date.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 91 | [gflags/gflags.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gflags/gflags.spec) | `Patch "0001-gflags-fix_pkgconfig.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 92 | [giflib/giflib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/giflib/giflib.spec) | `Patch "0001-disable-doc.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 93 | [glib/glib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glib/glib.spec) | `Patch "meson.build-Avoid-linking-with-libatomic-when-unneed.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 94 | [go-github-envoyproxy-protoc-gen-validate/go-github-envoyproxy-protoc-gen-validate.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-envoyproxy-protoc-gen-validate/go-github-envoyproxy-protoc-gen-validate.spec) | `Patch "2000-fix-checker.go-error.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 95 | [go-gopkg-tomb.v1/go-gopkg-tomb.v1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-gopkg-tomb.v1/go-gopkg-tomb.v1.spec) | `Patch "2000-fix-killf-test-format-string.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 96 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0001-some-headers.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 97 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0002-gpm-1.20.6-multilib.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 98 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0003-gpm-1.20.1-lib-silent.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 99 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0004-gpm-1.20.5-close-fds.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 100 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0005-gpm-1.20.1-weak-wgetch.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 101 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0006-gpm-1.20.7-rhbz-668480-gpm-types-7-manpage-fixes.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 102 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0007-src-daemon-remove-obvious-use-of-unitialized-data.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 103 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0008-src-daemon-reindent-switch-statement-to-avoid-compil..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 104 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `Patch "0009-configure-drop-broken-configure-code.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 105 | [gpsd/gpsd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpsd/gpsd.spec) | `Patch "2000-gpsd_hotplug_rules_disable.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 106 | [gptfdisk/gptfdisk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gptfdisk/gptfdisk.spec) | `Patch "2000-fix-include-ncurses.h-unconditionally.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 107 | [grpc/grpc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/grpc/grpc.spec) | `Patch "2000-force-system-libraries-in-isolated-environments.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 108 | [guile/guile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/guile/guile.spec) | `Patch "guile-fix-riscv64-jit.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 109 | [gzip/gzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gzip/gzip.spec) | `Patch "manpage-no-date.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 110 | [hipfft/hipfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hipfft/hipfft.spec) | `Patch "0001-hipfft-hipfftw-soversion.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 111 | [hipify/hipify.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hipify/hipify.spec) | `Patch "0001-prepare-hipify-cmake.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 112 | [icu4c/icu4c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/icu4c/icu4c.spec) | `Patch "0001-icu-fix-install-mode-files.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 113 | [icu4c/icu4c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/icu4c/icu4c.spec) | `Patch "0002-icu-error-reporting.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 114 | [icu4c/icu4c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/icu4c/icu4c.spec) | `Patch "0003-icu-avoid-x87-excess-precision.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 115 | [icu4c/icu4c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/icu4c/icu4c.spec) | `Patch "0004-locale.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 116 | [icu4c/icu4c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/icu4c/icu4c.spec) | `Patch "0005-nan-undefined-conversion.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 117 | [itstool/itstool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/itstool/itstool.spec) | `Patch "0001-Fix-insufficiently-quoted-regular-expressions.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 118 | [itstool/itstool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/itstool/itstool.spec) | `Patch "0002-Switch-from-libxml2-to-lxml.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 119 | [kf6-ksvg/kf6-ksvg.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/kf6-ksvg/kf6-ksvg.spec) | `Patch "0001-Revert-Support-for-fractional-scaling.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 120 | [kiwi/kiwi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/kiwi/kiwi.spec) | `Patch "2000-optional-manpage.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 121 | [libburn/libburn.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libburn/libburn.spec) | `Patch "0001-libburn-1.5.6-c23.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 122 | [libdwarf/libdwarf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libdwarf/libdwarf.spec) | `Patch "libdwarf-both.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 123 | [libfaketime/libfaketime.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libfaketime/libfaketime.spec) | `Patch "0001-Add-const-qualifiers-to-fix-build-with-ISO-C23.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 124 | [libfaketime/libfaketime.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libfaketime/libfaketime.spec) | `Patch "0002-tests-Silence-an-unused-but-set-variable-warning-wit..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 125 | [libjpeg-turbo/libjpeg-turbo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libjpeg-turbo/libjpeg-turbo.spec) | `Patch "0001-libjpeg-turbo-cmake.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 126 | [liblc3/liblc3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/liblc3/liblc3.spec) | `Patch "0001-Revert-build-fix-rpath-issue.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 127 | [liblognorm/liblognorm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/liblognorm/liblognorm.spec) | `Patch "0001-Port-pcre-dependency-to-pcre2.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 128 | [libmodulemd/libmodulemd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libmodulemd/libmodulemd.spec) | `Patch "0001-tests-Adapt-to-glib-2.87.0.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 129 | [libmodulemd/libmodulemd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libmodulemd/libmodulemd.spec) | `Patch "0002-tests-Adapt-to-pygobject-3.55.0.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 130 | [libosinfo/libosinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libosinfo/libosinfo.spec) | `Patch "0001-libosinfo-libxml2-2.14.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 131 | [libseccomp/libseccomp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libseccomp/libseccomp.spec) | `Patch "2000-make-python-build.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 132 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `Patch "readv-proto.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 133 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `Patch "skip_cycles.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 134 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `Patch "swig4_moduleimport.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 135 | [libsquish/libsquish.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libsquish/libsquish.spec) | `Patch "2000-OBCMake-Replace-hardcoded-cmake-install-paths-with-C..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 136 | [libtiff/libtiff.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libtiff/libtiff.spec) | `Patch "libtiff-4.0.3-seek.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 137 | [libtiff/libtiff.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libtiff/libtiff.spec) | `Patch "libtiff-4.7.0-test_directory.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 138 | [libunwind/libunwind.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libunwind/libunwind.spec) | `Patch "0001-Fix-bad-prototype-for-malloc-in-test.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 139 | [libutempter/libutempter.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libutempter/libutempter.spec) | `Patch "0001-fix-install-path.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 140 | [libvdpau/libvdpau.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libvdpau/libvdpau.spec) | `Patch "0001-libvdpau-av1-trace.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 141 | [libwebp/libwebp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libwebp/libwebp.spec) | `Patch "0001-libwebp-cmakedir.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 142 | [libwebp/libwebp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libwebp/libwebp.spec) | `Patch "0002-libwebp-rpath.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 143 | [libyuv/libyuv.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libyuv/libyuv.spec) | `Patch "0001-fix-install-dir.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 144 | [llvm-snapshot/llvm-snapshot.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvm-snapshot/llvm-snapshot.spec) | `Patch "2000-Add-riscv64-openruyi-linux-triple-and-set-it-to-rva2..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 145 | [llvm-snapshot/llvm-snapshot.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvm-snapshot/llvm-snapshot.spec) | `Patch "2001-Add-openruyi-linux-to-X86_64Triples-and-RISCV64Tripl..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 146 | [llvm22/llvm22.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvm22/llvm22.spec) | `Patch "2000-Add-riscv64-openruyi-linux-triple-and-set-it-to-rva2..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 147 | [llvm22/llvm22.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvm22/llvm22.spec) | `Patch "2001-Add-openruyi-linux-to-X86_64Triples-and-RISCV64Tripl..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 148 | [lsof/lsof.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lsof/lsof.spec) | `Patch "2000-skip-LTlock-test-in-package-builds.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 149 | [lua/lua.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua/lua.spec) | `Patch "0001-lua-5.4.6-idsize.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 150 | [lua/lua.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua/lua.spec) | `Patch "0002-lua-5.4.0-beta-autotoolize.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 151 | [lua/lua.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua/lua.spec) | `Patch "0003-lua-5.2.2-configure-linux.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 152 | [lua/lua.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua/lua.spec) | `Patch "0004-lua-5.3.0-configure-compat-module.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 153 | [lua-json/lua-json.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua-json/lua-json.spec) | `Patch "0001-support-lpeg1.1.0.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 154 | [lz4/lz4.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lz4/lz4.spec) | `Patch "lz4-export.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 155 | [mariadb/mariadb.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mariadb/mariadb.spec) | `Patch "fix-pamdir.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 156 | [mergerfs/mergerfs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mergerfs/mergerfs.spec) | `Patch "0001-no_chown_during_install.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 157 | [mkosi/mkosi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mkosi/mkosi.spec) | `Patch "0001-Add-openruyi-support.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 158 | [msgpack/msgpack.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/msgpack/msgpack.spec) | `Patch "0002-msgpack-cmake4.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 159 | [nghttp3/nghttp3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nghttp3/nghttp3.spec) | `Patch "0001-fix-install-path.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 160 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `Patch "v8-riscv-fix-trampoline.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 161 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `Patch "v8-riscv-fix-trampoline-release.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 162 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `Patch "60591.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 163 | [nss/nss.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nss/nss.spec) | `Patch "2001-Make-dbtests-certutil-K-timeout-configurable.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 164 | [numad/numad.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/numad/numad.spec) | `Patch "0001-recognize-m-option-correctly.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 165 | [numad/numad.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/numad/numad.spec) | `Patch "0002-numad_log-fix-buffer-overflow.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 166 | [numad/numad.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/numad/numad.spec) | `Patch "0003-avoid-array-index-out-of-bounds.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 167 | [openldap/openldap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openldap/openldap.spec) | `Patch "0001-reproducible.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 168 | [openldap/openldap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openldap/openldap.spec) | `Patch "0002-LDAPI-socket-location.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 169 | [openldap/openldap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openldap/openldap.spec) | `Patch "0003-pie-compile.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 170 | [openldap/openldap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openldap/openldap.spec) | `Patch "0004-In-monitor-backend-do-not-return-Connection0-entries..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 171 | [openldap/openldap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openldap/openldap.spec) | `Patch "0005-Clear-shared-key-only-in-close-function.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 172 | [openldap/openldap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openldap/openldap.spec) | `Patch "0006-gcc14-v2.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 173 | [openzl/openzl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openzl/openzl.spec) | `Patch "2000-add-install-rules-for-CLI-tools-and-parser-targets.p..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 174 | [openzl/openzl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openzl/openzl.spec) | `Patch "2001-feat-prefer-system-installed-zstd-over-bundled-depen..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 175 | [orbit2/orbit2.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/orbit2/orbit2.spec) | `Patch "0001-ORBit2-2.14.3-multilib.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 176 | [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec) | `Patch "args.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 177 | [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec) | `Patch "freetype2.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 178 | [perl-Log-Any/perl-Log-Any.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/perl-Log-Any/perl-Log-Any.spec) | `Patch "2000-isolate-syslog-test-env.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 179 | [perl-rpm-packaging/perl-rpm-packaging.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/perl-rpm-packaging/perl-rpm-packaging.spec) | `Patch "0001-fileattrs.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 180 | [pesign/pesign.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pesign/pesign.spec) | `Patch "0001-cms_common-Fixed-Segmentation-fault.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 181 | [pesign/pesign.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pesign/pesign.spec) | `Patch "0002-Fix-reversed-calloc-arguments.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 182 | [pesign/pesign.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pesign/pesign.spec) | `Patch "0003-Work-around-OpenSC-changing-token-names-on-fedora-bu..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 183 | [pesign/pesign.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pesign/pesign.spec) | `Patch "0004-cms_common-skip-authentication-on-the-Friendly-slot...." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 184 | [pesign/pesign.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pesign/pesign.spec) | `Patch "0005-pesum-strrchr-should-be-of-type-const.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 185 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0001-pinfo-0.6.9-infopath.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 186 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0002-pinfo-0.6.9-xdg.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 187 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0003-pinfo-0.6.10-man.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 188 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0004-pinfo-0.6.13-fnocommon.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 189 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0005-pinfo-0.6.13-gccwarn.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 190 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0006-pinfo-0.6.13-nogroup.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 191 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0007-pinfo-0.6.13-stringop-overflow.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 192 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `Patch "0008-pinfo-configure-c99.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 193 | [plasma-desktop/plasma-desktop.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/plasma-desktop/plasma-desktop.spec) | `Patch "2000-Apply-branding-to-default-favorites.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 194 | [plasma-desktop/plasma-desktop.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/plasma-desktop/plasma-desktop.spec) | `Patch "2001-Remove-discover-from-taskmanager-default-launchers.p..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 195 | [popt/popt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/popt/popt.spec) | `Patch "0001-popt-libc-updates.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 196 | [postgresql/postgresql.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/postgresql/postgresql.spec) | `Patch "postgresql-var-run-socket.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 197 | [postgresql/postgresql.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/postgresql/postgresql.spec) | `Patch "postgresql-no-libecpg.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 198 | [powertop/powertop.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/powertop/powertop.spec) | `Patch "powertop-2.7-always-create-params.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 199 | [python-cart/python-cart.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-cart/python-cart.spec) | `Patch "0001-python-cart-1.2.2-cryptodomex.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 200 | [python-cppheaderparser/python-cppheaderparser.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-cppheaderparser/python-cppheaderparser.spec) | `Patch "0001-cppheaderparser-silence-invalid-escape-sequence.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 201 | [python-gcloud-aio-auth/python-gcloud-aio-auth.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-gcloud-aio-auth/python-gcloud-aio-auth.spec) | `Patch "0001-chore-deps-bump-maximum-cryptography-version.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 202 | [python-optimum/python-optimum.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-optimum/python-optimum.spec) | `Patch "2000-fix-utils-use-default_factory-for-mutable-dataclass-..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 203 | [python-optimum-benchmark/python-optimum-benchmark.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-optimum-benchmark/python-optimum-benchmark.spec) | `Patch "2000-fix-backends-handle-SpecialTokensMixin-import-for-tr..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 204 | [python-propcache/python-propcache.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-propcache/python-propcache.spec) | `Patch "0001-Update-Cython-to-version-3.2.3.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 205 | [python-tokenizers/python-tokenizers.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tokenizers/python-tokenizers.spec) | `Patch "2001-fix-bindings-cargo.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 206 | [python-torchvision/python-torchvision.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-torchvision/python-torchvision.spec) | `Patch "0001-python-torchvision-ffmpeg8.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 207 | [python-torchvision/python-torchvision.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-torchvision/python-torchvision.spec) | `Patch "2000-Add-HIP-detect-logic.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 208 | [qt6-qtwebengine/qt6-qtwebengine.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qt6-qtwebengine/qt6-qtwebengine.spec) | `Patch "0003-riscv-misc.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 209 | [qt6-qtwebengine/qt6-qtwebengine.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qt6-qtwebengine/qt6-qtwebengine.spec) | `Patch "0004-riscv-enable-v8-webasm.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 210 | [quota/quota.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/quota/quota.spec) | `Patch "quota-4.06-warnquota-configuration-tunes.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 211 | [quota/quota.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/quota/quota.spec) | `Patch "quota-4.03-Validate-upper-bound-of-RPC-port.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 212 | [readline/readline.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/readline/readline.spec) | `Patch "0002-readline-8.3-patch-2.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 213 | [readline/readline.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/readline/readline.spec) | `Patch "0003-readline-8.3-patch-3.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 214 | [recutils/recutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/recutils/recutils.spec) | `Patch "0001-recutils-1.9-mdbtools-0.9.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 215 | [recutils/recutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/recutils/recutils.spec) | `Patch "0002-recutils-c99.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 216 | [rocblas/rocblas.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocblas/rocblas.spec) | `Patch "0001-fixup-install-of-tensile-output.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 217 | [rocfft/rocfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocfft/rocfft.spec) | `Patch "0001-cmake-use-gnu-installdirs.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 218 | [rocfft/rocfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocfft/rocfft.spec) | `Patch "2000-relax-sqlite-version-requirement.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 219 | [rocksdb/rocksdb.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocksdb/rocksdb.spec) | `Patch "0001-no_rpath.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 220 | [rocksdb/rocksdb.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocksdb/rocksdb.spec) | `Patch "0002-disable_static.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 221 | [rocminfo/rocminfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocminfo/rocminfo.spec) | `Patch "0001-adjust-CMAKE_CXX_FLAGS.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 222 | [rocr-runtime/rocr-runtime.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocr-runtime/rocr-runtime.spec) | `Patch "0001-Add-riscv64-support.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 223 | [rocr-runtime/rocr-runtime.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocr-runtime/rocr-runtime.spec) | `Patch "0002-Replace-fence-instructions-for-riscv64.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 224 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "checkfilesnoinfodir.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 225 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "rpmpopt.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 226 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "safeugid.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 227 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "fileattrs.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 228 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "brp-compress-no-img.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 229 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "emptymanifest.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 230 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "find-lang-qt-qm.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 231 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "canongnu.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 232 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "unshare.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 233 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Patch "buildroot-symlink.diff" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 234 | [rust-async-std-1/rust-async-std-1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-async-std-1/rust-async-std-1.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 235 | [rust-dlib-0.5/rust-dlib-0.5.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-dlib-0.5/rust-dlib-0.5.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 236 | [rust-generator-0.8/rust-generator-0.8.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-generator-0.8/rust-generator-0.8.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 237 | [rust-hyper-util-0.1/rust-hyper-util-0.1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-hyper-util-0.1/rust-hyper-util-0.1.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 238 | [rust-malloc-buf-0.0.6/rust-malloc-buf-0.0.6.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-malloc-buf-0.0.6/rust-malloc-buf-0.0.6.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 239 | [rust-nom-locate-5/rust-nom-locate-5.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-nom-locate-5/rust-nom-locate-5.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 240 | [rust-objc-0.2/rust-objc-0.2.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-objc-0.2/rust-objc-0.2.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 241 | [rust-pyo3-introspection-0.28/rust-pyo3-introspection-0.28.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-pyo3-introspection-0.28/rust-pyo3-introspection-0.28.spec) | `Patch "0001-fix-dependency-ranges.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 242 | [rust-python-pkginfo-0.6/rust-python-pkginfo-0.6.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-python-pkginfo-0.6/rust-python-pkginfo-0.6.spec) | `Patch "0001-fix-dependency-ranges.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 243 | [rust-reflink-copy-0.1/rust-reflink-copy-0.1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-reflink-copy-0.1/rust-reflink-copy-0.1.spec) | `Patch "0001-fix-dependency-ranges.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 244 | [rust-shellexpand-3/rust-shellexpand-3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-shellexpand-3/rust-shellexpand-3.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 245 | [rust-signal-hook-registry-1/rust-signal-hook-registry-1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-signal-hook-registry-1/rust-signal-hook-registry-1.spec) | `Patch "0001-fix-version.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 246 | [rust-system-deps-7/rust-system-deps-7.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-system-deps-7/rust-system-deps-7.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 247 | [rust-tracy-client-0.18/rust-tracy-client-0.18.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-tracy-client-0.18/rust-tracy-client-0.18.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 248 | [rust-v-frame-0.3/rust-v-frame-0.3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-v-frame-0.3/rust-v-frame-0.3.spec) | `Patch "0001-fix-cargo-requirements.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 249 | [rust-wasite-1/rust-wasite-1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-wasite-1/rust-wasite-1.spec) | `Patch "0001-fix-range-dependencies.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 250 | [scap-security-guide/scap-security-guide.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/scap-security-guide/scap-security-guide.spec) | `Patch "2000-add-support-for-openRuyi.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 251 | [sddm/sddm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/sddm/sddm.spec) | `Patch "0001-CMake-Raise-required-version-to-3.5.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 252 | [shadow/shadow.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/shadow/shadow.spec) | `Patch "2000-openruyi-disable-conflicting-tools.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 253 | [shadow/shadow.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/shadow/shadow.spec) | `Patch "2001-openruyi-adapt-configs.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 254 | [sharutils/sharutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/sharutils/sharutils.spec) | `Patch "0001-backport-Fix-building-with-GCC-10.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 255 | [soxr/soxr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/soxr/soxr.spec) | `Patch "0001-soxr-cmake.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 256 | [srt/srt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/srt/srt.spec) | `Patch "0001-build-Update-for-compatibility-with-CMake-4.x-3167.p..." must have a comment line above it explaining its purpose or giving an upstream link` |
+| 257 | [startup-notification/startup-notification.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/startup-notification/startup-notification.spec) | `Patch "0001-fix-test-xmessage-atom-types.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 258 | [symlinks/symlinks.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/symlinks/symlinks.spec) | `Patch "0001-fix-makefile.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 259 | [tcsh/tcsh.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tcsh/tcsh.spec) | `Patch "0001-fix-nice-case-fail-if-noroot.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 260 | [texlive/texlive.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/texlive/texlive.spec) | `Patch "2000-add-luajit-support-for-riscv64.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 261 | [xdg-utils/xdg-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xdg-utils/xdg-utils.spec) | `Patch "0001-disable-docs.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 262 | [xevd/xevd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xevd/xevd.spec) | `Patch "0001-xevd-fix-build-on-non-x86.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 263 | [xevd/xevd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xevd/xevd.spec) | `Patch "0002-xevd-fix-neon-header.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 264 | [xevd/xevd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xevd/xevd.spec) | `Patch "0003-xevd-link-libm.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 265 | [xeve/xeve.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xeve/xeve.spec) | `Patch "0001-xeve-fix-build-on-non-x86.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 266 | [xeve/xeve.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xeve/xeve.spec) | `Patch "0002-xeve-link-libm.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 267 | [xinetd/xinetd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xinetd/xinetd.spec) | `Patch "0001-xinetd-service-sysconfig.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 268 | [xtrans/xtrans.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xtrans/xtrans.spec) | `Patch "xtrans-1.0.3-avoid-gethostname.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 269 | [yaml-cpp/yaml-cpp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/yaml-cpp/yaml-cpp.spec) | `Patch "0001-fix-include.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 270 | [zimg/zimg.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zimg/zimg.spec) | `Patch "0001-fix-build.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 271 | [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec) | `Patch "0004-man.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 272 | [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec) | `Patch "0005-zip-3.0-format-security.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 273 | [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec) | `Patch "0006-zipnote.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 274 | [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec) | `Patch "0007-zip-gnu89-build.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 275 | [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec) | `Patch "0008-buffer_overflow.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 276 | [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec) | `Patch "0009-zip-3.0-man-strip-extra.patch" must have a comment line above it explaining its purpose or giving an upstream link` |
+| 277 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0001-cups-system-auth.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 278 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0002-cups-multilib.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 279 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0003-cups-banners.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 280 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0004-cups-direct-usb.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 281 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0005-cups-driverd-timeout.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 282 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0006-cups-usb-paperout.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 283 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0007-cups-uri-compat.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 284 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0008-cups-freebind.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 285 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0009-cups-ipp-multifile.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 286 | [cups/cups.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cups/cups.spec) | `patch "0010-cups-web-devices-timeout.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 287 | [docbook-dtds/docbook-dtds.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/docbook-dtds/docbook-dtds.spec) | `patch "0002-docbook-dtd31-sgml-1.0.catalog.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 288 | [docbook-dtds/docbook-dtds.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/docbook-dtds/docbook-dtds.spec) | `patch "0003-docbook-dtd40-sgml-1.0.catalog.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 289 | [docbook-dtds/docbook-dtds.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/docbook-dtds/docbook-dtds.spec) | `patch "0004-docbook-dtd41-sgml-1.0.catalog.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 290 | [docbook-dtds/docbook-dtds.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/docbook-dtds/docbook-dtds.spec) | `patch "0005-docbook-dtd42-sgml-1.0.catalog.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 291 | [dpdk/dpdk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dpdk/dpdk.spec) | `patch "0002-lpm-lookup-with-RISC-V-vector-extension.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 292 | [dpdk/dpdk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dpdk/dpdk.spec) | `patch "0003-fib-lookup-with-RISC-V-vector-extension.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 293 | [dpdk/dpdk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dpdk/dpdk.spec) | `patch "0004-config-riscv-consider-specified-CPU.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 294 | [dpdk/dpdk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dpdk/dpdk.spec) | `patch "0005-test-raise-fast-test-timeout-to-60s-on-RISC-V.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 295 | [dpdk/dpdk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dpdk/dpdk.spec) | `patch "0006-config-riscv-add-rv64gcv-cross-compilation-target.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 296 | [firefox/firefox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/firefox/firefox.spec) | `patch "0001-add-GetSystemProxyDirect-to-libproxy-path.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 297 | [firefox/firefox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/firefox/firefox.spec) | `patch "2000-riscv64-Use-long-tail-jump-for-xptcall-stubs.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 298 | [firefox/firefox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/firefox/firefox.spec) | `patch "2003-blindly-set-rust-rva23-target-when-needed.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 299 | [firefox/firefox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/firefox/firefox.spec) | `patch "2005-add-riscv64-support-for-crash-context.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 300 | [firefox/firefox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/firefox/firefox.spec) | `patch "2006-enable-crashreporter-for-riscv64.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 301 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch "freetype-2.3.0-enable-spr.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 302 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch "freetype-2.2.1-enable-valid.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 303 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch "freetype-2.6.5-libtool.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 304 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch "freetype-2.8-multilib.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 305 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch "freetype-2.10.0-internal-outline.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 306 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch "freetype-2.10.1-debughook.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 307 | [i2c-tools/i2c-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/i2c-tools/i2c-tools.spec) | `patch "0001-i2ctransfer-Don-t-link-with-libi2c.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 308 | [i2c-tools/i2c-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/i2c-tools/i2c-tools.spec) | `patch "0002-i2ctransfer-Don-t-free-memory-which-was-never-alloca..." in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 309 | [i2c-tools/i2c-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/i2c-tools/i2c-tools.spec) | `patch "0003-i2ctransfer-Prevent-msgs-overflow-with-many-paramete..." in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 310 | [i2c-tools/i2c-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/i2c-tools/i2c-tools.spec) | `patch "0004-i2ctransfer-Zero-out-memory-passed-to-ioctl.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 311 | [isa-l_crypto/isa-l_crypto.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/isa-l_crypto/isa-l_crypto.spec) | `patch "0005-aes-riscv64-add-RISC-V-Zvk-AES-implementation-for-AE..." in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 312 | [miopen/miopen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/miopen/miopen.spec) | `patch "2001-disable-clang-tidy.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 313 | [miopen/miopen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/miopen/miopen.spec) | `patch "2002-workaround-half-float-expr-deduction.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 314 | [miopen/miopen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/miopen/miopen.spec) | `patch "2003-disable-fno-offload-uniform-block.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 315 | [miopen/miopen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/miopen/miopen.spec) | `patch "2004-fix-clang-rel-path.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 316 | [python-pytest-xdist/python-pytest-xdist.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pytest-xdist/python-pytest-xdist.spec) | `patch "0001-python-pytest-xdist-3.8.0-fix-for-pytest-9.0+.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 317 | [python-pytest-xdist/python-pytest-xdist.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pytest-xdist/python-pytest-xdist.spec) | `patch "0002-python-pytest-xdist-3.8.0-update-biapp.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 318 | [python-tensile/python-tensile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tensile/python-tensile.spec) | `patch "0001-fix-python-shebang.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 319 | [python-tensile/python-tensile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tensile/python-tensile.spec) | `patch "0002-fix-tensile-get-path.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 320 | [python-tensile/python-tensile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tensile/python-tensile.spec) | `patch "0004-ignore-asm-cap-cache.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 321 | [rocclr/rocclr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocclr/rocclr.spec) | `patch "2002-add-lp64d-target-to-llvm-mc.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 322 | [rrdtool/rrdtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rrdtool/rrdtool.spec) | `patch "Fix-compatibility-with-Tcl-9.0.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 323 | [rrdtool/rrdtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rrdtool/rrdtool.spec) | `patch "correctly-link-ruby-bindings.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 324 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0015-unzip-6.0-alt-iconv-utf8-print.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 325 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0016-Fix-CVE-2016-9844-rhbz-1404283.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 326 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0022-unzip-zipbomb-part2.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 327 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0023-unzip-zipbomb-part3.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 328 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0024-unzip-zipbomb-manpage.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 329 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0025-unzip-zipbomb-part4.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 330 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0026-unzip-zipbomb-part5.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 331 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0027-unzip-zipbomb-part6.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 332 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0028-unzip-zipbomb-part7.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 333 | [unzip/unzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unzip/unzip.spec) | `patch "0029-unzip-zipbomb-switch.patch" in %patchlist must have a comment line above it explaining its purpose or giving an upstream link` |
+| 334 | [autoconf/autoconf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/autoconf/autoconf.spec) | `patch file name "autoreconf-ltdl.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 335 | [autofs/autofs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/autofs/autofs.spec) | `patch file name "autofs-5.1.9-Fix-incompatible-function-pointer-types-in-c..." must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 336 | [bdfresize/bdfresize.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bdfresize/bdfresize.spec) | `patch file name "010_ftbfs-gcc4.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 337 | [bdfresize/bdfresize.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bdfresize/bdfresize.spec) | `patch file name "020_minus-sign.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 338 | [bison/bison.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bison/bison.spec) | `patch file name "glr2-cc-ensure-yylookaheadNeeds-is-same-size-as-yystates...." must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 339 | [blake3/blake3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/blake3/blake3.spec) | `patch file name "riscv-v.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 340 | [busybox/busybox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/busybox/busybox.spec) | `patch file name "busybox-1.36.1-no-cbq.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 341 | [busybox/busybox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/busybox/busybox.spec) | `patch file name "busybox-1.37.0-fix-conditional-for-sha1_process_block64_s..." must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 342 | [compsize/compsize.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/compsize/compsize.spec) | `patch file name "compsize-1.5-fix-build-btrfsprogs-0.6.1.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 343 | [crash/crash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/crash/crash.spec) | `patch file name "lzo_snappy_zstd.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 344 | [crash/crash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/crash/crash.spec) | `patch file name "crash-9.0.1_build.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 345 | [dblatex/dblatex.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dblatex/dblatex.spec) | `patch file name "dblatex-0.3.12-replace-imp-by-importlib.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 346 | [dblatex/dblatex.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dblatex/dblatex.spec) | `patch file name "dblatex-0.3.12-adjust-submodule-imports.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 347 | [dblatex/dblatex.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dblatex/dblatex.spec) | `patch file name "dblatex-0.3.4-disable-debian.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 348 | [dbus-broker/dbus-broker.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dbus-broker/dbus-broker.spec) | `patch file name "test-sockopt-loosen-verification-of-stale-pidfds.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 349 | [dejagnu/dejagnu.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dejagnu/dejagnu.spec) | `patch file name "testsuite-legacy.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 350 | [dotnet10.0/dotnet10.0.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dotnet10.0/dotnet10.0.spec) | `patch file name "runtime-disable-fortify-on-ilasm-parser.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 351 | [doxygen/doxygen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/doxygen/doxygen.spec) | `patch file name "doxygen-no-lowercase-man-names.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 352 | [doxygen/doxygen.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/doxygen/doxygen.spec) | `patch file name "reproducible.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 353 | [dwz/dwz.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dwz/dwz.spec) | `patch file name "remove-gold-tests.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 354 | [efivar/efivar.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/efivar/efivar.spec) | `patch file name "fix-build-failure-with-glibc-2.43.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 355 | [eigen3/eigen3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/eigen3/eigen3.spec) | `patch file name "eigen3_libinstalldir.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 356 | [fakeroot/fakeroot.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/fakeroot/fakeroot.spec) | `patch file name "debian_fix-shell-in-fakeroot.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 357 | [findutils/findutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/findutils/findutils.spec) | `patch file name "findutils-xautofs.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 358 | [findutils/findutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/findutils/findutils.spec) | `patch file name "findutils-avoid-crash-system-loop.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 359 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch file name "freetype-2.3.0-enable-spr.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 360 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch file name "freetype-2.2.1-enable-valid.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 361 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch file name "freetype-2.6.5-libtool.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 362 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch file name "freetype-2.8-multilib.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 363 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch file name "freetype-2.10.0-internal-outline.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 364 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | `patch file name "freetype-2.10.1-debughook.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 365 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `patch file name "gcc-add-defaultsspec.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 366 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `patch file name "gcc44-textdomain.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 367 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `patch file name "gcc44-rename-info-files.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 368 | [gdbm/gdbm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gdbm/gdbm.spec) | `patch file name "gdbm-no-build-date.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 369 | [glib/glib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glib/glib.spec) | `patch file name "meson.build-Avoid-linking-with-libatomic-when-unneed.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 370 | [glibc/glibc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glibc/glibc.spec) | `patch file name "glibc-2.4-china.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 371 | [glmark2/glmark2.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glmark2/glmark2.spec) | `patch file name "glmark2-2023.01-backport-visual-config-match.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 372 | [grub/grub.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/grub/grub.spec) | `patch file name "skip-efi_uga.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 373 | [grub/grub.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/grub/grub.spec) | `patch file name "blsuki-append-version.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 374 | [grub/grub.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/grub/grub.spec) | `patch file name "grub-c23-string-func-handling-updates.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 375 | [grub/grub.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/grub/grub.spec) | `patch file name "conditionally-apply-regparm-attr.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 376 | [gtk-doc/gtk-doc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gtk-doc/gtk-doc.spec) | `patch file name "gtk-doc-mkhtml-test-fix.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 377 | [guile/guile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/guile/guile.spec) | `patch file name "guile-fix-riscv64-jit.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 378 | [gzip/gzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gzip/gzip.spec) | `patch file name "manpage-no-date.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 379 | [keybinder/keybinder.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/keybinder/keybinder.spec) | `patch file name "fix-empty-gobject.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 380 | [krb5/krb5.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/krb5/krb5.spec) | `patch file name "Fix-strchr-conformance-to-C23.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 381 | [libaio/libaio.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libaio/libaio.spec) | `patch file name "libaio-fix-test-off64_t.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 382 | [libdwarf/libdwarf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libdwarf/libdwarf.spec) | `patch file name "libdwarf-both.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 383 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `patch file name "readv-proto.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 384 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `patch file name "skip_cycles.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 385 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `patch file name "python3.8-compat.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 386 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `patch file name "swig4_moduleimport.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 387 | [libsemanage/libsemanage.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libsemanage/libsemanage.spec) | `patch file name "fix-test-failure-with-secilc.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 388 | [libtiff/libtiff.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libtiff/libtiff.spec) | `patch file name "libtiff-4.0.3-seek.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 389 | [libtiff/libtiff.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libtiff/libtiff.spec) | `patch file name "libtiff-4.7.0-test_directory.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 390 | [libxcrypt/libxcrypt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libxcrypt/libxcrypt.spec) | `patch file name "fix-werror-discarded-qualifiers.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 391 | [libxkbcommon/libxkbcommon.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libxkbcommon/libxkbcommon.spec) | `patch file name "libxkbcommon-1.13.1-mask-x11-test.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 392 | [lz4/lz4.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lz4/lz4.spec) | `patch file name "lz4-export.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 393 | [lz4/lz4.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lz4/lz4.spec) | `patch file name "Enable-LZ4_FAST_DEC_LOOP-for-RISC-V.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 394 | [mariadb/mariadb.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mariadb/mariadb.spec) | `patch file name "fix-pamdir.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 395 | [mdevd/mdevd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mdevd/mdevd.spec) | `patch file name "some-libcs-have-a-char-const-strchr-need-to-investigate.p..." must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 396 | [mesa/mesa.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mesa/mesa.spec) | `patch file name "mesa-26.1.1-zink-kmsro-for-img-blob.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 397 | [mesa/mesa.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mesa/mesa.spec) | `patch file name "mesa-26.1.1-pvr-conformance.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 398 | [mesa-demos/mesa-demos.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mesa-demos/mesa-demos.spec) | `patch file name "mesa-demos-8.5.0-legal.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 399 | [mesa-demos/mesa-demos.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mesa-demos/mesa-demos.spec) | `patch file name "mesa-demos-system-data.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 400 | [multipath-tools/multipath-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/multipath-tools/multipath-tools.spec) | `patch file name "multipath-tools-fix-c23-errors-with-strchr.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 401 | [nmap/nmap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nmap/nmap.spec) | `patch file name "nmap-4.03-mktemp.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 402 | [nmap/nmap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nmap/nmap.spec) | `patch file name "nmap-4.52-noms.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 403 | [nmap/nmap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nmap/nmap.spec) | `patch file name "ncat_reg_stdin.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 404 | [nmap/nmap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nmap/nmap.spec) | `patch file name "nmap_resolve_config.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 405 | [nmap/nmap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nmap/nmap.spec) | `patch file name "nmap-pcre2.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 406 | [nmap/nmap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nmap/nmap.spec) | `patch file name "nmap-ems-ssl-enum-ciphers.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 407 | [nmap/nmap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nmap/nmap.spec) | `patch file name "nmap-libpcap.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 408 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `patch file name "hwy-broken-rvv.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 409 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `patch file name "v8-riscv-fix-trampoline.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 410 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `patch file name "v8-riscv-fix-trampoline-release.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 411 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `patch file name "v8-riscv-fix-sp.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 412 | [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec) | `patch file name "mkinstalldirs.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 413 | [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec) | `patch file name "args.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 414 | [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec) | `patch file name "freetype2.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 415 | [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec) | `patch file name "Makefile-Add-DESTDIR.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 416 | [patch/patch.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/patch/patch.spec) | `patch file name "CVE-2019-20633.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 417 | [policycoreutils/policycoreutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/policycoreutils/policycoreutils.spec) | `patch file name "fix-discarded-qualifiers-warning-with-glib-2.43.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 418 | [postgresql/postgresql.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/postgresql/postgresql.spec) | `patch file name "rpm-pgsql.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 419 | [postgresql/postgresql.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/postgresql/postgresql.spec) | `patch file name "postgresql-var-run-socket.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 420 | [postgresql/postgresql.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/postgresql/postgresql.spec) | `patch file name "postgresql-no-libecpg.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 421 | [powertop/powertop.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/powertop/powertop.spec) | `patch file name "powertop-2.7-always-create-params.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 422 | [quota/quota.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/quota/quota.spec) | `patch file name "quota-4.06-warnquota-configuration-tunes.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 423 | [quota/quota.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/quota/quota.spec) | `patch file name "quota-4.03-Validate-upper-bound-of-RPC-port.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 424 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "brpcompress.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 425 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "checkfilesnoinfodir.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 426 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "rpmpopt.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 427 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "safeugid.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 428 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "fileattrs.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 429 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "brp-compress-no-img.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 430 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "emptymanifest.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 431 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "find-lang-qt-qm.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 432 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "canongnu.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 433 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "unshare.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 434 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "buildroot-symlink.diff" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 435 | [rrdtool/rrdtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rrdtool/rrdtool.spec) | `patch file name "rrdtool-1.6.0-ruby-2-fix.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 436 | [rrdtool/rrdtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rrdtool/rrdtool.spec) | `patch file name "rrdtool-zero_vs_nothing.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 437 | [rrdtool/rrdtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rrdtool/rrdtool.spec) | `patch file name "Fix-compatibility-with-Tcl-9.0.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 438 | [rrdtool/rrdtool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rrdtool/rrdtool.spec) | `patch file name "correctly-link-ruby-bindings.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 439 | [utf8cpp/utf8cpp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/utf8cpp/utf8cpp.spec) | `patch file name "utf8cpp-cmake.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 440 | [util-linux/util-linux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/util-linux/util-linux.spec) | `patch file name "login-lastlog-create.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 441 | [util-linux/util-linux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/util-linux/util-linux.spec) | `patch file name "login-default-motd-file.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 442 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `patch file name "uuid-1.6.1-ossp.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 443 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `patch file name "uuid-1.6.1-mkdir.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 444 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `patch file name "uuid-1.6.2-php54.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 445 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `patch file name "uuid-1.6.2-hwaddr.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 446 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `patch file name "uuid-1.6.2-nostrip.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 447 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `patch file name "uuid-1.6.2-manfix.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 448 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `patch file name "uuid-1.6.2-ldflags.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 449 | [valkey/valkey.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/valkey/valkey.spec) | `patch file name "valkey-conf.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 450 | [valkey/valkey.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/valkey/valkey.spec) | `patch file name "valkey-loadmod.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 451 | [xtrans/xtrans.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xtrans/xtrans.spec) | `patch file name "xtrans-1.0.3-avoid-gethostname.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 452 | [xxhash/xxhash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xxhash/xxhash.spec) | `patch file name "xxhash-fix-non-x86-dispatch.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 453 | [xxhash/xxhash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xxhash/xxhash.spec) | `patch file name "xxhash-test-respect-cflags.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 454 | [zlib-ng/zlib-ng.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zlib-ng/zlib-ng.spec) | `patch file name "zlib-ng-2.3.2-riscv-hwprobe.patch" must start with a four digit number (0001-0999, 1000-1999, 2000-2999)` |
+| 455 | [libunwind/libunwind.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libunwind/libunwind.spec) | `patch file name "3000-libunwind-no-dl-iterate-phdr.patch" must start with a four digit number in one of the ranges (0001-0999, 1000-1999, 2000-2999)` |
+| 456 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `patch file name "60588.diff" must start with a four digit number in one of the ranges (0001-0999, 1000-1999, 2000-2999)` |
+| 457 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `patch file name "60591.diff" must start with a four digit number in one of the ranges (0001-0999, 1000-1999, 2000-2999)` |
+| 458 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `patch file name "6464-auto-config-update.diff" must start with a four digit number in one of the ranges (0001-0999, 1000-1999, 2000-2999)` |
+| 459 | [audiofile/audiofile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/audiofile/audiofile.spec) | `more than 3 patches should use %patchlist (found 11 Patch fields)` |
+| 460 | [binutils/binutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/binutils/binutils.spec) | `more than 3 patches should use %patchlist (found 5 Patch fields)` |
+| 461 | [cyrus-sasl/cyrus-sasl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cyrus-sasl/cyrus-sasl.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 462 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `more than 3 patches should use %patchlist (found 7 Patch fields)` |
+| 463 | [gcc15/gcc15.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc15/gcc15.spec) | `more than 3 patches should use %patchlist (found 40 Patch fields)` |
+| 464 | [gpm/gpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gpm/gpm.spec) | `more than 3 patches should use %patchlist (found 9 Patch fields)` |
+| 465 | [grub/grub.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/grub/grub.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 466 | [icu4c/icu4c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/icu4c/icu4c.spec) | `more than 3 patches should use %patchlist (found 5 Patch fields)` |
+| 467 | [indent/indent.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/indent/indent.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 468 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 469 | [lua/lua.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua/lua.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 470 | [ncurses/ncurses.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ncurses/ncurses.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 471 | [nodejs/nodejs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nodejs/nodejs.spec) | `more than 3 patches should use %patchlist (found 6 Patch fields)` |
+| 472 | [openjade/openjade.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openjade/openjade.spec) | `more than 3 patches should use %patchlist (found 6 Patch fields)` |
+| 473 | [openldap/openldap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openldap/openldap.spec) | `more than 3 patches should use %patchlist (found 6 Patch fields)` |
+| 474 | [orbit2/orbit2.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/orbit2/orbit2.spec) | `more than 3 patches should use %patchlist (found 6 Patch fields)` |
+| 475 | [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 476 | [pesign/pesign.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pesign/pesign.spec) | `more than 3 patches should use %patchlist (found 5 Patch fields)` |
+| 477 | [pinfo/pinfo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pinfo/pinfo.spec) | `more than 3 patches should use %patchlist (found 8 Patch fields)` |
+| 478 | [procmail/procmail.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/procmail/procmail.spec) | `more than 3 patches should use %patchlist (found 6 Patch fields)` |
+| 479 | [qt6-qtbase/qt6-qtbase.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qt6-qtbase/qt6-qtbase.spec) | `more than 3 patches should use %patchlist (found 7 Patch fields)` |
+| 480 | [qt6-qtwebengine/qt6-qtwebengine.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qt6-qtwebengine/qt6-qtwebengine.spec) | `more than 3 patches should use %patchlist (found 5 Patch fields)` |
+| 481 | [readline/readline.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/readline/readline.spec) | `more than 3 patches should use %patchlist (found 4 Patch fields)` |
+| 482 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `more than 3 patches should use %patchlist (found 15 Patch fields)` |
+| 483 | [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec) | `more than 3 patches should use %patchlist (found 9 Patch fields)` |
+| 484 | [cdparanoia/cdparanoia.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cdparanoia/cdparanoia.spec) | `%patchlist must be placed above %description` |
+| 485 | [openssl/openssl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openssl/openssl.spec) | `%patchlist must be placed above %description` |
+| 486 | [python-torch/python-torch.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-torch/python-torch.spec) | `%patchlist must be placed above %description` |
+| 487 | [spdk/spdk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/spdk/spdk.spec) | `%patchlist must be placed above %description` |
+| 488 | [aom/aom.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/aom/aom.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 489 | [aspell/aspell.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/aspell/aspell.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 490 | [cgctl/cgctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cgctl/cgctl.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 491 | [compsize/compsize.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/compsize/compsize.spec) | `Patch must be located between BuildSystem and BuildRequires` |
+| 492 | [crash/crash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/crash/crash.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 493 | [dbus-broker/dbus-broker.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dbus-broker/dbus-broker.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 494 | [eigen3/eigen3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/eigen3/eigen3.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 495 | [giflib/giflib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/giflib/giflib.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 496 | [guile/guile.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/guile/guile.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 497 | [hipfft/hipfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hipfft/hipfft.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 498 | [hipify/hipify.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hipify/hipify.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 499 | [hipsparselt/hipsparselt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hipsparselt/hipsparselt.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 500 | [keybinder/keybinder.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/keybinder/keybinder.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 501 | [libaio/libaio.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libaio/libaio.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 502 | [libdwarf/libdwarf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libdwarf/libdwarf.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 503 | [libjpeg-turbo/libjpeg-turbo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libjpeg-turbo/libjpeg-turbo.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 504 | [libunwind/libunwind.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libunwind/libunwind.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 505 | [lua-json/lua-json.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua-json/lua-json.spec) | `Patch must be located between BuildSystem and BuildRequires` |
+| 506 | [msgpack/msgpack.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/msgpack/msgpack.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 507 | [powertop/powertop.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/powertop/powertop.spec) | `Patch must be located between BuildSystem and BuildRequires` |
+| 508 | [python-python-dateutil/python-python-dateutil.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-python-dateutil/python-python-dateutil.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 509 | [qhull/qhull.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qhull/qhull.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 510 | [rocblas/rocblas.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocblas/rocblas.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 511 | [rocsolver/rocsolver.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocsolver/rocsolver.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 512 | [soxr/soxr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/soxr/soxr.spec) | `Patch must be located between BuildSystem and BuildOption` |
+| 513 | [vdo/vdo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/vdo/vdo.spec) | `Patch must be located between BuildSystem and BuildOption` |
 
 ## 说明
 
-- 注释要求：规则要求每个 `Patch:` 字段上方必须有一行以 `#` 开头的
-  注释，用于说明补丁用途。openRuyi 仓库中大量 spec 未遵循此约定。
-- 命名要求：补丁文件名应以四位数字开头（`0001-0999`、`1000-1999`、
-  `2000-2999` 三个区间），用于控制补丁应用顺序。仓库中部分 spec 使用
-  了 `60588.diff`、`3000-xxx.patch` 等不符合约定的命名。
-- `%patchlist`：当补丁数量超过 3 个时，建议使用 `%patchlist` 统一
-  管理，避免逐个 `%patch` 应用。仓库中 `gcc15`（40 个补丁）、
-  `audiofile`（11 个补丁）等 spec 未使用 `%patchlist`。
-- 放置顺序：`Patch` 字段应位于 `BuildSystem` 与 `BuildOption`（或
-  `BuildRequires`）之间，与 `Source` 字段类似。
-- 本规则仅扫描 spec 头部区域（`%description`/`%package` 等段落之前），
-  `%patchlist` 位置检查除外（在整个文件中查找）。
+- 注释要求：规则要求每个 `Patch:` 字段（及 `%patchlist` 条目）上方必须有一行以 `#` 开头的注释，说明补丁用途或给出上游链接。openRuyi 仓库中大量 spec 未遵循此约定。
+- 命名要求：补丁文件名应以四位数字开头（`0001-0999` 上游补丁、`1000-1999` CVE 修复或跨版本 backport、`2000-2999` openRuyi 特有补丁），用于控制补丁应用顺序。仓库中部分 spec 使用了 `60588.diff`、`3000-xxx.patch` 等不符合约定的命名。
+- `%patchlist`：当补丁数量超过 3 个时，建议使用 `%patchlist` 统一管理，避免逐个 `%patch` 应用。仓库中 `gcc15`（40 个补丁）、`audiofile`（11 个补丁）等 spec 未使用 `%patchlist`。
+- 放置顺序：`Patch` 字段应位于 `BuildSystem` 与 `BuildOption`（或 `BuildRequires`）之间，与 `Source` 字段类似。
+- 本规则仅扫描 spec 头部区域（`%description`/`%package` 等段落之前），`%patchlist` 位置检查除外（在整个文件中查找）。
 
 > 规则说明：[docs/check-spec-patch.md](../docs/check-spec-patch.md)
