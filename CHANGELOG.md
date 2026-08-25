@@ -4,6 +4,14 @@
 
 ### 变更
 
+- 扫描结果文档 `openruyi-scan-results/` 统一为三段式格式：
+  「结果概览」（扫描/通过/违规）、「问题类型分布」（问题类型与
+  数量）、「问题清单」（带序号的问题明细）。涉及
+  `check-spdx-header`、`check-spec-name`、`check-spec-release`、
+  `check-spec-summary`、`check-spec-version`、`check-spec-structure`
+  六个结果文件；`check-spec-structure` 由生成脚本
+  `scripts/regenerate_structure_results.py` 重新生成（问题清单按
+  缺少必填字段 / 头部字段乱序 / 段落前缺少空行分组并编号）。
 - 规则文档 `docs/check-spdx-header.md` 重构为「原始需求 / 检查点 /
   用法 / 示例」四个部分：原始需求引用官方打包指南的 SPDX 版权与
   许可声明原文，检查点以表格形式逐项列出（位置、版权声明、分隔
