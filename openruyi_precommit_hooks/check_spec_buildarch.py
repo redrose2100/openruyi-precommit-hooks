@@ -80,10 +80,10 @@ def _check_spec_buildarch(filename: str) -> list[str]:
         stripped = line.strip()
         if not stripped or stripped.startswith('#'):
             continue
-        if _RE_BUILDARCH.match(stripped):
+        m = _RE_BUILDARCH.match(stripped)
+        if m:
             if buildarch_idx == -1:
                 buildarch_idx = i
-                m = _RE_BUILDARCH.match(stripped)
                 buildarch_value = m.group(1).strip()
         elif _RE_SOURCE.match(stripped):
             last_source_idx = i
