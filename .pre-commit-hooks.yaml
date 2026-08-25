@@ -96,3 +96,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-buildsystem
+  name: check-spec-buildsystem
+  description: Ensure the spec file BuildSystem field uses a known build system (or a newly added value) and, when empty, explains the reason in a comment.
+  entry: check-spec-buildsystem
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

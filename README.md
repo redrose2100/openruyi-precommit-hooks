@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 11 个）
+## 可用的 Hooks（共 12 个）
 
 | Hook ID | 说明 | 文档 |
 | --- | --- | --- |
@@ -31,6 +31,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | `check-spec-source` | 校验 spec 文件网络来源 `Source` 行前有 `#!RemoteAsset` 注释并携带 sha256 校验值（SourceForge 链接须用 `downloads.sourceforge.net`） | [docs/check-spec-source.md](docs/check-spec-source.md) |
 | `check-spec-vcs` | 校验 spec 文件 `VCS` 字段为可克隆的源码仓库链接（`git:` 前缀或指向源码托管平台的 http(s) 链接），无可用链接时须写 `# VCS: No VCS link available` 注释 | [docs/check-spec-vcs.md](docs/check-spec-vcs.md) |
 | `check-spec-buildarch` | 校验 spec 文件 `BuildArch` 字段声明目标架构（`noarch`）、位于最后一个 `Source` 与 `BuildSystem` 之间且不为空 | [docs/check-spec-buildarch.md](docs/check-spec-buildarch.md) |
+| `check-spec-buildsystem` | 校验 spec 文件 `BuildSystem` 字段取值合法（官方列出的构建系统或新增值），为空时须以注释说明原因 | [docs/check-spec-buildsystem.md](docs/check-spec-buildsystem.md) |
 
 ## 新增一个 Hook
 
