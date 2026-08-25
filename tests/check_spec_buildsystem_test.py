@@ -22,8 +22,10 @@ def test_ok_autotools(tmp_path):
 
 
 def test_ok_all_guideline_values(tmp_path):
-    for value in ('autotools', 'cmake', 'meson', 'golang',
-                  'golangmodules', 'pyproject'):
+    for value in (
+        'autotools', 'cmake', 'meson', 'golang',
+        'golangmodules', 'pyproject',
+    ):
         f = _write(
             tmp_path,
             f'good_{value}.spec',

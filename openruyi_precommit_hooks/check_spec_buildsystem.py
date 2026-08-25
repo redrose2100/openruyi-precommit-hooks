@@ -121,7 +121,10 @@ def _check_spec_buildsystem(filename: str) -> list[str]:
         # explained in a comment (on the same line or the line above).
         if buildsystem_value.startswith('#'):
             return errors
-        if buildsystem_idx > 0 and _RE_COMMENT.match(lines[buildsystem_idx - 1]):
+        if (
+            buildsystem_idx > 0 and
+            _RE_COMMENT.match(lines[buildsystem_idx - 1])
+        ):
             return errors
         errors.append(
             f'{filename}: BuildSystem is empty; the reason must be '
