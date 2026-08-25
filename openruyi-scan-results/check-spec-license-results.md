@@ -5,22 +5,22 @@
 
 ## 结果概览
 
-| 扫描 spec 文件数 | 通过 | 违规 |
+| 扫描 spec 文件数 | 通过 | 问题 |
 | --- | ---: | ---: |
 | 5337 | 5316 | 21 |
 
-## 违规类型分布
+## 问题类型分布
 
-| 违规类型 | 数量 |
+| 问题类型 | 数量 |
 | --- | --- |
 | 小写 SPDX 连接符 | 15 |
 | 逗号分隔 | 1 |
 | 老式 "+" 后缀 | 5 |
 | 括号不配对 | 0 |
 
-## 违规清单（21 条）
+## 问题清单（21 条）
 
-| # | spec 文件 | License 值 | 违规类型 |
+| # | spec 文件 | License 值 | 问题类型 |
 | --- | --- | --- | --- |
 | 1 | [cmake/cmake.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cmake/cmake.spec) | `BSD and MIT and zlib` | 小写 SPDX 连接符 |
 | 2 | [crontabs/crontabs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/crontabs/crontabs.spec) | `LicenseRef-openRuyi-Public-Domain and GPL-2.0-or-later` | 小写 SPDX 连接符 |
@@ -53,6 +53,6 @@
 - 老式 `+` 后缀：`GPLv3+`、`MPL-2.0+` 是 Fedora 老式写法，SPDX 无此语法；
   应改用 `-or-later` 后缀，如 `GPL-3.0-or-later`、`MPL-2.0-or-later`。
 - 合法但未标记的写法不报告：`-or-later` 内嵌的 `or`、`WITH` 大写的例外声明、
-  `LicenseRef-*` 扩展标识符、括号分组、宏展开值，均不判定为违规。
+  `LicenseRef-*` 扩展标识符、括号分组、宏展开值，均不判定为问题。
 
 > 规则说明见 [docs/check-spec-license.md](../docs/check-spec-license.md)。

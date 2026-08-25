@@ -5,20 +5,20 @@
 
 ## 结果概览
 
-| 扫描 spec 文件数 | 通过 | 违规 |
+| 扫描 spec 文件数 | 通过 | 问题 |
 | --- | ---: | ---: |
 | 5337 | 5330 | 7 |
 
-## 违规类型分布
+## 问题类型分布
 
-| 违规类型 | 数量 |
+| 问题类型 | 数量 |
 | --- | --- |
 | 宏拼接 | 4 |
 | 非 http(s) 链接 | 3 |
 
-## 违规清单（7 条）
+## 问题清单（7 条）
 
-| # | spec 文件 | URL 值 | 违规类型 |
+| # | spec 文件 | URL 值 | 问题类型 |
 | --- | --- | --- | --- |
 | 1 | [pocketfft/pocketfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pocketfft/pocketfft.spec) | `https://github.com/mreineck/%{name}` | 宏拼接 |
 | 2 | [psutils/psutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/psutils/psutils.spec) | `https://github.com/rrthomas/%{name}` | 宏拼接 |
