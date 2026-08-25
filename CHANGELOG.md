@@ -35,6 +35,20 @@
 
 ### 新增
 
+- 规则 hook `check-spec-patch`：校验 spec 文件 `Patch` 字段符合 openRuyi
+  Patch 规则（每个 `Patch:` 字段上方须有一行注释说明补丁用途；补丁文件
+  名须以四位数字开头且前缀在 `0001-2999` 范围内；补丁数量超过 3 个时应
+  使用 `%patchlist` 统一管理；`%patchlist` 须位于 `%description` 之上；
+  `Patch` 字段应位于 `BuildSystem` 与 `BuildOption`（或 `BuildRequires`）
+  之间）。静态检查：仅扫描 spec 头部区域（`%description`/`%package` 等
+  段落之前），`%patchlist` 位置检查在整个文件中查找；`%patch` 应用阶段
+  的补丁顺序由 `%patchlist` 或 `%patch` 行号决定，不静态判定。
+- 规则文档 `docs/check-spec-patch.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-patch-results.md`：5267 个
+  spec 文件中 204 个违规（共 513 条：`Patch` 上方无注释 276 条、
+  `%patchlist` 条目无注释 57 条、文件名非四位数字开头 121 条、放置
+  顺序错误 26 条、>3 补丁未用 `%patchlist` 25 条、前缀不在
+  `0001-2999` 4 条、`%patchlist` 位于 `%description` 之下 4 条）。
 - 规则 hook `check-spec-buildsystem`：校验 spec 文件 `BuildSystem` 字段
   符合 openRuyi BuildSystem 规则（Spec 必须包含 `BuildSystem` 字段；取值
   应当为官方列出的构建系统之一或其它新增的值；当软件包不适用上述类型或
