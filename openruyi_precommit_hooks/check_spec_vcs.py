@@ -83,10 +83,10 @@ def _is_source_repo_link(value: str) -> bool:
     m = _RE_HTTP_SCHEME.match(value)
     if not m:
         return False
-    host = re.match(r'^https?://([^/\s]+)', value, re.IGNORECASE)
-    if not host:
+    host_match = re.match(r'^https?://([^/\s]+)', value, re.IGNORECASE)
+    if not host_match:
         return False
-    host = host.group(1).lower()
+    host = host_match.group(1).lower()
     if host in _SOURCE_REPO_HOSTS:
         return True
     if host.startswith('gitlab.') or host.startswith('git.'):

@@ -35,6 +35,17 @@
 
 ### 新增
 
+- 规则 hook `check-spec-buildarch`：校验 spec 文件 `BuildArch` 字段
+  符合 openRuyi BuildArch 规则（`BuildArch` 用于声明目标架构；字段
+  应当位于最后一个 `Source` 字段与 `BuildSystem` 字段之间；若为
+  `noarch` 表示软件包与 CPU 架构无关）。静态检查：值不得为空、须为
+  `noarch`（openRuyi 仓库唯一使用的取值）、位置须在最后一个 `Source`
+  与 `BuildSystem` 之间；字段缺失交由 `check-spec-structure` 覆盖，
+  `%package` 子包内的 `BuildArch` 不判定。
+- 规则文档 `docs/check-spec-buildarch.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-buildarch-results.md`：
+  5267 个 spec 文件中 2 个 `BuildArch` 字段位置违规（均位于 `Source0`
+  之前，值均为 `noarch`）。
 - 规则 hook `check-spec-vcs`：校验 spec 文件 `VCS` 字段符合 openRuyi
   VCS 规则（`VCS` 应当为源代码仓库链接；若 `URL` 已为源码仓库链接则
   `VCS` 可以省略；不存在可用链接时必须在 `VCS` 字段位置写入精确的
