@@ -35,6 +35,17 @@
 
 ### 新增
 
+- 规则 hook `check-spec-buildsystem`：校验 spec 文件 `BuildSystem` 字段
+  符合 openRuyi BuildSystem 规则（Spec 必须包含 `BuildSystem` 字段；取值
+  应当为官方列出的构建系统之一或其它新增的值；当软件包不适用上述类型或
+  不需要配置阶段时可以为空，但必须以注释说明原因）。静态检查：值须为
+  已知构建系统（官方 6 种 + openRuyi 仓库扩展的 `perlbuild`/`perlmaker`/
+  `rust`/`rustcrates` 4 种），未知值报告提示确认是否为新增值；值为空时
+  须在同行或上一行以注释说明原因；字段缺失交由 `check-spec-structure`
+  覆盖，`%package` 子包内的 `BuildSystem` 不判定。
+- 规则文档 `docs/check-spec-buildsystem.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-buildsystem-results.md`：
+  5267 个 spec 文件全部通过（10 种取值均在已知白名单内，无空值）。
 - 规则 hook `check-spec-buildarch`：校验 spec 文件 `BuildArch` 字段
   符合 openRuyi BuildArch 规则（`BuildArch` 用于声明目标架构；字段
   应当位于最后一个 `Source` 字段与 `BuildSystem` 字段之间；若为
