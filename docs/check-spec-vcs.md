@@ -12,9 +12,17 @@
 
 来源：[openRuyi 打包指南 · VCS](https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#vcs)
 
-> `VCS` 字段用于指向源码版本控制仓库，帮助定位源码并支持自动化构建与追溯。
+打包指南对 `VCS` 字段给出了明确的四点要求：
 
-补充说明：若 `URL:` 字段已经完整地指向源码仓库，则在某些情况下 `VCS:` 可以省略；但通常 `VCS:` 应明确给出指向源码仓库的可克隆地址或显式说明无 VCS。
+1. `VCS` 应当为源代码仓库链接，用于定位源代码位置。
+2. 若 `URL` 已为源代码仓库链接，则 `VCS` 可以省略。
+3. 若不存在可用的源代码仓库链接，则必须在 `VCS` 字段位置写入以下注释（`# VCS:` 前缀必须保留）：
+
+    `# VCS: No VCS link available` 
+
+4. 当源代码托管于 Git 仓库时，`VCS` 应当使用可克隆链接，例如：
+
+    `VCS:            git:https://git.example.org/project.git`
 
 ## 检查点
 
