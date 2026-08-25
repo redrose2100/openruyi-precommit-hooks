@@ -50,7 +50,7 @@ _RE_BUILDSYSTEM = re.compile(r'^BuildSystem\s*:')
 _RE_BUILDOPTION = re.compile(r'^BuildOption\s*\(')
 _RE_BUILDREQUIRES = re.compile(r'^BuildRequires\s*:')
 _RE_SECTION = re.compile(
-    r'^%(?:description|package|prep|build|install|check|files|changelog)\b'
+    r'^%(?:description|package|prep|build|install|check|files|changelog)\b',
 )
 # A patch file name must start with a four digit number in one of the
 # documented ranges.
