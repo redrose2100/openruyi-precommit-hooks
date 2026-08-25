@@ -1,16 +1,16 @@
 # check-spec-release 扫描结果
 
 对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi)
-仓库的 spec 文件（`SPECS/{pkg}/{pkg}.spec`，默认分支 `master`）执行
+仓库的 spec 文件（`SPECS/{pkg}/{pkg}.spec`，默认分支 `main`）执行
 `check-spec-release` 规则的扫描结果。
 
 ## 结果概览
 
 | 项目 | 数量 |
 | --- | --- |
-| 扫描 spec 文件总数 | 5337 |
+| 扫描 spec 文件数 | 5337 |
 | 通过 | 5337 |
-| 违规数量 | 0 |
+| 违规 | 0 |
 
 ## 问题类型分布
 
