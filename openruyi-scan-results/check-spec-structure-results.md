@@ -1,8 +1,8 @@
-﻿# check-spec-structure 扫描结果
+# check-spec-structure 扫描结果
 
-�?[openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi)
-仓库�?spec 文件（`SPECS/{pkg}/{pkg}.spec`，默认分�?`main`）执�?`check-spec-structure` 规则的扫描结果�?
-## 结果概览
+对 [openRuyi-Project/openRuyi](https://github.com/openRuyi-Project/openRuyi)
+仓库的 spec 文件（`SPECS/{pkg}/{pkg}.spec`，默认分支 `main`）执行
+`check-spec-structure` 规则的扫描结果。
 
 ## 结果概览
 
@@ -16,13 +16,13 @@
 | --- | --- |
 | 缺少必填字段 | 3462 |
 | 头部字段乱序 | 56 |
-| 段落前缺少空�?| 11 |
+| 段落前缺少空行 | 11 |
 
 ## 问题清单
 
 ### 1. 缺少必填字段
 
-主包头部（第一�?`%description` 之前�?*必须**包含以下全部字段，且按顺序出现：
+主包头部（第一个 `%description` 之前）**必须**包含以下全部字段，且按顺序出现：
 
 ```spec
 Name:
@@ -38,9 +38,11 @@ BuildRequires:
 Requires:
 ```
 
-> **`VCS` 豁免**：若 `URL` 已为源代码仓库链接（�?`github.com`、`gitlab.*`、`git.*`、`codeberg.org`、`bitbucket.org` 等源码托管平台，或以 `git:` 开头、以 `.git` 结尾），�?`VCS` 可以省略�?
-各字段缺失文件数�?
-| 字段 | 缺失文件�?|
+> **`VCS` 豁免**：若 `URL` 已为源代码仓库链接（如 `github.com`、`gitlab.*`、`git.*`、`codeberg.org`、`bitbucket.org` 等源码托管平台，或以 `git:` 开头、以 `.git` 结尾），则 `VCS` 可以省略。
+
+各字段缺失文件数：
+
+| 字段 | 缺失文件数 |
 | --- | --- |
 | `Name` | 0 |
 | `Version` | 0 |
@@ -56,7 +58,7 @@ Requires:
 
 按缺失字段组合统计：
 
-| 缺失字段组合 | 文件�?|
+| 缺失字段组合 | 文件数 |
 | --- | --- |
 | `Requires` | 2583 |
 | `VCS` | 425 |
@@ -84,9 +86,9 @@ Requires:
 | `VCS, Source, BuildSystem, BuildRequires` | 1 |
 | `VCS, Source, BuildSystem, BuildRequires, Requires` | 1 |
 
-缺失文件清单（按缺失组合分组，链接指�?openRuyi 仓库 `main` 分支）：
+缺失文件清单（按缺失组合分组，链接指向 openRuyi 仓库 `main` 分支）：
 
-#### 缺失 `Requires`�?583 个）
+#### 缺失 `Requires`（2583 个）
 
 - [aardvark-dns/aardvark-dns.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/aardvark-dns/aardvark-dns.spec)
 - [abseil-cpp/abseil-cpp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/abseil-cpp/abseil-cpp.spec)
@@ -2672,7 +2674,7 @@ Requires:
 - [zxing-cpp/zxing-cpp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zxing-cpp/zxing-cpp.spec)
 - [zziplib/zziplib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zziplib/zziplib.spec)
 
-#### 缺失 `VCS`�?25 个）
+#### 缺失 `VCS`（425 个）
 
 - [autossh/autossh.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/autossh/autossh.spec)
 - [chrony/chrony.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/chrony/chrony.spec)
@@ -3100,7 +3102,7 @@ Requires:
 - [sgml-common/sgml-common.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/sgml-common/sgml-common.spec)
 - [zip/zip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zip/zip.spec)
 
-#### 缺失 `VCS, Requires`�?08 个）
+#### 缺失 `VCS, Requires`（308 个）
 
 - [acpid/acpid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/acpid/acpid.spec)
 - [alsa-lib/alsa-lib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/alsa-lib/alsa-lib.spec)
@@ -3411,7 +3413,7 @@ Requires:
 - [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec)
 - [xmlrpc-c/xmlrpc-c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xmlrpc-c/xmlrpc-c.spec)
 
-#### 缺失 `BuildSystem`�?7 个）
+#### 缺失 `BuildSystem`（37 个）
 
 - [btrbk/btrbk.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/btrbk/btrbk.spec)
 - [ca-certificates/ca-certificates.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ca-certificates/ca-certificates.spec)
@@ -3451,7 +3453,7 @@ Requires:
 - [texlive-texmf/texlive-texmf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/texlive-texmf/texlive-texmf.spec)
 - [tuned/tuned.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tuned/tuned.spec)
 
-#### 缺失 `BuildSystem, Requires`�?9 个）
+#### 缺失 `BuildSystem, Requires`（29 个）
 
 - [containers-common/containers-common.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/containers-common/containers-common.spec)
 - [dotnet10.0/dotnet10.0.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dotnet10.0/dotnet10.0.spec)
@@ -3483,7 +3485,7 @@ Requires:
 - [rust/rust.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust/rust.spec)
 - [zstd/zstd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/zstd/zstd.spec)
 
-#### 缺失 `BuildRequires, Requires`�?3 个）
+#### 缺失 `BuildRequires, Requires`（13 个）
 
 - [autoconf-archive/autoconf-archive.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/autoconf-archive/autoconf-archive.spec)
 - [diffutils/diffutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/diffutils/diffutils.spec)
@@ -3499,7 +3501,7 @@ Requires:
 - [trinity/trinity.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/trinity/trinity.spec)
 - [which/which.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/which/which.spec)
 
-#### 缺失 `BuildSystem, BuildRequires, Requires`�?2 个）
+#### 缺失 `BuildSystem, BuildRequires, Requires`（12 个）
 
 - [cldr-emoji-annotation/cldr-emoji-annotation.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cldr-emoji-annotation/cldr-emoji-annotation.spec)
 - [distribution-gpg-keys/distribution-gpg-keys.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/distribution-gpg-keys/distribution-gpg-keys.spec)
@@ -3514,7 +3516,7 @@ Requires:
 - [u-boot-menu-ng/u-boot-menu-ng.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/u-boot-menu-ng/u-boot-menu-ng.spec)
 - [wyhash/wyhash.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/wyhash/wyhash.spec)
 
-#### 缺失 `VCS, BuildSystem, Requires`�?2 个）
+#### 缺失 `VCS, BuildSystem, Requires`（12 个）
 
 - [ca-certificates-mozilla/ca-certificates-mozilla.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ca-certificates-mozilla/ca-certificates-mozilla.spec)
 - [config/config.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/config/config.spec)
@@ -3529,7 +3531,7 @@ Requires:
 - [rust-bin/rust-bin.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-bin/rust-bin.spec)
 - [unicode-ucd/unicode-ucd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/unicode-ucd/unicode-ucd.spec)
 
-#### 缺失 `VCS, BuildSystem`�? 个）
+#### 缺失 `VCS, BuildSystem`（9 个）
 
 - [docbook-dtds/docbook-dtds.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/docbook-dtds/docbook-dtds.spec)
 - [docbook-style-dsssl/docbook-style-dsssl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/docbook-style-dsssl/docbook-style-dsssl.spec)
@@ -3541,7 +3543,7 @@ Requires:
 - [python-flit-core/python-flit-core.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-flit-core/python-flit-core.spec)
 - [python-pip/python-pip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pip/python-pip.spec)
 
-#### 缺失 `BuildSystem, BuildRequires`�? 个）
+#### 缺失 `BuildSystem, BuildRequires`（6 个）
 
 - [crontabs/crontabs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/crontabs/crontabs.spec)
 - [docbook-xsl/docbook-xsl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/docbook-xsl/docbook-xsl.spec)
@@ -3550,7 +3552,7 @@ Requires:
 - [perl-rpm-packaging/perl-rpm-packaging.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/perl-rpm-packaging/perl-rpm-packaging.spec)
 - [python-rpm-macros/python-rpm-macros.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-rpm-macros/python-rpm-macros.spec)
 
-#### 缺失 `URL, VCS, Requires`�? 个）
+#### 缺失 `URL, VCS, Requires`（5 个）
 
 - [libcroco/libcroco.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libcroco/libcroco.spec)
 - [mtools/mtools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mtools/mtools.spec)
@@ -3558,149 +3560,155 @@ Requires:
 - [otf2bdf/otf2bdf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/otf2bdf/otf2bdf.spec)
 - [python-norpm/python-norpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-norpm/python-norpm.spec)
 
-#### 缺失 `Source, BuildSystem, BuildRequires`�? 个）
+#### 缺失 `Source, BuildSystem, BuildRequires`（3 个）
 
 - [openruyi-config-linux-dnf/openruyi-config-linux-dnf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openruyi-config-linux-dnf/openruyi-config-linux-dnf.spec)
 - [python-griffe/python-griffe.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-griffe/python-griffe.spec)
 - [rpm-config-openruyi/rpm-config-openruyi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm-config-openruyi/rpm-config-openruyi.spec)
 
-#### 缺失 `URL, VCS, BuildSystem, BuildRequires`�? 个）
+#### 缺失 `URL, VCS, BuildSystem, BuildRequires`（3 个）
 
 - [kf6-rpm-macros/kf6-rpm-macros.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/kf6-rpm-macros/kf6-rpm-macros.spec)
 - [openruyi-systemd-default-preset/openruyi-systemd-default-preset.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openruyi-systemd-default-preset/openruyi-systemd-default-preset.spec)
 - [qt6-macros/qt6-macros.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qt6-macros/qt6-macros.spec)
 
-#### 缺失 `VCS, BuildSystem, BuildRequires, Requires`�? 个）
+#### 缺失 `VCS, BuildSystem, BuildRequires, Requires`（3 个）
 
 - [db-ip/db-ip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/db-ip/db-ip.spec)
 - [openruyi-release/openruyi-release.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openruyi-release/openruyi-release.spec)
 - [publicsuffix-list/publicsuffix-list.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/publicsuffix-list/publicsuffix-list.spec)
 
-#### 缺失 `BuildRequires`�? 个）
+#### 缺失 `BuildRequires`（2 个）
 
 - [cloud-utils/cloud-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cloud-utils/cloud-utils.spec)
 - [perl-rpm-macros/perl-rpm-macros.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/perl-rpm-macros/perl-rpm-macros.spec)
 
-#### 缺失 `URL`�? 个）
+#### 缺失 `URL`（2 个）
 
 - [kaccounts-integration/kaccounts-integration.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/kaccounts-integration/kaccounts-integration.spec)
 - [kaccounts-providers/kaccounts-providers.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/kaccounts-providers/kaccounts-providers.spec)
 
-#### 缺失 `URL, Requires`�? 个）
+#### 缺失 `URL, Requires`（2 个）
 
 - [osinfo-db-tools/osinfo-db-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/osinfo-db-tools/osinfo-db-tools.spec)
 - [postgresql/postgresql.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/postgresql/postgresql.spec)
 
-#### 缺失 `URL, BuildSystem, BuildRequires`�? 个）
+#### 缺失 `URL, BuildSystem, BuildRequires`（1 个）
 
 - [openruyi-desktop-setup-labwc/openruyi-desktop-setup-labwc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openruyi-desktop-setup-labwc/openruyi-desktop-setup-labwc.spec)
 
-#### 缺失 `URL, VCS`�? 个）
+#### 缺失 `URL, VCS`（1 个）
 
 - [cloud-hypervisor/cloud-hypervisor.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cloud-hypervisor/cloud-hypervisor.spec)
 
-#### 缺失 `URL, VCS, BuildSystem, BuildRequires, Requires`�? 个）
+#### 缺失 `URL, VCS, BuildSystem, BuildRequires, Requires`（1 个）
 
 - [fonts-rpm-macros/fonts-rpm-macros.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/fonts-rpm-macros/fonts-rpm-macros.spec)
 
-#### 缺失 `URL, VCS, Source, BuildSystem, BuildRequires`�? 个）
+#### 缺失 `URL, VCS, Source, BuildSystem, BuildRequires`（1 个）
 
 - [color-rpm-macros/color-rpm-macros.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/color-rpm-macros/color-rpm-macros.spec)
 
-#### 缺失 `URL, VCS, Source, BuildSystem, BuildRequires, Requires`�? 个）
+#### 缺失 `URL, VCS, Source, BuildSystem, BuildRequires, Requires`（1 个）
 
 - [langpacks/langpacks.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/langpacks/langpacks.spec)
 
-#### 缺失 `VCS, BuildRequires, Requires`�? 个）
+#### 缺失 `VCS, BuildRequires, Requires`（1 个）
 
 - [lzo/lzo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzo/lzo.spec)
 
-#### 缺失 `VCS, Source, BuildSystem, BuildRequires`�? 个）
+#### 缺失 `VCS, Source, BuildSystem, BuildRequires`（1 个）
 
 - [openruyi-minimal/openruyi-minimal.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openruyi-minimal/openruyi-minimal.spec)
 
-#### 缺失 `VCS, Source, BuildSystem, BuildRequires, Requires`�? 个）
+#### 缺失 `VCS, Source, BuildSystem, BuildRequires, Requires`（1 个）
 
 - [openruyi-repos/openruyi-repos.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/openruyi-repos/openruyi-repos.spec)
 
 ### 2. 头部字段乱序
 
-| # | spec 文件 | 问题原因简�?|
-| --- | --- | --- |
-| 1 | [aardvark-dns/aardvark-dns.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/aardvark-dns/aardvark-dns.spec) | `Summary` 出现�?`License` 之后 |
-| 2 | [acl/acl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/acl/acl.spec) | `Version` 出现�?`Summary` 之后 |
-| 3 | [binutils/binutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/binutils/binutils.spec) | `Version` 出现�?`Summary` 之后 |
-| 4 | [boost/boost.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/boost/boost.spec) | `Version` 出现�?`Summary` 之后 |
-| 5 | [chkconfig/chkconfig.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/chkconfig/chkconfig.spec) | `Version` 出现�?`Summary` 之后 |
-| 6 | [clang-wrap/clang-wrap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/clang-wrap/clang-wrap.spec) | `Summary` 出现�?`License` 之后 |
-| 7 | [cloud-hypervisor/cloud-hypervisor.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cloud-hypervisor/cloud-hypervisor.spec) | `Version` 出现�?`Summary` 之后 |
-| 8 | [coreutils/coreutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/coreutils/coreutils.spec) | `Name` 出现�?`Summary` 之后 |
-| 9 | [dkms/dkms.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dkms/dkms.spec) | `Name` 出现�?`Summary` 之后 |
-| 10 | [gcc/gcc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc/gcc.spec) | `Version` 出现�?`URL` 之后 |
-| 11 | [gcc16/gcc16.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc16/gcc16.spec) | `Version` 出现�?`URL` 之后 |
-| 12 | [glibc/glibc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glibc/glibc.spec) | `Version` 出现�?`Summary` 之后 |
-| 13 | [gmp/gmp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gmp/gmp.spec) | `License` 出现�?`URL` 之后 |
-| 14 | [go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec) | `Source` 出现�?`BuildSystem` 之后 |
-| 15 | [go-github-moby-sys/go-github-moby-sys.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-moby-sys/go-github-moby-sys.spec) | `Source` 出现�?`BuildSystem` 之后 |
-| 16 | [go-github-rcrowley-go-metrics/go-github-rcrowley-go-metrics.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-rcrowley-go-metrics/go-github-rcrowley-go-metrics.spec) | `BuildSystem` 出现�?`BuildRequires` 之后 |
-| 17 | [graphviz/graphviz.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/graphviz/graphviz.spec) | `Version` 出现�?`Summary` 之后 |
-| 18 | [hipfft/hipfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hipfft/hipfft.spec) | `License` 出现�?`URL` 之后 |
-| 19 | [hwloc/hwloc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hwloc/hwloc.spec) | `Version` 出现�?`Summary` 之后 |
-| 20 | [iptstate/iptstate.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/iptstate/iptstate.spec) | `Version` 出现�?`Summary` 之后 |
-| 21 | [ipvsadm/ipvsadm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ipvsadm/ipvsadm.spec) | `Version` 出现�?`Summary` 之后 |
-| 22 | [kf6-kirigami/kf6-kirigami.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/kf6-kirigami/kf6-kirigami.spec) | `BuildRequires` 出现�?`Requires` 之后 |
-| 23 | [libcroco/libcroco.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libcroco/libcroco.spec) | `Version` 出现�?`Summary` 之后 |
-| 24 | [libdrm/libdrm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libdrm/libdrm.spec) | `Summary` 出现�?`License` 之后 |
-| 25 | [libiscsi/libiscsi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libiscsi/libiscsi.spec) | `Version` 出现�?`Summary` 之后 |
-| 26 | [libplacebo/libplacebo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libplacebo/libplacebo.spec) | `Release` 出现�?`License` 之后 |
-| 27 | [libyuv/libyuv.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libyuv/libyuv.spec) | `Version` 出现�?`Summary` 之后 |
-| 28 | [lua/lua.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua/lua.spec) | `Summary` 出现�?`License` 之后 |
-| 29 | [lzo/lzo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzo/lzo.spec) | `Summary` 出现�?`License` 之后 |
-| 30 | [mesa/mesa.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mesa/mesa.spec) | `Version` 出现�?`Summary` 之后 |
-| 31 | [minicom/minicom.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/minicom/minicom.spec) | `Version` 出现�?`Summary` 之后 |
-| 32 | [mkosi/mkosi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mkosi/mkosi.spec) | `BuildSystem` 出现�?`BuildRequires` 之后 |
-| 33 | [mlocate/mlocate.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mlocate/mlocate.spec) | `Name` 出现�?`Summary` 之后 |
-| 34 | [mtools/mtools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mtools/mtools.spec) | `Version` 出现�?`Summary` 之后 |
-| 35 | [netavark/netavark.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/netavark/netavark.spec) | `Summary` 出现�?`License` 之后 |
-| 36 | [pigz/pigz.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pigz/pigz.spec) | `Summary` 出现�?`License` 之后 |
-| 37 | [popt/popt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/popt/popt.spec) | `Summary` 出现�?`License` 之后 |
-| 38 | [procmail/procmail.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/procmail/procmail.spec) | `Version` 出现�?`Summary` 之后 |
-| 39 | [pulseaudio/pulseaudio.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pulseaudio/pulseaudio.spec) | `Version` 出现�?`Summary` 之后 |
-| 40 | [pulseaudio-qt/pulseaudio-qt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pulseaudio-qt/pulseaudio-qt.spec) | `Version` 出现�?`Summary` 之后 |
-| 41 | [python-meson-python/python-meson-python.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-meson-python/python-meson-python.spec) | `Summary` 出现�?`License` 之后 |
-| 42 | [python-pdm-backend/python-pdm-backend.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pdm-backend/python-pdm-backend.spec) | `Summary` 出现�?`License` 之后 |
-| 43 | [python-pynacl/python-pynacl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pynacl/python-pynacl.spec) | `Summary` 出现�?`License` 之后 |
-| 44 | [python-pytest-asyncio/python-pytest-asyncio.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pytest-asyncio/python-pytest-asyncio.spec) | `Summary` 出现�?`License` 之后 |
-| 45 | [python-python-dotenv/python-python-dotenv.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-python-dotenv/python-python-dotenv.spec) | `Summary` 出现�?`License` 之后 |
-| 46 | [python-torch/python-torch.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-torch/python-torch.spec) | `Summary` 出现�?`License` 之后 |
-| 47 | [qca/qca.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qca/qca.spec) | `Version` 出现�?`Summary` 之后 |
-| 48 | [range-v3/range-v3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/range-v3/range-v3.spec) | `Version` 出现�?`Summary` 之后 |
-| 49 | [re2c/re2c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/re2c/re2c.spec) | `Name` 出现�?`Summary` 之后 |
-| 50 | [rocblas/rocblas.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocblas/rocblas.spec) | `Version` 出现�?`Summary` 之后 |
-| 51 | [rocthrust/rocthrust.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocthrust/rocthrust.spec) | `License` 出现�?`URL` 之后 |
-| 52 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Version` 出现�?`Summary` 之后 |
-| 53 | [smartmontools/smartmontools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/smartmontools/smartmontools.spec) | `Name` 出现�?`Summary` 之后 |
-| 54 | [taglib/taglib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/taglib/taglib.spec) | `Version` 出现�?`Summary` 之后 |
-| 55 | [tbb/tbb.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tbb/tbb.spec) | `Version` 出现�?`Summary` 之后 |
-| 56 | [vdo/vdo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/vdo/vdo.spec) | `Name` 出现�?`Summary` 之后 |
+| # | spec 文件 | 字段值 | 问题类型 |
+| --- | --- | --- | --- |
+| 1 | [aardvark-dns/aardvark-dns.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/aardvark-dns/aardvark-dns.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 2 | [acl/acl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/acl/acl.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 3 | [binutils/binutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/binutils/binutils.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 4 | [boost/boost.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/boost/boost.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 5 | [chkconfig/chkconfig.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/chkconfig/chkconfig.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 6 | [clang-wrap/clang-wrap.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/clang-wrap/clang-wrap.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 7 | [cloud-hypervisor/cloud-hypervisor.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cloud-hypervisor/cloud-hypervisor.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 8 | [coreutils/coreutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/coreutils/coreutils.spec) | `Name` | 头部字段乱序：`Name` 出现在 `Summary` 之后 |
+| 9 | [dkms/dkms.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dkms/dkms.spec) | `Name` | 头部字段乱序：`Name` 出现在 `Summary` 之后 |
+| 10 | [gcc/gcc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc/gcc.spec) | `Version` | 头部字段乱序：`Version` 出现在 `URL` 之后 |
+| 11 | [gcc16/gcc16.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gcc16/gcc16.spec) | `Version` | 头部字段乱序：`Version` 出现在 `URL` 之后 |
+| 12 | [glibc/glibc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glibc/glibc.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 13 | [gmp/gmp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gmp/gmp.spec) | `License` | 头部字段乱序：`License` 出现在 `URL` 之后 |
+| 14 | [go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec) | `Source` | 头部字段乱序：`Source` 出现在 `BuildSystem` 之后 |
+| 15 | [go-github-moby-sys/go-github-moby-sys.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-moby-sys/go-github-moby-sys.spec) | `Source` | 头部字段乱序：`Source` 出现在 `BuildSystem` 之后 |
+| 16 | [go-github-rcrowley-go-metrics/go-github-rcrowley-go-metrics.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-rcrowley-go-metrics/go-github-rcrowley-go-metrics.spec) | `BuildSystem` | 头部字段乱序：`BuildSystem` 出现在 `BuildRequires` 之后 |
+| 17 | [graphviz/graphviz.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/graphviz/graphviz.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 18 | [hipfft/hipfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hipfft/hipfft.spec) | `License` | 头部字段乱序：`License` 出现在 `URL` 之后 |
+| 19 | [hwloc/hwloc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/hwloc/hwloc.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 20 | [iptstate/iptstate.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/iptstate/iptstate.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 21 | [ipvsadm/ipvsadm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ipvsadm/ipvsadm.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 22 | [kf6-kirigami/kf6-kirigami.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/kf6-kirigami/kf6-kirigami.spec) | `BuildRequires` | 头部字段乱序：`BuildRequires` 出现在 `Requires` 之后 |
+| 23 | [libcroco/libcroco.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libcroco/libcroco.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 24 | [libdrm/libdrm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libdrm/libdrm.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 25 | [libiscsi/libiscsi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libiscsi/libiscsi.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 26 | [libplacebo/libplacebo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libplacebo/libplacebo.spec) | `Release` | 头部字段乱序：`Release` 出现在 `License` 之后 |
+| 27 | [libyuv/libyuv.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libyuv/libyuv.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 28 | [lua/lua.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lua/lua.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 29 | [lzo/lzo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzo/lzo.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 30 | [mesa/mesa.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mesa/mesa.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 31 | [minicom/minicom.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/minicom/minicom.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 32 | [mkosi/mkosi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mkosi/mkosi.spec) | `BuildSystem` | 头部字段乱序：`BuildSystem` 出现在 `BuildRequires` 之后 |
+| 33 | [mlocate/mlocate.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mlocate/mlocate.spec) | `Name` | 头部字段乱序：`Name` 出现在 `Summary` 之后 |
+| 34 | [mtools/mtools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mtools/mtools.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 35 | [netavark/netavark.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/netavark/netavark.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 36 | [pigz/pigz.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pigz/pigz.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 37 | [popt/popt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/popt/popt.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 38 | [procmail/procmail.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/procmail/procmail.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 39 | [pulseaudio/pulseaudio.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pulseaudio/pulseaudio.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 40 | [pulseaudio-qt/pulseaudio-qt.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pulseaudio-qt/pulseaudio-qt.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 41 | [python-meson-python/python-meson-python.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-meson-python/python-meson-python.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 42 | [python-pdm-backend/python-pdm-backend.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pdm-backend/python-pdm-backend.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 43 | [python-pynacl/python-pynacl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pynacl/python-pynacl.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 44 | [python-pytest-asyncio/python-pytest-asyncio.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-pytest-asyncio/python-pytest-asyncio.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 45 | [python-python-dotenv/python-python-dotenv.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-python-dotenv/python-python-dotenv.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 46 | [python-torch/python-torch.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-torch/python-torch.spec) | `Summary` | 头部字段乱序：`Summary` 出现在 `License` 之后 |
+| 47 | [qca/qca.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/qca/qca.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 48 | [range-v3/range-v3.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/range-v3/range-v3.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 49 | [re2c/re2c.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/re2c/re2c.spec) | `Name` | 头部字段乱序：`Name` 出现在 `Summary` 之后 |
+| 50 | [rocblas/rocblas.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocblas/rocblas.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 51 | [rocthrust/rocthrust.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rocthrust/rocthrust.spec) | `License` | 头部字段乱序：`License` 出现在 `URL` 之后 |
+| 52 | [rpm/rpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rpm/rpm.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 53 | [smartmontools/smartmontools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/smartmontools/smartmontools.spec) | `Name` | 头部字段乱序：`Name` 出现在 `Summary` 之后 |
+| 54 | [taglib/taglib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/taglib/taglib.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 55 | [tbb/tbb.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tbb/tbb.spec) | `Version` | 头部字段乱序：`Version` 出现在 `Summary` 之后 |
+| 56 | [vdo/vdo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/vdo/vdo.spec) | `Name` | 头部字段乱序：`Name` 出现在 `Summary` 之后 |
 
-### 3. 段落前缺少空�?
+### 3. 段落前缺少空行
+
 `%description`、`%files`、`%changelog`、`%package`、`%prep`、`%build`、`%install`、`%check`
-段落之间必须以空行分隔�?
-| # | spec 文件 | 问题原因简�?|
-| --- | --- | --- |
-| 1 | [bluez/bluez.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bluez/bluez.spec) | 段落 `"%files hid2hci"` 前缺少空行分�?|
-| 2 | [cloud-utils/cloud-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cloud-utils/cloud-utils.spec) | 段落 `"%description    vcs-run"` 前缺少空行分�?|
-| 3 | [drpm/drpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/drpm/drpm.spec) | 段落 `"%changelog"` 前缺少空行分�?|
-| 4 | [glib/glib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glib/glib.spec) | 段落 `"%description    tests"` 前缺少空行分�?|
-| 5 | [htop/htop.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/htop/htop.spec) | 段落 `"%description"` 前缺少空行分�?|
-| 6 | [iprutils/iprutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/iprutils/iprutils.spec) | 段落 `"%changelog"` 前缺少空行分�?|
-| 7 | [lzo/lzo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzo/lzo.spec) | 段落 `"%description"` 前缺少空行分�?|
-| 8 | [mkosi/mkosi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mkosi/mkosi.spec) | 段落 `"%description   addon"` 前缺少空行分�?|
-| 9 | [NetworkManager/NetworkManager.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/NetworkManager/NetworkManager.spec) | 段落 `"%files tui"` 前缺少空行分�?|
-| 10 | [python-qemu-qmp/python-qemu-qmp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-qemu-qmp/python-qemu-qmp.spec) | 段落 `"%description    doc"` 前缺少空行分�?|
-| 11 | [xfsprogs/xfsprogs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xfsprogs/xfsprogs.spec) | 段落 `"%check"` 前缺少空行分�?|
+段落之间必须以空行分隔。
+
+| # | spec 文件 | 字段值 | 问题类型 |
+| --- | --- | --- | --- |
+| 1 | [bluez/bluez.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/bluez/bluez.spec) | `%files hid2hci` | 段落前缺少空行 |
+| 2 | [cloud-utils/cloud-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/cloud-utils/cloud-utils.spec) | `%description    vcs-run` | 段落前缺少空行 |
+| 3 | [drpm/drpm.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/drpm/drpm.spec) | `%changelog` | 段落前缺少空行 |
+| 4 | [glib/glib.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/glib/glib.spec) | `%description    tests` | 段落前缺少空行 |
+| 5 | [htop/htop.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/htop/htop.spec) | `%description` | 段落前缺少空行 |
+| 6 | [iprutils/iprutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/iprutils/iprutils.spec) | `%changelog` | 段落前缺少空行 |
+| 7 | [lzo/lzo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzo/lzo.spec) | `%description` | 段落前缺少空行 |
+| 8 | [mkosi/mkosi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mkosi/mkosi.spec) | `%description   addon` | 段落前缺少空行 |
+| 9 | [NetworkManager/NetworkManager.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/NetworkManager/NetworkManager.spec) | `%files tui` | 段落前缺少空行 |
+| 10 | [python-qemu-qmp/python-qemu-qmp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-qemu-qmp/python-qemu-qmp.spec) | `%description    doc` | 段落前缺少空行 |
+| 11 | [xfsprogs/xfsprogs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xfsprogs/xfsprogs.spec) | `%check` | 段落前缺少空行 |
 
 ## 说明
 
-- 本次扫描基于 [check-spec-structure](../docs/check-spec-structure.md) 规则的校验逻辑�?- 扫描脚本与本仓库 hook 使用同一套判定逻辑（`_check_spec_structure`），无额外过滤�?- `%if`/`%endif` 条件块后紧跟段落属于 RPM 合法写法，不判违规�?- `Source` 匹配 `Source`/`Source0`/`Source1` 等所有变体�?- �?`URL` 为源代码仓库链接时，`VCS` 缺失不判违规�?
+- 本次扫描基于 [check-spec-structure](../docs/check-spec-structure.md) 规则的校验逻辑。
+- 扫描脚本与本仓库 hook 使用同一套判定逻辑（`_check_spec_structure`），无额外过滤。
+- `%if`/`%endif` 条件块后紧跟段落属于 RPM 合法写法，不判违规。
+- `Source` 匹配 `Source`/`Source0`/`Source1` 等所有变体。
+- 当 `URL` 为源代码仓库链接时，`VCS` 缺失不判违规。
