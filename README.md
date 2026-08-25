@@ -18,22 +18,22 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 
 ## 可用的 Hooks（共 14 个）
 
-| Hook ID | 说明 | 文档 |
-| --- | --- | --- |
-| `check-spdx-header` | 校验 spec 文件起始位置包含 SPDX 版权与许可证声明（ISCAS + openRuyi Contributors + MulanPSL-2.0） | [docs/check-spdx-header.md](docs/check-spdx-header.md) |
-| `check-spec-structure` | 校验 spec 文件必填头部字段（全字段必填 + 顺序）与段落之间空行分隔 | [docs/check-spec-structure.md](docs/check-spec-structure.md) |
-| `check-spec-name` | 校验 spec 文件 `Name` 字段符合命名规则（小写、短横线分隔、不编码 ABI/版本号） | [docs/check-spec-name.md](docs/check-spec-name.md) |
-| `check-spec-version` | 校验 spec 文件 `Version` 字段按官方规则规范化（点号/日期直用、`~` 预发布、`-`/`_` 换点、哈希转快照格式） | [docs/check-spec-version.md](docs/check-spec-version.md) |
-| `check-spec-release` | 校验 spec 文件 `Release` 字段符合官方 Release 规则（使用 `%autorelease`、修订序号从 `1` 开始的整数、不硬编码发行版后缀、不覆盖 `dist` 宏） | [docs/check-spec-release.md](docs/check-spec-release.md) |
-| `check-spec-summary` | 校验 spec 文件 `Summary` 字段符合官方 Summary 规则（简短英文描述、不以英文句号 `.` 结尾） | [docs/check-spec-summary.md](docs/check-spec-summary.md) |
-| `check-spec-license` | 校验 spec 文件 `License` 字段使用合法 SPDX 标识符或表达式（大写 `AND`/`OR`/`WITH` 连接符、不用逗号分隔、不用老式 `+` 后缀） | [docs/check-spec-license.md](docs/check-spec-license.md) |
-| `check-spec-url` | 校验 spec 文件 `URL` 字段为合法的 http(s) 官网或源码仓库链接（不用 `%{name}` 等宏拼接） | [docs/check-spec-url.md](docs/check-spec-url.md) |
-| `check-spec-source` | 校验 spec 文件网络来源 `Source` 行前有 `#!RemoteAsset` 注释并携带 sha256 校验值（SourceForge 链接须用 `downloads.sourceforge.net`） | [docs/check-spec-source.md](docs/check-spec-source.md) |
-| `check-spec-vcs` | 校验 spec 文件 `VCS` 字段为可克隆的源码仓库链接（`git:` 前缀或指向源码托管平台的 http(s) 链接），无可用链接时须写 `# VCS: No VCS link available` 注释 | [docs/check-spec-vcs.md](docs/check-spec-vcs.md) |
-| `check-spec-buildarch` | 校验 spec 文件 `BuildArch` 字段声明目标架构（`noarch`）、位于最后一个 `Source` 与 `BuildSystem` 之间且不为空 | [docs/check-spec-buildarch.md](docs/check-spec-buildarch.md) |
-| `check-spec-buildsystem` | 校验 spec 文件 `BuildSystem` 字段取值合法（官方列出的构建系统或新增值），为空时须以注释说明原因 | [docs/check-spec-buildsystem.md](docs/check-spec-buildsystem.md) |
-| `check-spec-buildoption` | 校验 spec 文件 `BuildOption` 字段符合官方 BuildOption 规则（阶段名称必须写明、冒号后双空格分隔、位于 `BuildSystem` 与 `BuildRequires` 之间、按 `build`/`install`/`check` 顺序书写） | [docs/check-spec-buildoption.md](docs/check-spec-buildoption.md) |
-| `check-spec-patch` | 校验 spec 文件 `Patch` 字段符合官方 Patch 规则（每个 `Patch` 上方须有注释、文件名以四位数字开头且前缀在 `0001-2999` 范围、补丁数 > 3 时用 `%patchlist`、位于 `BuildSystem` 与 `BuildOption`/`BuildRequires` 之间） | [docs/check-spec-patch.md](docs/check-spec-patch.md) |
+| # | Hook ID | 说明 | 文档 |
+| --- | --- | --- | --- |
+| 1 | `check-spdx-header` | 校验 spec 文件起始位置包含 SPDX 版权与许可证声明（ISCAS + openRuyi Contributors + MulanPSL-2.0） | [docs/check-spdx-header.md](docs/check-spdx-header.md) |
+| 2 | `check-spec-structure` | 校验 spec 文件必填头部字段（全字段必填 + 顺序）与段落之间空行分隔 | [docs/check-spec-structure.md](docs/check-spec-structure.md) |
+| 3 | `check-spec-name` | 校验 spec 文件 `Name` 字段符合命名规则（小写、短横线分隔、不编码 ABI/版本号） | [docs/check-spec-name.md](docs/check-spec-name.md) |
+| 4 | `check-spec-version` | 校验 spec 文件 `Version` 字段按官方规则规范化（点号/日期直用、`~` 预发布、`-`/`_` 换点、哈希转快照格式） | [docs/check-spec-version.md](docs/check-spec-version.md) |
+| 5 | `check-spec-release` | 校验 spec 文件 `Release` 字段符合官方 Release 规则（使用 `%autorelease`、修订序号从 `1` 开始的整数、不硬编码发行版后缀、不覆盖 `dist` 宏） | [docs/check-spec-release.md](docs/check-spec-release.md) |
+| 6 | `check-spec-summary` | 校验 spec 文件 `Summary` 字段符合官方 Summary 规则（简短英文描述、不以英文句号 `.` 结尾） | [docs/check-spec-summary.md](docs/check-spec-summary.md) |
+| 7 | `check-spec-license` | 校验 spec 文件 `License` 字段使用合法 SPDX 标识符或表达式（大写 `AND`/`OR`/`WITH` 连接符、不用逗号分隔、不用老式 `+` 后缀） | [docs/check-spec-license.md](docs/check-spec-license.md) |
+| 8 | `check-spec-url` | 校验 spec 文件 `URL` 字段为合法的 http(s) 官网或源码仓库链接（不用 `%{name}` 等宏拼接） | [docs/check-spec-url.md](docs/check-spec-url.md) |
+| 9 | `check-spec-source` | 校验 spec 文件网络来源 `Source` 行前有 `#!RemoteAsset` 注释并携带 sha256 校验值（SourceForge 链接须用 `downloads.sourceforge.net`） | [docs/check-spec-source.md](docs/check-spec-source.md) |
+| 10 | `check-spec-vcs` | 校验 spec 文件 `VCS` 字段为可克隆的源码仓库链接（`git:` 前缀或指向源码托管平台的 http(s) 链接），无可用链接时须写 `# VCS: No VCS link available` 注释 | [docs/check-spec-vcs.md](docs/check-spec-vcs.md) |
+| 11 | `check-spec-buildarch` | 校验 spec 文件 `BuildArch` 字段声明目标架构（`noarch`）、位于最后一个 `Source` 与 `BuildSystem` 之间且不为空 | [docs/check-spec-buildarch.md](docs/check-spec-buildarch.md) |
+| 12 | `check-spec-buildsystem` | 校验 spec 文件 `BuildSystem` 字段取值合法（官方列出的构建系统或新增值），为空时须以注释说明原因 | [docs/check-spec-buildsystem.md](docs/check-spec-buildsystem.md) |
+| 13 | `check-spec-buildoption` | 校验 spec 文件 `BuildOption` 字段符合官方 BuildOption 规则（阶段名称必须写明、冒号后双空格分隔、位于 `BuildSystem` 与 `BuildRequires` 之间、按 `build`/`install`/`check` 顺序书写） | [docs/check-spec-buildoption.md](docs/check-spec-buildoption.md) |
+| 14 | `check-spec-patch` | 校验 spec 文件 `Patch` 字段符合官方 Patch 规则（每个 `Patch` 上方须有注释、文件名以四位数字开头且前缀在 `0001-2999` 范围、补丁数 > 3 时用 `%patchlist`、位于 `BuildSystem` 与 `BuildOption`/`BuildRequires` 之间） | [docs/check-spec-patch.md](docs/check-spec-patch.md) |
 
 ## 新增一个 Hook
 
