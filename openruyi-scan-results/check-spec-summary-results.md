@@ -6,7 +6,7 @@
 
 ## 结果概览
 
-| 扫描 spec 文件数 | 通过 | 违规 |
+| 扫描 spec 文件数 | 通过 | 问题 |
 | --- | ---: | ---: |
 | 5337 | 5224 | 113 |
 
@@ -19,9 +19,9 @@
 | 含宏展开（如 `%{name}`、`%{pkg_desc}`） | 8（跳过判定） |
 | 缺失 / 空 `Summary` 字段 | 0 |
 
-## 违规清单（113 条）
+## 问题清单（113 条）
 
-| # | spec 文件 | Summary 值 | 违规类型 |
+| # | spec 文件 | Summary 值 | 问题类型 |
 | --- | --- | --- | --- |
 | 1 | [Xwayland/Xwayland.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/Xwayland/Xwayland.spec) | `Xwayland is an X server for running X clients under Wayland.` | 以英文句号 `.` 结尾 |
 | 2 | [autofs/autofs.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/autofs/autofs.spec) | `A tool from automatically mounting and umounting filesyst...` | 以英文句号 `.` 结尾 |
@@ -141,4 +141,4 @@
 
 扫描的 5337 个 spec 文件中，113 个的 `Summary` 以英文句号 `.` 结尾，
 违反「`Summary` 不得以英文句号 `.` 结尾」的禁止性规定；未发现含 CJK /
-全角字符的非英文 `Summary`。建议将违规文件的 `Summary` 结尾句号删除。
+全角字符的非英文 `Summary`。建议将问题文件的 `Summary` 结尾句号删除。

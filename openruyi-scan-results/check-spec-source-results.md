@@ -5,29 +5,29 @@
 
 ## 结果概览
 
-| 扫描 spec 文件数 | 通过 | 违规 |
+| 扫描 spec 文件数 | 通过 | 问题 |
 | --- | ---: | ---: |
 | 5337 | 4612 | 725 |
 
-## 违规类型分布
+## 问题类型分布
 
-| 违规类型 | 数量 |
+| 问题类型 | 数量 |
 | --- | --- |
 | 网络来源缺 sha256 校验值（`#!RemoteAsset` 注释为空） | 852 |
 | SourceForge 域名不合规 | 11 |
 
-### 违规类型细分
+### 问题类型细分
 
-| 违规类型 | 数量 |
+| 问题类型 | 数量 |
 | --- | --- |
 | `#!RemoteAsset` 注释为空，缺少 sha256 校验值（OBS 不会下载该来源） | 852 |
 | SourceForge 使用 `download.sourceforge.net`（应为 `downloads.sourceforge.net`） | 3 |
 | SourceForge 使用 `prdownloads.sourceforge.net`（应为 `downloads.sourceforge.net`） | 2 |
 | SourceForge 使用 `sourceforge.net/projects/...` 网页路径 | 6 |
 
-## 违规清单（863 条）
+## 问题清单（863 条）
 
-| # | spec 文件 | Source 值 | 违规类型 |
+| # | spec 文件 | Source 值 | 问题类型 |
 | --- | --- | --- | --- |
 | 1 | [apr/apr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/apr/apr.spec) | `https://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2` | 缺 sha256（RemoteAsset 注释为空） |
 | 2 | [apr-util/apr-util.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/apr-util/apr-util.spec) | `https://www.apache.org/dist/apr/apr-util-%{version}.tar.bz2` | 缺 sha256（RemoteAsset 注释为空） |
@@ -901,7 +901,7 @@
   `download.sourceforge.net`、`prdownloads.sourceforge.net`、
   `sourceforge.net/projects/...` 网页路径均不合规。
 - 本地文件来源、`git+`/`git:` 来源、`# Source:` 注释行跳过检查。
-- 同一 `Source` 值可能同时命中两类违规（例如 SourceForge 域名不合规且
+- 同一 `Source` 值可能同时命中两类问题（例如 SourceForge 域名不合规且
   缺 sha256 校验值），清单逐行列出。
 
 > 规则说明见 [docs/check-spec-source.md](../docs/check-spec-source.md)。

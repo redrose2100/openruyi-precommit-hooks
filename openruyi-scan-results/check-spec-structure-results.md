@@ -6,7 +6,7 @@
 
 ## 结果概览
 
-| 扫描 spec 文件数 | 通过 | 违规 |
+| 扫描 spec 文件数 | 通过 | 问题 |
 | --- | ---: | ---: |
 | 5337 | 1863 | 3474 |
 
@@ -3636,6 +3636,6 @@ Requires:
 
 - 本次扫描基于 [check-spec-structure](../docs/check-spec-structure.md) 规则的校验逻辑。
 - 扫描脚本与本仓库 hook 使用同一套判定逻辑（`_check_spec_structure`），无额外过滤。
-- `%if`/`%endif` 条件块后紧跟段落属于 RPM 合法写法，不判违规。
+- `%if`/`%endif` 条件块后紧跟段落属于 RPM 合法写法，不判问题。
 - `Source` 匹配 `Source`/`Source0`/`Source1` 等所有变体。
-- 当 `URL` 为源代码仓库链接时，`VCS` 缺失不判违规。
+- 当 `URL` 为源代码仓库链接时，`VCS` 缺失不判问题。
