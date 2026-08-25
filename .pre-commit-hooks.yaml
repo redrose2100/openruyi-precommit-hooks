@@ -104,6 +104,14 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-buildoption
+  name: check-spec-buildoption
+  description: Ensure the spec file BuildOption fields follow the openRuyi guidelines (stage name required, two spaces before arguments, located between BuildSystem and BuildRequires, written in build/install/check order).
+  entry: check-spec-buildoption
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
 - id: check-spec-patch
   name: check-spec-patch
   description: Ensure the spec file Patch fields follow the openRuyi patch guidelines (comment above each Patch, four-digit numeric prefix in 0001-2999, %patchlist for more than 3 patches, placed between BuildSystem and BuildOption/BuildRequires).

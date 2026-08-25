@@ -35,6 +35,24 @@
 
 ### 新增
 
+- 规则 hook `check-spec-buildoption`：校验 spec 文件 `BuildOption` 字段
+  符合 openRuyi BuildOption 规则（当需要为特定构建阶段声明额外参数时可
+  使用 `BuildOption(<stage>):` 字段；`BuildOption(<stage>):` 与参数之间
+  必须以两个空格分隔；多个参数必须按行分别声明；若使用 `BuildOption`，
+  其位置应当位于 `BuildSystem` 与 `BuildRequires` 之间；书写顺序应当与
+  RPM 构建过程一致，即 `build` → `install` → `check`）。补充文档（声明式
+  构建系统）要求阶段名称必须写明（虽然语法上可以省略）。静态检查：阶段
+  名称必须写明（`BuildOption:` 或 `BuildOption():` 报错）；冒号后必须为
+  双空格分隔；位置须在 `BuildSystem` 与 `BuildRequires` 之间；`build`/
+  `install`/`check` 三个阶段的相对顺序须符合 `build` → `install` →
+  `check`（其它阶段如 `conf`/`prep`/`generate_buildrequires` 不参与顺序
+  判定）；字段缺失交由 `check-spec-structure` 覆盖，`%package` 子包内的
+  `BuildOption` 不判定。
+- 规则文档 `docs/check-spec-buildoption.md`，README 增加 Hooks 列表项。
+- 扫描结果 `openruyi-scan-results/check-spec-buildoption-results.md`：
+  5267 个 spec 文件中 27 个 `BuildOption` 字段违规（共 34 条：冒号后
+  单空格分隔 18 条、位置不在 `BuildSystem` 与 `BuildRequires` 之间 9 条、
+  阶段顺序不符合 `build` → `install` → `check` 7 条）。
 - 规则 hook `check-spec-patch`：校验 spec 文件 `Patch` 字段符合 openRuyi
   Patch 规则（每个 `Patch:` 字段上方须有一行注释说明补丁用途；补丁文件
   名须以四位数字开头且前缀在 `0001-2999` 范围内；补丁数量超过 3 个时应
