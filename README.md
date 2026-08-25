@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks
+## 可用的 Hooks（共 11 个）
 
 | Hook ID | 说明 | 文档 |
 | --- | --- | --- |
