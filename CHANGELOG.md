@@ -35,6 +35,26 @@
 
 ### 新增
 
+- 规则 hook `check-spec-requires`：校验 spec 文件 `Requires` 字段符合
+  openRuyi Requires 规则（`Requires` 用于列出运行期依赖；依赖项必须按
+  "一行一个依赖包"的形式书写；排版与可读性要求 `BuildRequires` 与
+  `Requires` 必须采用"一行一个依赖"的形式）。静态检查：一行仅允许一个
+  依赖包（逗号分隔 `a, b` 或空格分隔 `a b` 报错），值不得为空
+  （`Requires:` 报错）；富依赖表达式（`(foo >= 1 with foo < 2)`）、带
+  版本约束（`foo >= 1.2` / `foo = 1.29`）及含宏的值视为单个依赖。
+  `%package` 子包内的 `Requires` 声明的是子包运行期依赖，同样按规则
+  检查；`Requires(pre):` / `Requires(post):` 等 scriptlet 变体声明的是
+  特定脚本段依赖，不属于本规则范围；字段缺失交由 `check-spec-structure`
+  覆盖。
+- 规则文档 `docs/check-spec-requires.md`，README 增加 Hooks 列表项
+  （共 16 个）。
+- 扫描结果 `openruyi-scan-results/check-spec-requires-results.md`：
+  5267 个 spec 文件中仅 1 个文件违规（`cloud-utils` 子包内 3 条：
+  `Requires: file gzip e2fsprogs gawk tar` 一行声明 5 个包、
+  `Requires: gawk util-linux` 两行各声明 2 个包）；
+  `cronie` 的 `Requires(post): coreutils sed` 与 `e2fsprogs` 的
+  `Requires(post): /usr/bin/mkdir /usr/bin/touch` 为 scriptlet 变体，
+  不属于本规则范围。
 - 规则 hook `check-spec-buildoption`：校验 spec 文件 `BuildOption` 字段
   符合 openRuyi BuildOption 规则（当需要为特定构建阶段声明额外参数时可
   使用 `BuildOption(<stage>):` 字段；`BuildOption(<stage>):` 与参数之间
