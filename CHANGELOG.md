@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 未发布
+## 0.1.0 (2026-08-26)
 
 ### 变更
 
@@ -241,11 +241,6 @@
 - 扫描结果 `openruyi-scan-results/check-spec-name-results.md`：
   5337 个 spec 文件中 65 个存在命名违规（33 个非全小写、24 个含
   下划线、8 个编码 ABI/主版本号）。
-
-## 0.1.0 (2026-08-20)
-
-### 新增
-
 - 项目框架：`setup.cfg` / `setup.py` 打包配置，`.pre-commit-hooks.yaml`
   对外 hooks 清单，`.pre-commit-config.yaml` 自举配置。
 - 测试基础设施：`tests/`、`testing/`（`get_resource_path` / `git_commit`）、
