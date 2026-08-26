@@ -136,3 +136,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-files
+  name: check-spec-files
+  description: Ensure the spec file %files sections follow the openRuyi guidelines (%license for license text, %doc for documentation, no duplicate entries, no .la archives, no %{_datadir}/locale/* wildcards).
+  entry: check-spec-files
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

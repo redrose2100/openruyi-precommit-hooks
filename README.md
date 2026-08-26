@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 16 个）
+## 可用的 Hooks（共 17 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -36,6 +36,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 14 | `check-spec-buildrequires` | 校验 spec 文件 `BuildRequires` 字段符合官方 BuildRequires 规则（依赖项按"一行一个依赖包"书写、值非空） | [docs/check-spec-buildrequires.md](docs/check-spec-buildrequires.md) |
 | 15 | `check-spec-requires` | 校验 spec 文件 `Requires` 字段符合官方 Requires 规则（运行期依赖按"一行一个依赖包"书写、值非空；`%package` 子包内同样检查） | [docs/check-spec-requires.md](docs/check-spec-requires.md) |
 | 16 | `check-spec-patch` | 校验 spec 文件 `Patch` 字段符合官方 Patch 规则（每个 `Patch` 上方须有注释、文件名以四位数字开头且前缀在 `0001-2999` 范围、补丁数 > 3 时用 `%patchlist`、位于 `BuildSystem` 与 `BuildOption`/`BuildRequires` 之间） | [docs/check-spec-patch.md](docs/check-spec-patch.md) |
+| 17 | `check-spec-files` | 校验 spec 文件 `%files` 段落符合官方 Files 规则（许可证文本必须 `%license`、文档应当 `%doc`、不得重复列出同一文件、不得含 `.la` 归档、本地化必须用 `%find_lang` 而非通配 `%{_datadir}/locale/*`） | [docs/check-spec-files.md](docs/check-spec-files.md) |
 
 ## 新增一个 Hook
 

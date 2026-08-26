@@ -55,6 +55,25 @@
   `cronie` 的 `Requires(post): coreutils sed` 与 `e2fsprogs` 的
   `Requires(post): /usr/bin/mkdir /usr/bin/touch` 为 scriptlet 变体，
   不属于本规则范围。
+- 规则 hook `check-spec-files`：校验 spec 文件 `%files` 段落符合 openRuyi
+  Files 规则（许可证文本文件必须使用 `%license` 标记，文档文件应当使用
+  `%doc` 标记；`%files` 列表不得重复列出同一文件（允许的特定情形除外）；
+  软件包不得包含 `.la`（libtool archive）文件，若构建过程产生该类文件
+  Spec 必须移除；本地化文件必须在 `%install` 段落内使用 `%find_lang`
+  机制处理，不得直接在 `%files` 中通配包含 `%{_datadir}/locale/*`）。
+  静态检查：`%doc` 中列出许可证文本文件（`license`/`licence`/`copying`
+  开头的文件名或其中文、`license.terms` 等）报错；许可证文本裸列未加
+  `%license` 报错；文档类文件（`readme`/`news`/`authors`/`changelog`/
+  `changes`/`history` 等）裸列未加 `%doc` 报错；同一字面文件路径在段顶层
+  重复列出报错（宏路径、条件块内、`%dir`/`%ghost`/`%doc` 指令项、含通配
+  符路径跳过）；含 `.la` 后缀条目报错；`%{_datadir}/locale/*` 通配报错。
+- 规则文档 `docs/check-spec-files.md`，README 增加 Hooks 列表项
+  （共 17 个）。
+- 扫描结果 `openruyi-scan-results/check-spec-files-results.md`：5267 个
+  spec 文件中 93 个文件违规共 105 条（`%doc` 中列出许可证文本文件 91 条、
+  `%files` 中直接通配 `%{_datadir}/locale/*` 14 条）；重复列出与
+  `.la` 归档 0 条。234 个 spec 正确使用 `%find_lang` 处理本地化；全部
+  12 个 KF6 locale 违规包中仅 `kf6-kconfigwidgets` 使用了 `%find_lang`。
 - 规则 hook `check-spec-buildoption`：校验 spec 文件 `BuildOption` 字段
   符合 openRuyi BuildOption 规则（当需要为特定构建阶段声明额外参数时可
   使用 `BuildOption(<stage>):` 字段；`BuildOption(<stage>):` 与参数之间
