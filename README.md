@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 18 个）
+## 可用的 Hooks（共 19 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -38,6 +38,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 16 | `check-spec-patch` | 校验 spec 文件 `Patch` 字段符合官方 Patch 规则（每个 `Patch` 上方须有注释、文件名以四位数字开头且前缀在 `0001-2999` 范围、补丁数 > 3 时用 `%patchlist`、位于 `BuildSystem` 与 `BuildOption`/`BuildRequires` 之间） | [docs/check-spec-patch.md](docs/check-spec-patch.md) |
 | 17 | `check-spec-files` | 校验 spec 文件 `%files` 段落符合官方 Files 规则（许可证文本必须 `%license`、文档应当 `%doc`、不得重复列出同一文件、不得含 `.la` 归档、本地化必须用 `%find_lang` 而非通配 `%{_datadir}/locale/*`） | [docs/check-spec-files.md](docs/check-spec-files.md) |
 | 18 | `check-spec-changelog` | 校验 spec 文件 `%changelog` 段落内容必须为 `%autochangelog`（不得手写更新日志；`%{?autochangelog}` 条件宏同样合规） | [docs/check-spec-changelog.md](docs/check-spec-changelog.md) |
+| 19 | `check-spec-bcond` | 校验 spec 文件条件构建开关符合官方规则（用 `%bcond <name> <0\|1>` 声明、不用旧式 `%bcond_with`/`%bcond_without`、`%{with}/%{without}` 引用不得指向未声明开关） | [docs/check-spec-bcond.md](docs/check-spec-bcond.md) |
 
 ## 新增一个 Hook
 
