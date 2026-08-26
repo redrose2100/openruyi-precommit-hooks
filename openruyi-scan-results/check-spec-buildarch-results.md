@@ -18,10 +18,10 @@
 
 ## 问题清单（2 条）
 
-| # | spec 文件 | `BuildArch` 值 | 问题类型 |
-| --- | --- | --- | --- |
-| 1 | [go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec) | `noarch` | 位置错误（位于 `Source0` 之前） |
-| 2 | [go-github-moby-sys/go-github-moby-sys.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-moby-sys/go-github-moby-sys.spec) | `noarch` | 位置错误（位于 `Source0` 之前） |
+| # | spec 文件 | `BuildArch` 值 | 问题所在行数 | 问题类型 |
+| --- | --- | --- | ---: | --- |
+| 1 | [go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-azure-azure-sdk-for-go/go-github-azure-azure-sdk-for-go.spec) | `noarch` | 46 | 位置错误（位于 `Source0` 之前） |
+| 2 | [go-github-moby-sys/go-github-moby-sys.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-moby-sys/go-github-moby-sys.spec) | `noarch` | 33 | 位置错误（位于 `Source0` 之前） |
 
 ## 说明
 

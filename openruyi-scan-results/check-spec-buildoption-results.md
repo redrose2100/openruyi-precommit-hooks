@@ -20,42 +20,42 @@
 
 ## 问题清单（34 条）
 
-| # | spec 文件 | 字段值 | 问题类型 |
-| --- | --- | --- | --- |
-| 1 | [abseil-cpp/abseil-cpp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/abseil-cpp/abseil-cpp.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 2 | [asmjit/asmjit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/asmjit/asmjit.spec) | `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` | 双空格分隔（冒号后为单个空格） |
-| 3 | [asmjit/asmjit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/asmjit/asmjit.spec) | `-DASMJIT_STATIC=0` | 双空格分隔（冒号后为单个空格） |
-| 4 | [asmjit/asmjit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/asmjit/asmjit.spec) | `-DASMJIT_TEST=1` | 双空格分隔（冒号后为单个空格） |
-| 5 | [check/check.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/check/check.spec) | `--disable-option-checking MAKEINFO=true` | 双空格分隔（冒号后为单个空格） |
-| 6 | [findutils/findutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/findutils/findutils.spec) | `--libexecdir=%{_libdir}/find` | 双空格分隔（冒号后为单个空格） |
-| 7 | [findutils/findutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/findutils/findutils.spec) | `--localstatedir=%{_localstatedir}/lib` | 双空格分隔（冒号后为单个空格） |
-| 8 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 9 | [isomd5sum/isomd5sum.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/isomd5sum/isomd5sum.spec) | `install, build` | 顺序错误（`install` 在 `build` 之前） |
-| 10 | [libbsd/libbsd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libbsd/libbsd.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 11 | [libgpg-error/libgpg-error.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libgpg-error/libgpg-error.spec) | `--enable-install-gpg-error-config` | 双空格分隔（冒号后为单个空格） |
-| 12 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 13 | [libsquish/libsquish.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libsquish/libsquish.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 14 | [lm_sensors/lm_sensors.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lm_sensors/lm_sensors.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 15 | [lshw/lshw.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lshw/lshw.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 16 | [lzo/lzo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzo/lzo.spec) | `--enable-shared` | 双空格分隔（冒号后为单个空格） |
-| 17 | [mkosi/mkosi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mkosi/mkosi.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 18 | [mtd-utils/mtd-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mtd-utils/mtd-utils.spec) | `--without-tests` | 双空格分隔（冒号后为单个空格） |
-| 19 | [mtd-utils/mtd-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mtd-utils/mtd-utils.spec) | `--disable-unit-tests` | 双空格分隔（冒号后为单个空格） |
-| 20 | [python-dill/python-dill.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-dill/python-dill.spec) | `check, install` | 顺序错误（`check` 在 `install` 之前） |
-| 21 | [python-fonttools/python-fonttools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-fonttools/python-fonttools.spec) | `check, install` | 顺序错误（`check` 在 `install` 之前） |
-| 22 | [python-ipython/python-ipython.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-ipython/python-ipython.spec) | `check, install` | 顺序错误（`check` 在 `install` 之前） |
-| 23 | [python-srsly/python-srsly.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-srsly/python-srsly.spec) | `check, install` | 顺序错误（`check` 在 `install` 之前） |
-| 24 | [python-tox/python-tox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tox/python-tox.spec) | `check, install` | 顺序错误（`check` 在 `install` 之前） |
-| 25 | [python-tox-current-env/python-tox-current-env.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tox-current-env/python-tox-current-env.spec) | `check, install` | 顺序错误（`check` 在 `install` 之前） |
-| 26 | [pyxdg/pyxdg.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pyxdg/pyxdg.spec) | `-l xdg` | 双空格分隔（冒号后为单个空格） |
-| 27 | [scons/scons.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/scons/scons.spec) | `-l SCons +auto` | 双空格分隔（冒号后为单个空格） |
-| 28 | [soxr/soxr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/soxr/soxr.spec) | `-DWITH_CR32S=FALSE` | 双空格分隔（冒号后为单个空格） |
-| 29 | [soxr/soxr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/soxr/soxr.spec) | `-DCMAKE_POLICY_VERSION_MINIMUM:STRING=3.5` | 双空格分隔（冒号后为单个空格） |
-| 30 | [sqlcipher/sqlcipher.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/sqlcipher/sqlcipher.spec) | — | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
-| 31 | [tcl/tcl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tcl/tcl.spec) | `--enable-man-symlinks` | 双空格分隔（冒号后为单个空格） |
-| 32 | [tcl/tcl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tcl/tcl.spec) | `--enable-man-compression=gzip` | 双空格分隔（冒号后为单个空格） |
-| 33 | [tcl/tcl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tcl/tcl.spec) | `--without-tzdata` | 双空格分隔（冒号后为单个空格） |
-| 34 | [tunctl/tunctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tunctl/tunctl.spec) | `BIN_DIR=%{_sbindir}` | 双空格分隔（冒号后为单个空格） |
+| # | spec 文件 | 字段值 | 问题所在行数 | 问题类型 |
+| --- | --- | --- | ---: | --- |
+| 1 | [abseil-cpp/abseil-cpp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/abseil-cpp/abseil-cpp.spec) | — | 27 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 2 | [asmjit/asmjit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/asmjit/asmjit.spec) | `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` | 21 | 双空格分隔（冒号后为单个空格） |
+| 3 | [asmjit/asmjit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/asmjit/asmjit.spec) | `-DASMJIT_STATIC=0` | 22 | 双空格分隔（冒号后为单个空格） |
+| 4 | [asmjit/asmjit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/asmjit/asmjit.spec) | `-DASMJIT_TEST=1` | 23 | 双空格分隔（冒号后为单个空格） |
+| 5 | [check/check.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/check/check.spec) | `--disable-option-checking MAKEINFO=true` | 20 | 双空格分隔（冒号后为单个空格） |
+| 6 | [findutils/findutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/findutils/findutils.spec) | `--libexecdir=%{_libdir}/find` | 28 | 双空格分隔（冒号后为单个空格） |
+| 7 | [findutils/findutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/findutils/findutils.spec) | `--localstatedir=%{_localstatedir}/lib` | 29 | 双空格分隔（冒号后为单个空格） |
+| 8 | [freetype/freetype.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/freetype/freetype.spec) | — | 37 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 9 | [isomd5sum/isomd5sum.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/isomd5sum/isomd5sum.spec) | `install, build` | — | 顺序错误（`install` 在 `build` 之前） |
+| 10 | [libbsd/libbsd.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libbsd/libbsd.spec) | — | 24 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 11 | [libgpg-error/libgpg-error.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libgpg-error/libgpg-error.spec) | `--enable-install-gpg-error-config` | 19 | 双空格分隔（冒号后为单个空格） |
+| 12 | [libselinux/libselinux.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libselinux/libselinux.spec) | — | 39 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 13 | [libsquish/libsquish.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libsquish/libsquish.spec) | — | 25 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 14 | [lm_sensors/lm_sensors.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lm_sensors/lm_sensors.spec) | — | 50 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 15 | [lshw/lshw.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lshw/lshw.spec) | — | 28 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 16 | [lzo/lzo.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzo/lzo.spec) | `--enable-shared` | 16 | 双空格分隔（冒号后为单个空格） |
+| 17 | [mkosi/mkosi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mkosi/mkosi.spec) | — | 26 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 18 | [mtd-utils/mtd-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mtd-utils/mtd-utils.spec) | `--without-tests` | 20 | 双空格分隔（冒号后为单个空格） |
+| 19 | [mtd-utils/mtd-utils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mtd-utils/mtd-utils.spec) | `--disable-unit-tests` | 21 | 双空格分隔（冒号后为单个空格） |
+| 20 | [python-dill/python-dill.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-dill/python-dill.spec) | `check, install` | — | 顺序错误（`check` 在 `install` 之前） |
+| 21 | [python-fonttools/python-fonttools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-fonttools/python-fonttools.spec) | `check, install` | — | 顺序错误（`check` 在 `install` 之前） |
+| 22 | [python-ipython/python-ipython.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-ipython/python-ipython.spec) | `check, install` | — | 顺序错误（`check` 在 `install` 之前） |
+| 23 | [python-srsly/python-srsly.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-srsly/python-srsly.spec) | `check, install` | — | 顺序错误（`check` 在 `install` 之前） |
+| 24 | [python-tox/python-tox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tox/python-tox.spec) | `check, install` | — | 顺序错误（`check` 在 `install` 之前） |
+| 25 | [python-tox-current-env/python-tox-current-env.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-tox-current-env/python-tox-current-env.spec) | `check, install` | — | 顺序错误（`check` 在 `install` 之前） |
+| 26 | [pyxdg/pyxdg.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pyxdg/pyxdg.spec) | `-l xdg` | 25 | 双空格分隔（冒号后为单个空格） |
+| 27 | [scons/scons.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/scons/scons.spec) | `-l SCons +auto` | 19 | 双空格分隔（冒号后为单个空格） |
+| 28 | [soxr/soxr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/soxr/soxr.spec) | `-DWITH_CR32S=FALSE` | 18 | 双空格分隔（冒号后为单个空格） |
+| 29 | [soxr/soxr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/soxr/soxr.spec) | `-DCMAKE_POLICY_VERSION_MINIMUM:STRING=3.5` | 19 | 双空格分隔（冒号后为单个空格） |
+| 30 | [sqlcipher/sqlcipher.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/sqlcipher/sqlcipher.spec) | — | 23 | 位置错误（`BuildOption` 位于 `BuildRequires` 之后） |
+| 31 | [tcl/tcl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tcl/tcl.spec) | `--enable-man-symlinks` | 25 | 双空格分隔（冒号后为单个空格） |
+| 32 | [tcl/tcl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tcl/tcl.spec) | `--enable-man-compression=gzip` | 26 | 双空格分隔（冒号后为单个空格） |
+| 33 | [tcl/tcl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tcl/tcl.spec) | `--without-tzdata` | 27 | 双空格分隔（冒号后为单个空格） |
+| 34 | [tunctl/tunctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tunctl/tunctl.spec) | `BIN_DIR=%{_sbindir}` | 19 | 双空格分隔（冒号后为单个空格） |
 
 ## 说明
 

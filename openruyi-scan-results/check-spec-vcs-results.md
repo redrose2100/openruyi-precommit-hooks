@@ -19,31 +19,31 @@
 
 ## 问题清单（23 条）
 
-| # | spec 文件 | `VCS` 值 | 问题类型 |
-| --- | --- | --- | --- |
-| 1 | [busybox/busybox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/busybox/busybox.spec) | `# VCS: No reliable VCS link available` | `# VCS:` 注释不精确 |
-| 2 | [checkpolicy/checkpolicy.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/checkpolicy/checkpolicy.spec) | `# VCS: TODO: Multiple tags in one repo` | `# VCS:` 注释不精确 |
-| 3 | [db/db.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/db/db.spec) | `# VCS: This package does not have a VCS link` | `# VCS:` 注释不精确 |
-| 4 | [dblatex/dblatex.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dblatex/dblatex.spec) | `hg:http://hg.code.sf.net/p/dblatex/dblatex` | 非 `git:` 可克隆链接 |
-| 5 | [ebook-tools/ebook-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ebook-tools/ebook-tools.spec) | `svn:https://svn.code.sf.net/p/ebook-tools` | 非 `git:` 可克隆链接 |
-| 6 | [ed/ed.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ed/ed.spec) | `# VCS: TODO: How to write https://savannah.gnu.org/cvs/?group=ed` | `# VCS:` 注释不精确 |
-| 7 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `# VCS: TODO: Protentially cvs https://sourceforge.net/p/expect/c...` | `# VCS:` 注释不精确 |
-| 8 | [gmp/gmp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gmp/gmp.spec) | `hg:https://gmplib.org/repo/gmp` | 非 `git:` 可克隆链接 |
-| 9 | [intltool/intltool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/intltool/intltool.spec) | `# VCS: Bazzar upstream will be deprecated so no upstream?? - 251` | `# VCS:` 注释不精确 |
-| 10 | [jbigkit/jbigkit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/jbigkit/jbigkit.spec) | `# VCS: No git repo found.` | `# VCS:` 注释不精确 |
-| 11 | [judy/judy.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/judy/judy.spec) | `svn:https://svn.code.sf.net/p/judy/code/trunk` | 非 `git:` 可克隆链接 |
-| 12 | [lame/lame.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lame/lame.spec) | `svn:https://svn.code.sf.net/p/lame/svn/trunk/lame` | 非 `git:` 可克隆链接 |
-| 13 | [libdaemon/libdaemon.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libdaemon/libdaemon.spec) | `# VCS: Upstream git dead` | `# VCS:` 注释不精确 |
-| 14 | [libev/libev.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libev/libev.spec) | `# VCS: TODO: Add cvs link here` | `# VCS:` 注释不精确 |
-| 15 | [libotf/libotf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libotf/libotf.spec) | `# VCS: TODO: cvs -d :pserver:anonymous@cvs.m17n.org:/cvs/root co...` | `# VCS:` 注释不精确 |
-| 16 | [lzip/lzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzip/lzip.spec) | `# VCS: TODO: cvs -z3 -d:pserver:anonymous@cvs.savannah.nongnu.or...` | `# VCS:` 注释不精确 |
-| 17 | [mandoc/mandoc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mandoc/mandoc.spec) | `# VCS: TODO: This project use CVS` | `# VCS:` 注释不精确 |
-| 18 | [nspr/nspr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nspr/nspr.spec) | `hg:https://hg.mozilla.org/projects/nspr` | 非 `git:` 可克隆链接 |
-| 19 | [nss/nss.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nss/nss.spec) | `hg:https://hg.mozilla.org/projects/nss` | 非 `git:` 可克隆链接 |
-| 20 | [sshpass/sshpass.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/sshpass/sshpass.spec) | `svn:https://svn.code.sf.net/p/sshpass/code/trunk` | 非 `git:` 可克隆链接 |
-| 21 | [texlive-texmf/texlive-texmf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/texlive-texmf/texlive-texmf.spec) | `svn:https://tug.org/svn/texlive/trunk` | 非 `git:` 可克隆链接 |
-| 22 | [tunctl/tunctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tunctl/tunctl.spec) | `# VCS: TODO: This is CVS` | `# VCS:` 注释不精确 |
-| 23 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `# VCS: TODO: http://cvs.ossp.org/pkg/lib/uuid/` | `# VCS:` 注释不精确 |
+| # | spec 文件 | `VCS` 值 | 问题所在行数 | 问题类型 |
+| --- | --- | --- | ---: | --- |
+| 1 | [busybox/busybox.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/busybox/busybox.spec) | `# VCS: No reliable VCS link available` | 15 | `# VCS:` 注释不精确 |
+| 2 | [checkpolicy/checkpolicy.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/checkpolicy/checkpolicy.spec) | `# VCS: TODO: Multiple tags in one repo` | 16 | `# VCS:` 注释不精确 |
+| 3 | [db/db.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/db/db.spec) | `# VCS: This package does not have a VCS link` | 17 | `# VCS:` 注释不精确 |
+| 4 | [dblatex/dblatex.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/dblatex/dblatex.spec) | `hg:http://hg.code.sf.net/p/dblatex/dblatex` | 13 | 非 `git:` 可克隆链接 |
+| 5 | [ebook-tools/ebook-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ebook-tools/ebook-tools.spec) | `svn:https://svn.code.sf.net/p/ebook-tools` | 13 | 非 `git:` 可克隆链接 |
+| 6 | [ed/ed.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/ed/ed.spec) | `# VCS: TODO: How to write https://savannah.gnu.org/cvs/?group=ed` | 14 | `# VCS:` 注释不精确 |
+| 7 | [expect/expect.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/expect/expect.spec) | `# VCS: TODO: Protentially cvs https://sourceforge.net/p/expect/c...` | 17 | `# VCS:` 注释不精确 |
+| 8 | [gmp/gmp.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/gmp/gmp.spec) | `hg:https://gmplib.org/repo/gmp` | 14 | 非 `git:` 可克隆链接 |
+| 9 | [intltool/intltool.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/intltool/intltool.spec) | `# VCS: Bazzar upstream will be deprecated so no upstream?? - 251` | 15 | `# VCS:` 注释不精确 |
+| 10 | [jbigkit/jbigkit.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/jbigkit/jbigkit.spec) | `# VCS: No git repo found.` | 14 | `# VCS:` 注释不精确 |
+| 11 | [judy/judy.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/judy/judy.spec) | `svn:https://svn.code.sf.net/p/judy/code/trunk` | 13 | 非 `git:` 可克隆链接 |
+| 12 | [lame/lame.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lame/lame.spec) | `svn:https://svn.code.sf.net/p/lame/svn/trunk/lame` | 14 | 非 `git:` 可克隆链接 |
+| 13 | [libdaemon/libdaemon.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libdaemon/libdaemon.spec) | `# VCS: Upstream git dead` | 15 | `# VCS:` 注释不精确 |
+| 14 | [libev/libev.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libev/libev.spec) | `# VCS: TODO: Add cvs link here` | 15 | `# VCS:` 注释不精确 |
+| 15 | [libotf/libotf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libotf/libotf.spec) | `# VCS: TODO: cvs -d :pserver:anonymous@cvs.m17n.org:/cvs/root co...` | 14 | `# VCS:` 注释不精确 |
+| 16 | [lzip/lzip.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lzip/lzip.spec) | `# VCS: TODO: cvs -z3 -d:pserver:anonymous@cvs.savannah.nongnu.or...` | 14 | `# VCS:` 注释不精确 |
+| 17 | [mandoc/mandoc.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/mandoc/mandoc.spec) | `# VCS: TODO: This project use CVS` | 18 | `# VCS:` 注释不精确 |
+| 18 | [nspr/nspr.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nspr/nspr.spec) | `hg:https://hg.mozilla.org/projects/nspr` | 15 | 非 `git:` 可克隆链接 |
+| 19 | [nss/nss.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/nss/nss.spec) | `hg:https://hg.mozilla.org/projects/nss` | 22 | 非 `git:` 可克隆链接 |
+| 20 | [sshpass/sshpass.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/sshpass/sshpass.spec) | `svn:https://svn.code.sf.net/p/sshpass/code/trunk` | 15 | 非 `git:` 可克隆链接 |
+| 21 | [texlive-texmf/texlive-texmf.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/texlive-texmf/texlive-texmf.spec) | `svn:https://tug.org/svn/texlive/trunk` | 63 | 非 `git:` 可克隆链接 |
+| 22 | [tunctl/tunctl.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/tunctl/tunctl.spec) | `# VCS: TODO: This is CVS` | 14 | `# VCS:` 注释不精确 |
+| 23 | [uuid/uuid.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/uuid/uuid.spec) | `# VCS: TODO: http://cvs.ossp.org/pkg/lib/uuid/` | 14 | `# VCS:` 注释不精确 |
 
 ## 说明
 

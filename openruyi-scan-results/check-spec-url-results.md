@@ -18,15 +18,15 @@
 
 ## 问题清单（7 条）
 
-| # | spec 文件 | URL 值 | 问题类型 |
-| --- | --- | --- | --- |
-| 1 | [pocketfft/pocketfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pocketfft/pocketfft.spec) | `https://github.com/mreineck/%{name}` | 宏拼接 |
-| 2 | [psutils/psutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/psutils/psutils.spec) | `https://github.com/rrthomas/%{name}` | 宏拼接 |
-| 3 | [python-azure-storage-blob/python-azure-storage-blob.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-azure-storage-blob/python-azure-storage-blob.spec) | `https://pypi.org/project/%{srcname}/` | 宏拼接 |
-| 4 | [xnnpack/xnnpack.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xnnpack/xnnpack.spec) | `https://github.com/google/%{upstream_name}` | 宏拼接 |
-| 5 | [rust-bssl-sys-0.1/rust-bssl-sys-0.1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-bssl-sys-0.1/rust-bssl-sys-0.1.spec) | `FIXME` | 非 http(s) 链接 |
-| 6 | [rust-openssl-macros-0.1/rust-openssl-macros-0.1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-openssl-macros-0.1/rust-openssl-macros-0.1.spec) | `FIXME` | 非 http(s) 链接 |
-| 7 | [rust-spanned-0.4/rust-spanned-0.4.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-spanned-0.4/rust-spanned-0.4.spec) | `FIXME` | 非 http(s) 链接 |
+| # | spec 文件 | URL 值 | 问题所在行数 | 问题类型 |
+| --- | --- | --- | ---: | --- |
+| 1 | [pocketfft/pocketfft.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/pocketfft/pocketfft.spec) | `https://github.com/mreineck/%{name}` | 41 | 宏拼接 |
+| 2 | [psutils/psutils.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/psutils/psutils.spec) | `https://github.com/rrthomas/%{name}` | 16 | 宏拼接 |
+| 3 | [python-azure-storage-blob/python-azure-storage-blob.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/python-azure-storage-blob/python-azure-storage-blob.spec) | `https://pypi.org/project/%{srcname}/` | 16 | 宏拼接 |
+| 4 | [xnnpack/xnnpack.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/xnnpack/xnnpack.spec) | `https://github.com/google/%{upstream_name}` | 23 | 宏拼接 |
+| 5 | [rust-bssl-sys-0.1/rust-bssl-sys-0.1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-bssl-sys-0.1/rust-bssl-sys-0.1.spec) | `FIXME` | 15 | 非 http(s) 链接 |
+| 6 | [rust-openssl-macros-0.1/rust-openssl-macros-0.1.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-openssl-macros-0.1/rust-openssl-macros-0.1.spec) | `FIXME` | 15 | 非 http(s) 链接 |
+| 7 | [rust-spanned-0.4/rust-spanned-0.4.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/rust-spanned-0.4/rust-spanned-0.4.spec) | `FIXME` | 15 | 非 http(s) 链接 |
 
 ## 说明
 
