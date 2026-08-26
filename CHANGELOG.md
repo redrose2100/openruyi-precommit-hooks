@@ -41,6 +41,17 @@
   changelog 条目报错；段为空或仅含注释报错。`%autochangelog` 的两种
   合法写法（直接宏 `%autochangelog` 与条件宏 `%{?autochangelog}`）均
   通过；段内注释允许，但仅注释不足以满足要求。
+- 规则 hook `check-spec-bcond`：校验 spec 文件条件构建开关符合 openRuyi
+  条件构建规则（定义可选构建开关应当使用 `%bcond <name> <0|1>`，应当
+  尽量避免 `%bcond_with` / `%bcond_without`）。静态检查：`%bcond_with` /
+  `%bcond_without` 旧式宏出现即报错；`%{with ...}` / `%{without ...}`
+  引用未在文件中声明的开关即报错（构建期展开为空、`%if` 恒假）。旧式
+  下划线形态 `%define with_xxx` + `%{with_xxx}` 不属于 `%bcond` 体系，
+  不检查；注释行忽略。扫描结果：5267 个 spec 中 10 个违规（curl、
+  make、pkgconf 使用旧式宏 3 处；cronie、firewalld、gtk3、kmod、
+  libXfixes、libXt、plasma-desktop 引用未声明开关 11 处）。
+- 规则文档 `docs/check-spec-bcond.md`，README 增加 Hooks 列表项
+  （共 19 个）、扫描结果 `openruyi-scan-results/check-spec-bcond-results.md`。
 - 规则文档 `docs/check-spec-changelog.md`，README 增加 Hooks 列表项
   （共 18 个）。
 - 扫描结果 `openruyi-scan-results/check-spec-changelog-results.md`：

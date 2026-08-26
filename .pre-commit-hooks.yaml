@@ -152,3 +152,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-bcond
+  name: check-spec-bcond
+  description: Ensure the spec file declares conditional-build switches with %bcond (no legacy %bcond_with/%bcond_without, and no %{with}/%{without} references to undeclared switches).
+  entry: check-spec-bcond
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
