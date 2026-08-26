@@ -259,8 +259,10 @@ def _run(filename):
     import subprocess
     import sys
     proc = subprocess.run(
-        [sys.executable, '-m', 'openruyi_precommit_hooks.check_spec_bcond',
-         filename],
+        [
+            sys.executable, '-m', 'openruyi_precommit_hooks.check_spec_bcond',
+            filename,
+        ],
         capture_output=True, text=True,
     )
     return proc.stdout + proc.stderr
