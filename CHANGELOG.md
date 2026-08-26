@@ -35,6 +35,18 @@
 
 ### 新增
 
+- 规则 hook `check-spec-changelog`：校验 spec 文件 `%changelog` 段落符合
+  openRuyi Changelog 规则（`%changelog` 段内容必须为 `%autochangelog`，
+  不得手写更新日志）。静态检查：段内不含 `%autochangelog` 且含手写
+  changelog 条目报错；段为空或仅含注释报错。`%autochangelog` 的两种
+  合法写法（直接宏 `%autochangelog` 与条件宏 `%{?autochangelog}`）均
+  通过；段内注释允许，但仅注释不足以满足要求。
+- 规则文档 `docs/check-spec-changelog.md`，README 增加 Hooks 列表项
+  （共 18 个）。
+- 扫描结果 `openruyi-scan-results/check-spec-changelog-results.md`：
+  5267 个 spec 文件的 `%changelog` 段全部合规（0 违规），其中 4436 个
+  使用直接宏 `%autochangelog`、831 个使用条件宏 `%{?autochangelog}`；
+  未发现手写 changelog、空段或仅注释段的违规情形。
 - 规则 hook `check-spec-requires`：校验 spec 文件 `Requires` 字段符合
   openRuyi Requires 规则（`Requires` 用于列出运行期依赖；依赖项必须按
   "一行一个依赖包"的形式书写；排版与可读性要求 `BuildRequires` 与
