@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 14 个）
+## 可用的 Hooks（共 15 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -33,7 +33,8 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 11 | `check-spec-buildarch` | 校验 spec 文件 `BuildArch` 字段声明目标架构（`noarch`）、位于最后一个 `Source` 与 `BuildSystem` 之间且不为空 | [docs/check-spec-buildarch.md](docs/check-spec-buildarch.md) |
 | 12 | `check-spec-buildsystem` | 校验 spec 文件 `BuildSystem` 字段取值合法（官方列出的构建系统或新增值），为空时须以注释说明原因 | [docs/check-spec-buildsystem.md](docs/check-spec-buildsystem.md) |
 | 13 | `check-spec-buildoption` | 校验 spec 文件 `BuildOption` 字段符合官方 BuildOption 规则（阶段名称必须写明、冒号后双空格分隔、位于 `BuildSystem` 与 `BuildRequires` 之间、按 `build`/`install`/`check` 顺序书写） | [docs/check-spec-buildoption.md](docs/check-spec-buildoption.md) |
-| 14 | `check-spec-patch` | 校验 spec 文件 `Patch` 字段符合官方 Patch 规则（每个 `Patch` 上方须有注释、文件名以四位数字开头且前缀在 `0001-2999` 范围、补丁数 > 3 时用 `%patchlist`、位于 `BuildSystem` 与 `BuildOption`/`BuildRequires` 之间） | [docs/check-spec-patch.md](docs/check-spec-patch.md) |
+| 14 | `check-spec-buildrequires` | 校验 spec 文件 `BuildRequires` 字段符合官方 BuildRequires 规则（依赖项按"一行一个依赖包"书写、值非空） | [docs/check-spec-buildrequires.md](docs/check-spec-buildrequires.md) |
+| 15 | `check-spec-patch` | 校验 spec 文件 `Patch` 字段符合官方 Patch 规则（每个 `Patch` 上方须有注释、文件名以四位数字开头且前缀在 `0001-2999` 范围、补丁数 > 3 时用 `%patchlist`、位于 `BuildSystem` 与 `BuildOption`/`BuildRequires` 之间） | [docs/check-spec-patch.md](docs/check-spec-patch.md) |
 
 ## 新增一个 Hook
 
