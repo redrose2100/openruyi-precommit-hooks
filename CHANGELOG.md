@@ -53,6 +53,25 @@
   5267 个 spec 文件中 27 个 `BuildOption` 字段违规（共 34 条：冒号后
   单空格分隔 18 条、位置不在 `BuildSystem` 与 `BuildRequires` 之间 9 条、
   阶段顺序不符合 `build` → `install` → `check` 7 条）。
+- 规则 hook `check-spec-buildrequires`：校验 spec 文件 `BuildRequires`
+  字段符合 openRuyi BuildRequires 规则（`BuildRequires` 必须列出构建期
+  依赖；依赖项必须按"一行一个依赖包"的形式书写；对于 C 程序通常不需要
+  显式声明 `gcc`；当依赖通过 `pkg-config` 发现时应当优先使用
+  `pkgconfig(xxx)` 形式声明而不是直接依赖 `xxx-devel`；必须确保构建依赖
+  完整）。静态检查：一行仅允许一个依赖包（逗号分隔 `a, b` 或空格分隔
+  `a b` 报错），值不得为空（`BuildRequires:` 报错）；富依赖表达式
+  （`(foo >= 1 with foo < 2)`）、带版本约束（`foo >= 1.2` / `foo = 1.29`）
+  及含宏的值视为单个依赖。依赖完整性、`gcc` 是否必需、`pkgconfig(xxx)`
+  与 `xxx-devel` 的选择需人工核对，不静态判定；字段缺失交由
+  `check-spec-structure` 覆盖，`%package` 子包内的 `BuildRequires`
+  不判定。
+- 规则文档 `docs/check-spec-buildrequires.md`，README 增加 Hooks 列表项
+  （共 15 个）。
+- 扫描结果 `openruyi-scan-results/check-spec-buildrequires-results.md`：
+  5267 个 spec 文件中仅 1 个文件违规（`valgrind` 的
+  `BuildRequires:  automake autoconf` 一行声明了 `automake` 与
+  `autoconf` 两个包）；`groff` 子包（`%package x11`）内的
+  `libXaw-devel, libXmu-devel` 位于子包段落内，不属于本规则范围。
 - 规则 hook `check-spec-patch`：校验 spec 文件 `Patch` 字段符合 openRuyi
   Patch 规则（每个 `Patch:` 字段上方须有一行注释说明补丁用途；补丁文件
   名须以四位数字开头且前缀在 `0001-2999` 范围内；补丁数量超过 3 个时应
