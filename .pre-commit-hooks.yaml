@@ -120,6 +120,14 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-requires
+  name: check-spec-requires
+  description: Ensure the spec file Requires fields follow the openRuyi guidelines (declare exactly one runtime dependency per line, no empty values).
+  entry: check-spec-requires
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
 - id: check-spec-patch
   name: check-spec-patch
   description: Ensure the spec file Patch fields follow the openRuyi patch guidelines (comment above each Patch, four-digit numeric prefix in 0001-2999, %patchlist for more than 3 patches, placed between BuildSystem and BuildOption/BuildRequires).
