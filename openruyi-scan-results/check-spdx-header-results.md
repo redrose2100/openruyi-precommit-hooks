@@ -18,12 +18,12 @@
 
 ## 问题清单（4 条）
 
-| # | spec 文件 | `SPDX-License-Identifier` 值 | 问题类型 |
-| --- | --- | --- | --- |
-| 1 | [SPECS/go-github-google-certtostore/go-github-google-certtostore.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-google-certtostore/go-github-google-certtostore.spec) | `Apache-2.0` | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
-| 2 | [SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec) | `Apache-2.0` | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
-| 3 | [SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec) | `Apache-2.0` | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
-| 4 | [SPECS/llvmir-converter/llvmir-converter.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvmir-converter/llvmir-converter.spec) | `Apache-2.0` | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
+| # | spec 文件 | `SPDX-License-Identifier` 值 | 问题所在行数 | 问题类型 |
+| --- | --- | --- | ---: | --- |
+| 1 | [SPECS/go-github-google-certtostore/go-github-google-certtostore.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-google-certtostore/go-github-google-certtostore.spec) | `Apache-2.0` | 4 | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
+| 2 | [SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-opencontainers-runtime-tools/go-github-opencontainers-runtime-tools.spec) | `Apache-2.0` | 4 | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
+| 3 | [SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec) | `Apache-2.0` | 4 | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
+| 4 | [SPECS/llvmir-converter/llvmir-converter.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/llvmir-converter/llvmir-converter.spec) | `Apache-2.0` | 5 | `SPDX-License-Identifier` 非 `MulanPSL-2.0` |
 
 ## 说明
 

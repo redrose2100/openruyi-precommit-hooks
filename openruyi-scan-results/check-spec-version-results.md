@@ -20,11 +20,11 @@
 
 ## 问题清单（6 条）
 
-| # | spec 文件 | `Version` 值 | 问题类型 |
-| --- | --- | --- | --- |
-| 1 | [go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec) | `0+git202608018.7828495` | 快照版本应以 `<version>+<scm><YYYYMMDD>.<revision>` 结尾 |
-| 2 | [iozone/iozone.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/iozone/iozone.spec) | `3_508` | 版本号中的 `_` 应替换为 `.` |
-| 3 | [libcaca/libcaca.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libcaca/libcaca.spec) | `0.99.beta20` | 预发布标记应转为小写并在字母前加 `~` |
-| 4 | [libcdio-paranoia/libcdio-paranoia.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libcdio-paranoia/libcdio-paranoia.spec) | `10.2+2.0.2` | 快照版本应以 `<version>+<scm><YYYYMMDD>.<revision>` 结尾 |
-| 5 | [libftdi/libftdi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libftdi/libftdi.spec) | `1.6rc1` | 预发布标记应转为小写并在字母前加 `~` |
-| 6 | [lmbench/lmbench.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lmbench/lmbench.spec) | `3.0_a9` | 版本号中的 `_` 应替换为 `.` |
+| # | spec 文件 | `Version` 值 | 问题所在行数 | 问题类型 |
+| --- | --- | --- | ---: | --- |
+| 1 | [go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/go-github-stefanberger-go-pkcs11uri/go-github-stefanberger-go-pkcs11uri.spec) | `0+git202608018.7828495` | 11 | 快照版本应以 `<version>+<scm><YYYYMMDD>.<revision>` 结尾 |
+| 2 | [iozone/iozone.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/iozone/iozone.spec) | `3_508` | 8 | 版本号中的 `_` 应替换为 `.` |
+| 3 | [libcaca/libcaca.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libcaca/libcaca.spec) | `0.99.beta20` | 8 | 预发布标记应转为小写并在字母前加 `~` |
+| 4 | [libcdio-paranoia/libcdio-paranoia.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libcdio-paranoia/libcdio-paranoia.spec) | `10.2+2.0.2` | 8 | 快照版本应以 `<version>+<scm><YYYYMMDD>.<revision>` 结尾 |
+| 5 | [libftdi/libftdi.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/libftdi/libftdi.spec) | `1.6rc1` | 8 | 预发布标记应转为小写并在字母前加 `~` |
+| 6 | [lmbench/lmbench.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/lmbench/lmbench.spec) | `3.0_a9` | 10 | 版本号中的 `_` 应替换为 `.` |

@@ -18,9 +18,9 @@
 
 ## 问题清单（1 条）
 
-| # | spec 文件 | 字段值 | 问题类型 |
-| --- | --- | --- | --- |
-| 1 | [valgrind/valgrind.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/valgrind/valgrind.spec) | `automake autoconf` | 一行多个依赖包（空格分隔） |
+| # | spec 文件 | 字段值 | 问题所在行数 | 问题类型 |
+| --- | --- | --- | ---: | --- |
+| 1 | [valgrind/valgrind.spec](https://github.com/openRuyi-Project/openRuyi/blob/main/SPECS/valgrind/valgrind.spec) | `automake autoconf` | 45 | 一行多个依赖包（空格分隔） |
 
 ## 说明
 
