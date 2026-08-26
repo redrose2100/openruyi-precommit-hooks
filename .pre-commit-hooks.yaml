@@ -144,3 +144,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-changelog
+  name: check-spec-changelog
+  description: Ensure the spec file %changelog section content is %autochangelog (no handwritten changelog entries).
+  entry: check-spec-changelog
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
