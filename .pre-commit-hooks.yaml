@@ -160,3 +160,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-autotools
+  name: check-spec-autotools
+  description: Ensure spec files using the autotools build system declare the required autoconf, automake, libtool and make BuildRequires.
+  entry: check-spec-autotools
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
