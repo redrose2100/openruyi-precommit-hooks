@@ -2,6 +2,21 @@
 
 ## 未发布
 
+### 新增
+
+- 规则 hook `check-spec-autotools`：校验 `BuildSystem: autotools` 的
+  spec 文件必须在头部 `BuildRequires` 声明 `autoconf`、`automake`、
+  `libtool`、`make` 四项构建依赖（gcc 预装豁免）。静态检查：截取头部
+  （首个 `%description`/`%package` 之前）收集 `BuildSystem` 与
+  `BuildRequires`，剥离 `%{...}` 宏并按空白/逗号/括号拆分依赖名，
+  仅匹配 `^[A-Za-z0-9_.+/]+$` 的视为有效声明；`BuildSystem` 值为
+  `autotools` 时缺失任意一项即报错，非 autotools 构建系统直接跳过。
+  新增规则文档 `docs/check-spec-autotools.md` 与扫描结果
+  `openruyi-scan-results/check-spec-autotools-results.md`（675 个
+  autotools spec 中 193 个通过、482 个缺失依赖）。
+
+## 0.1.0 (2026-08-26)
+
 ### 变更
 
 - 扫描结果文档 `openruyi-scan-results/` 统一为三段式格式：
@@ -241,11 +256,6 @@
 - 扫描结果 `openruyi-scan-results/check-spec-name-results.md`：
   5337 个 spec 文件中 65 个存在命名违规（33 个非全小写、24 个含
   下划线、8 个编码 ABI/主版本号）。
-
-## 0.1.0 (2026-08-20)
-
-### 新增
-
 - 项目框架：`setup.cfg` / `setup.py` 打包配置，`.pre-commit-hooks.yaml`
   对外 hooks 清单，`.pre-commit-config.yaml` 自举配置。
 - 测试基础设施：`tests/`、`testing/`（`get_resource_path` / `git_commit`）、
