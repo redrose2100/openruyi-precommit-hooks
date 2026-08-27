@@ -37,7 +37,12 @@ _RE_BUILDSYSTEM = re.compile(r'^BuildSystem\s*:\s*(.*)')
 _RE_BUILDREQUIRES = re.compile(r'^BuildRequires\s*:\s*(.*)')
 
 # The dependencies every autotools spec must declare.
-_AUTOTOOLS_BUILDREQUIRES = frozenset({'autoconf', 'automake', 'libtool', 'make'})
+_AUTOTOOLS_BUILDREQUIRES = frozenset({
+    'autoconf',
+    'automake',
+    'libtool',
+    'make',
+})
 
 
 def _dependencies_in_values(values: list[str]) -> set[str]:
