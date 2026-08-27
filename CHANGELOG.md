@@ -41,6 +41,16 @@
   `docs/check-spec-meson.md` 与扫描结果
   `openruyi-scan-results/check-spec-meson-results.md`
   （178 个 meson spec 全部通过、0 个缺失依赖）。
+- 规则 hook `check-spec-perl`：校验 `BuildSystem: perlbuild` 或
+  `BuildSystem: perlmaker` 的 spec 文件必须在头部
+  `BuildRequires` 声明 `perl-rpm-packaging`、`perl-rpm-macros`、
+  `perl-macros` 三项构建依赖（perl 指南未提及预装工具豁免，
+  三项均为必需）。静态检查逻辑同 `check-spec-autotools`；
+  `BuildSystem` 值为 `perlbuild` 或 `perlmaker` 时缺失任意一项
+  即报错，其它构建系统直接跳过。新增规则文档
+  `docs/check-spec-perl.md` 与扫描结果
+  `openruyi-scan-results/check-spec-perl-results.md`
+  （394 个 perlbuild/perlmaker spec 全部通过、0 个缺失依赖）。
 
 ## 0.1.0 (2026-08-26)
 
