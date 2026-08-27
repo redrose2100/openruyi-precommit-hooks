@@ -184,3 +184,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-meson
+  name: check-spec-meson
+  description: Ensure spec files using the meson build system declare the required meson BuildRequires.
+  entry: check-spec-meson
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

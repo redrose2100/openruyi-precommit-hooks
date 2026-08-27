@@ -33,6 +33,14 @@
   新增规则文档 `docs/check-spec-golang.md` 与扫描结果
   `openruyi-scan-results/check-spec-golang-results.md`
   （730 个 golang/golangmodules spec 全部通过、0 个缺失依赖）。
+- 规则 hook `check-spec-meson`：校验 `BuildSystem: meson` 的 spec
+  文件必须在头部 `BuildRequires` 声明 `meson` 构建依赖
+  （meson 指南未提及预装工具豁免，`meson` 为必需声明）。静态检查
+  逻辑同 `check-spec-autotools`；`BuildSystem` 值为 `meson` 时
+  缺失即报错，其它构建系统直接跳过。新增规则文档
+  `docs/check-spec-meson.md` 与扫描结果
+  `openruyi-scan-results/check-spec-meson-results.md`
+  （178 个 meson spec 全部通过、0 个缺失依赖）。
 
 ## 0.1.0 (2026-08-26)
 
