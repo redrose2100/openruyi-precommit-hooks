@@ -55,7 +55,10 @@ def _dependencies_in_values(values: list[str]) -> set[str]:
         )
         for token in re.split(r'[\s,()]', value):
             token = token.strip()
-            if re.match(r'^[A-Za-z0-9_.+/]+$', token):
+            # ``-`` is a valid package-name character (e.g. ``go-rpm-macros``
+            # or ``zlib-devel``), but a bare ``-suffix`` left over from a
+            # stripped macro (``%{?foo}-devel``) must not count as a name.
+            if re.match(r'^[A-Za-z0-9_.+/]+(?:-[A-Za-z0-9_.+/]+)*$', token):
                 deps.add(token)
     return deps
 

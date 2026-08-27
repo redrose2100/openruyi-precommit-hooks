@@ -4,30 +4,35 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# The ``BuildSystem: autotools`` spec files of the openRuyi project must
-# follow the autotools build system guidelines
-# (https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines/BuildSystems/autotools):
+# The ``BuildSystem: golang`` / ``BuildSystem: golangmodules`` spec files
+# of the openRuyi project must follow the golang build system guidelines
+# (https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines/BuildSystems/golang):
 #
-#   A spec that uses the ``autotools`` build system must declare these
-#   ``BuildRequires``:
+#   A spec that uses the ``golang`` or ``golangmodules`` build system
+#   must declare these ``BuildRequires``:
 #
-#       BuildRequires:  autoconf
-#       BuildRequires:  automake
-#       BuildRequires:  libtool
-#       BuildRequires:  make
+#       BuildRequires:  go
+#       BuildRequires:  go-rpm-macros
 #
-#   ``gcc`` is preinstalled in the build environment and may be omitted.
+#   (Unlike the cmake/autotools guidelines, the golang page does not
+#   mention a preinstalled-tool exemption, so both requirements must be
+#   declared.)
 #
 # Statically checkable rules in this hook:
-#   * when ``BuildSystem`` is ``autotools``, each of ``autoconf``,
-#     ``automake``, ``libtool`` and ``make`` must be declared in the
-#     header ``BuildRequires`` fields.
+#   * when ``BuildSystem`` is ``golang`` or ``golangmodules``, ``go``
+#     and ``go-rpm-macros`` must be declared in the header
+#     ``BuildRequires`` fields.
 #
-# The other autotools guidelines (recommending ``autoreconf -fiv`` in
-# ``%conf``, and using an empty ``%conf`` with a
-# ``# No configuration needed`` comment when the source has no
-# ``configure`` script) depend on the actual source tree content and
-# cannot be judged statically.
+# The other golang guidelines are not checked here:
+#   * defining the ``_name`` and ``go_import_path`` macros in the header
+#     is phrased as "at least should" (weak guideline) and is not a
+#     hard requirement;
+#   * cross-build-system macro calls (``%go_common``,
+#     ``%buildsystem_golangmodules_install``, ``%install -a``) depend on
+#     whether binaries or libraries are shipped and cannot be judged
+#     statically;
+#   * ``BuildOption(prep)``/``BuildOption(check)`` examples are covered
+#     by ``check-spec-buildoption``.
 #
 # Field presence of ``BuildSystem`` is covered by ``check-spec-structure``;
 # the general one-dependency-per-line formatting of ``BuildRequires`` is
@@ -36,13 +41,20 @@ from collections.abc import Sequence
 _RE_BUILDSYSTEM = re.compile(r'^BuildSystem\s*:\s*(.*)')
 _RE_BUILDREQUIRES = re.compile(r'^BuildRequires\s*:\s*(.*)')
 
-# The dependencies every autotools spec must declare.
-_AUTOTOOLS_BUILDREQUIRES = frozenset({
-    'autoconf',
-    'automake',
-    'libtool',
-    'make',
-})
+# The dependencies every golang/golangmodules spec must declare.
+_GO_BUILDREQUIRES = frozenset({'go', 'go-rpm-macros'})
+
+# The ``BuildSystem`` values this hook applies to.
+_GO_BUILDSYSTEMS = frozenset({'golang', 'golangmodules'})
+
+# See check_spec_cmake._dependencies_in_values: ``-`` is a valid
+# package-name character (e.g. ``go-rpm-macros``), so it is kept, but a
+# bare ``-suffix`` left over from a stripped macro must not count.
+_TOKEN_RE = re.compile(r'^[A-Za-z0-9_.+/]+(?:-[A-Za-z0-9_.+/]+)*$')
+_MACRO_RE = re.compile(r'%\{[^}]*\}')
+_BARE_MACRO_RE = re.compile(
+    r'(?<![A-Za-z0-9_.-])%[A-Za-z_][A-Za-z0-9_]*(?![A-Za-z0-9_.])',
+)
 
 
 def _dependencies_in_values(values: list[str]) -> set[str]:
@@ -56,24 +68,17 @@ def _dependencies_in_values(values: list[str]) -> set[str]:
     deps: set[str] = set()
     for value in values:
         # strip rpm macros so ``%{?foo}-devel`` does not pollute the set
-        value = re.sub(r'%\{[^}]*\}', ' ', value)
-        value = re.sub(
-            r'(?<![A-Za-z0-9_.-])%[A-Za-z_][A-Za-z0-9_]*(?![A-Za-z0-9_.])',
-            ' ',
-            value,
-        )
+        value = _MACRO_RE.sub(' ', value)
+        value = _BARE_MACRO_RE.sub(' ', value)
         for token in re.split(r'[\s,()]', value):
             token = token.strip()
-            # ``-`` is a valid package-name character (e.g. ``go-rpm-macros``
-            # or ``zlib-devel``), but a bare ``-suffix`` left over from a
-            # stripped macro (``%{?foo}-devel``) must not count as a name.
-            if re.match(r'^[A-Za-z0-9_.+/]+(?:-[A-Za-z0-9_.+/]+)*$', token):
+            if _TOKEN_RE.match(token):
                 deps.add(token)
     return deps
 
 
-def _check_spec_autotools(filename: str) -> list[str]:
-    """Validate the autotools build requirements of ``filename``.
+def _check_spec_golang(filename: str) -> list[str]:
+    """Validate the golang build requirements of ``filename``.
 
     Returns a list of human readable error messages; empty on success.
     """
@@ -112,16 +117,16 @@ def _check_spec_autotools(filename: str) -> list[str]:
         if m:
             buildrequires.append(m.group(1).strip())
 
-    if buildsystem_value != 'autotools':
-        # This hook only applies to ``BuildSystem: autotools`` specs.
+    if buildsystem_value not in _GO_BUILDSYSTEMS:
+        # This hook only applies to golang/golangmodules specs.
         return errors
 
     deps = _dependencies_in_values(buildrequires)
-    missing = sorted(_AUTOTOOLS_BUILDREQUIRES - deps)
+    missing = sorted(_GO_BUILDREQUIRES - deps)
     if missing:
         errors.append(
-            f'{filename}: BuildSystem is autotools; BuildRequires must '
-            f'declare {", ".join(missing)}',
+            f'{filename}: BuildSystem is {buildsystem_value}; '
+            f'BuildRequires must declare {", ".join(missing)}',
         )
     return errors
 
@@ -133,7 +138,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     retv = 0
     for filename in args.filenames:
-        for err in _check_spec_autotools(filename):
+        for err in _check_spec_golang(filename):
             print(err)
             retv = 1
     return retv

@@ -176,3 +176,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-golang
+  name: check-spec-golang
+  description: Ensure spec files using the golang or golangmodules build system declare the required go and go-rpm-macros BuildRequires.
+  entry: check-spec-golang
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

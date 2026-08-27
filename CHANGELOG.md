@@ -9,7 +9,8 @@
   `libtool`、`make` 四项构建依赖（gcc 预装豁免）。静态检查：截取头部
   （首个 `%description`/`%package` 之前）收集 `BuildSystem` 与
   `BuildRequires`，剥离 `%{...}` 宏并按空白/逗号/括号拆分依赖名，
-  仅匹配 `^[A-Za-z0-9_.+/]+$` 的视为有效声明；`BuildSystem` 值为
+  仅匹配 `^[A-Za-z0-9_.+/]+(?:-[A-Za-z0-9_.+/]+)*$` 的视为有效声明
+  （允许 `go-rpm-macros` 等带连字符的包名）；`BuildSystem` 值为
   `autotools` 时缺失任意一项即报错，非 autotools 构建系统直接跳过。
   新增规则文档 `docs/check-spec-autotools.md` 与扫描结果
   `openruyi-scan-results/check-spec-autotools-results.md`（675 个
@@ -18,11 +19,20 @@
   文件必须在头部 `BuildRequires` 声明 `cmake` 构建依赖（gcc 预装
   豁免）。静态检查逻辑同 `check-spec-autotools`（截取头部收集
   `BuildSystem` 与 `BuildRequires`、剥离 `%{...}` 宏后按
-  空白/逗号/括号拆分依赖名、仅匹配 `^[A-Za-z0-9_.+/]+$` 的视为
-  有效声明）；`BuildSystem` 值为 `cmake` 时缺失即报错，非 cmake
+  空白/逗号/括号拆分依赖名、匹配`^[A-Za-z0-9_.+/]+(?:-[A-Za-z0-9_.+/]+)*$`
+  的视为有效声明）；`BuildSystem` 值为 `cmake` 时缺失即报错，非 cmake
   构建系统直接跳过。新增规则文档 `docs/check-spec-cmake.md` 与
   扫描结果 `openruyi-scan-results/check-spec-cmake-results.md`
   （422 个 cmake spec 中 421 个通过、1 个缺失依赖）。
+- 规则 hook `check-spec-golang`：校验 `BuildSystem: golang` 或
+  `BuildSystem: golangmodules` 的 spec 文件必须在头部
+  `BuildRequires` 声明 `go`、`go-rpm-macros` 两项构建依赖
+  （golang 指南未提及预装工具豁免，两项均为必需）。静态检查逻辑
+  同 `check-spec-autotools`；`BuildSystem` 值为 `golang` 或
+  `golangmodules` 时缺失任意一项即报错，其它构建系统直接跳过。
+  新增规则文档 `docs/check-spec-golang.md` 与扫描结果
+  `openruyi-scan-results/check-spec-golang-results.md`
+  （730 个 golang/golangmodules spec 全部通过、0 个缺失依赖）。
 
 ## 0.1.0 (2026-08-26)
 
