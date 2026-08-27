@@ -192,3 +192,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-perl
+  name: check-spec-perl
+  description: Ensure spec files using the perlbuild or perlmaker build system declare the required perl-rpm-packaging, perl-rpm-macros and perl-macros BuildRequires.
+  entry: check-spec-perl
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true
