@@ -14,6 +14,15 @@
   新增规则文档 `docs/check-spec-autotools.md` 与扫描结果
   `openruyi-scan-results/check-spec-autotools-results.md`（675 个
   autotools spec 中 193 个通过、482 个缺失依赖）。
+- 规则 hook `check-spec-cmake`：校验 `BuildSystem: cmake` 的 spec
+  文件必须在头部 `BuildRequires` 声明 `cmake` 构建依赖（gcc 预装
+  豁免）。静态检查逻辑同 `check-spec-autotools`（截取头部收集
+  `BuildSystem` 与 `BuildRequires`、剥离 `%{...}` 宏后按
+  空白/逗号/括号拆分依赖名、仅匹配 `^[A-Za-z0-9_.+/]+$` 的视为
+  有效声明）；`BuildSystem` 值为 `cmake` 时缺失即报错，非 cmake
+  构建系统直接跳过。新增规则文档 `docs/check-spec-cmake.md` 与
+  扫描结果 `openruyi-scan-results/check-spec-cmake-results.md`
+  （422 个 cmake spec 中 421 个通过、1 个缺失依赖）。
 
 ## 0.1.0 (2026-08-26)
 

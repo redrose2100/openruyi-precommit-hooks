@@ -168,3 +168,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-cmake
+  name: check-spec-cmake
+  description: Ensure spec files using the cmake build system declare the required cmake BuildRequires.
+  entry: check-spec-cmake
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

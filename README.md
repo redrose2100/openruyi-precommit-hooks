@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 20 个）
+## 可用的 Hooks（共 21 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -40,6 +40,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 18 | `check-spec-changelog` | 校验 spec 文件 `%changelog` 段落内容必须为 `%autochangelog`（不得手写更新日志；`%{?autochangelog}` 条件宏同样合规） | [docs/check-spec-changelog.md](docs/check-spec-changelog.md) |
 | 19 | `check-spec-bcond` | 校验 spec 文件条件构建开关符合官方规则（用 `%bcond <name> <0\|1>` 声明、不用旧式 `%bcond_with`/`%bcond_without`、`%{with}/%{without}` 引用不得指向未声明开关） | [docs/check-spec-bcond.md](docs/check-spec-bcond.md) |
 | 20 | `check-spec-autotools` | 校验 `BuildSystem: autotools` 的 spec 文件必须在头部 `BuildRequires` 声明 `autoconf`、`automake`、`libtool`、`make` 四项依赖（gcc 预装豁免） | [docs/check-spec-autotools.md](docs/check-spec-autotools.md) |
+| 21 | `check-spec-cmake` | 校验 `BuildSystem: cmake` 的 spec 文件必须在头部 `BuildRequires` 声明 `cmake` 依赖（gcc 预装豁免） | [docs/check-spec-cmake.md](docs/check-spec-cmake.md) |
 
 ## 新增一个 Hook
 
