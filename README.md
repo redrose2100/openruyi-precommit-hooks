@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 21 个）
+## 可用的 Hooks（共 22 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -41,6 +41,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 19 | `check-spec-bcond` | 校验 spec 文件条件构建开关符合官方规则（用 `%bcond <name> <0\|1>` 声明、不用旧式 `%bcond_with`/`%bcond_without`、`%{with}/%{without}` 引用不得指向未声明开关） | [docs/check-spec-bcond.md](docs/check-spec-bcond.md) |
 | 20 | `check-spec-autotools` | 校验 `BuildSystem: autotools` 的 spec 文件必须在头部 `BuildRequires` 声明 `autoconf`、`automake`、`libtool`、`make` 四项依赖（gcc 预装豁免） | [docs/check-spec-autotools.md](docs/check-spec-autotools.md) |
 | 21 | `check-spec-cmake` | 校验 `BuildSystem: cmake` 的 spec 文件必须在头部 `BuildRequires` 声明 `cmake` 依赖（gcc 预装豁免） | [docs/check-spec-cmake.md](docs/check-spec-cmake.md) |
+| 22 | `check-spec-golang` | 校验 `BuildSystem: golang`/`golangmodules` 的 spec 文件必须在头部 `BuildRequires` 声明 `go`、`go-rpm-macros` 两项依赖（无预装豁免） | [docs/check-spec-golang.md](docs/check-spec-golang.md) |
 
 ## 新增一个 Hook
 
