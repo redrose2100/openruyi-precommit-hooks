@@ -208,3 +208,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-rust
+  name: check-spec-rust
+  description: Ensure spec files using the rust build system declare the required rust and rust-rpm-macros BuildRequires, do not override the rustcrates build stage with BuildOption(build), and write a comment above BuildOption(check) explaining why tests are skipped.
+  entry: check-spec-rust
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

@@ -65,6 +65,21 @@
   `openruyi-scan-results/check-spec-pyproject-results.md`
   （852 个 pyproject spec 中 785 个通过、67 个问题：6 个缺失
   `pyproject-rpm-macros` + 61 个 `BuildOption(check)` 无原因注释）。
+- 规则 hook `check-spec-rust`：校验 `BuildSystem: rust` / `BuildSystem:
+  rustcrates` 的 spec 文件必须满足四项静态检查点（Rust 指南的
+  「通常需要」依赖、rustcrates 不可覆盖构建阶段、check 原因注释）。
+  静态检查：截取头部（首个 `%description`/`%package` 之前）收集
+  `BuildSystem` 与 `BuildRequires`，剥离 `%{...}` 宏后按
+  空白/逗号/括号拆分依赖名，`BuildRequires` 缺失
+  `rust-rpm-macros` 即报错（两种系统）；`rust` 应用包缺失 `rust`
+  （编译器）即报错；`BuildSystem: rustcrates` 出现
+  `BuildOption(build)` 即报错（构建阶段运行 specpart 脚本，文档
+  明确不可覆盖）；`BuildOption(check)` 块首行上方最近非空行不是
+  注释（未写明跳过原因）即报错。`BuildSystem` 值非 `rust`/
+  `rustcrates` 直接跳过。新增规则文档 `docs/check-spec-rust.md`
+  与扫描结果 `openruyi-scan-results/check-spec-rust-results.md`
+  （1897 个 rust/rustcrates spec 中 1896 个通过、1 个问题：
+  `cbindgen` 的 `BuildOption(check)` 无原因注释）。
 
 ## 0.1.0 (2026-08-26)
 
