@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 24 个）
+## 可用的 Hooks（共 25 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -44,6 +44,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 22 | `check-spec-golang` | 校验 `BuildSystem: golang`/`golangmodules` 的 spec 文件必须在头部 `BuildRequires` 声明 `go`、`go-rpm-macros` 两项依赖（无预装豁免） | [docs/check-spec-golang.md](docs/check-spec-golang.md) |
 | 23 | `check-spec-meson` | 校验 `BuildSystem: meson` 的 spec 文件必须在头部 `BuildRequires` 声明 `meson` 依赖（无预装豁免） | [docs/check-spec-meson.md](docs/check-spec-meson.md) |
 | 24 | `check-spec-perl` | 校验 `BuildSystem: perlbuild`/`perlmaker` 的 spec 文件必须在头部 `BuildRequires` 声明 `perl-rpm-packaging`、`perl-rpm-macros`、`perl-macros` 三项依赖（无预装豁免） | [docs/check-spec-perl.md](docs/check-spec-perl.md) |
+| 25 | `check-spec-pyproject` | 校验 `BuildSystem: pyproject` 的 spec 文件必须在头部 `BuildRequires` 声明 `pyproject-rpm-macros`、`BuildOption(install)` 必须携带模块名、`BuildOption(check)` 上方必须写明跳过原因注释 | [docs/check-spec-pyproject.md](docs/check-spec-pyproject.md) |
 
 ## 新增一个 Hook
 
