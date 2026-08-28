@@ -23,6 +23,11 @@ from collections.abc import Sequence
 #   * when ``BuildSystem`` is ``perlbuild`` or ``perlmaker``,
 #     ``perl-rpm-packaging``, ``perl-rpm-macros`` and ``perl-macros``
 #     must be declared in the header ``BuildRequires`` fields.
+#   * ``Requires:``/``Provides:`` fields must not depend on a bare
+#     ``perl-CPANDIST`` package name; the ``perl(MODULE)`` virtual
+#     dependency format must be used instead.  A ``perl-X`` reference
+#     is only allowed when the spec itself declares a ``%package perl-X``
+#     subpackage (a split-off or bundled package).
 #
 # The other perl guidelines are not checked here:
 #   * the ``perl(Module::Build)`` / ``perl(ExtUtils::MakeMaker)`` /
@@ -45,6 +50,19 @@ from collections.abc import Sequence
 _RE_BUILDSYSTEM = re.compile(r'^BuildSystem\s*:\s*(.*)')
 _RE_BUILDREQUIRES = re.compile(r'^BuildRequires\s*:\s*(.*)')
 
+# ``Requires:`` / ``Provides:`` lines whose value starts with a bare
+# ``perl-CPANDIST`` package name (e.g. ``perl-SGMLSpm``).  The CPAN
+# distribution naming convention capitalises the first letter, so
+# ``perl-XYZ`` identifies a distribution name whereas ``perl(xyz)`` is
+# the virtual-dependency format that must be used instead.
+_RE_REQ_PROV = re.compile(r'^(?:Requires|Provides)\s*:\s*(.*)')
+_RE_PERL_PACKAGE = re.compile(r'^perl-[A-Z][A-Za-z0-9_-]*')
+
+# ``%package perl-XYZ`` subpackage declarations.
+_RE_PACKAGE_NAME = re.compile(
+    r'^%package\s+(?:-n\s+)?([A-Za-z0-9_+.-]+)',
+)
+
 # The dependencies every perlbuild/perlmaker spec must declare.
 _PERL_BUILDREQUIRES = frozenset({
     'perl-rpm-packaging',
@@ -63,6 +81,27 @@ _MACRO_RE = re.compile(r'%\{[^}]*\}')
 _BARE_MACRO_RE = re.compile(
     r'(?<![A-Za-z0-9_.-])%[A-Za-z_][A-Za-z0-9_]*(?![A-Za-z0-9_.])',
 )
+
+
+def _subpackage_names(lines: list[str]) -> set[str]:
+    """Collect the ``%package`` subpackage names declared by ``lines``.
+
+    ``Requires: perl-X`` is allowed when the spec itself declares the
+    ``perl-X`` package (e.g. a split-off subpackage), so those names are
+    collected up front.  ``%package -n name`` overrides the prefix, and
+    ``foo%{?bar}`` style macro names cannot be matched statically.
+    """
+    names: set[str] = set()
+    for line in lines:
+        stripped = line.strip()
+        if not stripped.startswith('%package'):
+            continue
+        m = _RE_PACKAGE_NAME.match(stripped)
+        if m and '%' not in m.group(1):
+            name = m.group(1)
+            if name.startswith('perl-'):
+                names.add(name)
+    return names
 
 
 def _dependencies_in_values(values: list[str]) -> set[str]:
@@ -101,6 +140,31 @@ def _check_spec_perl(filename: str) -> list[str]:
 
     if not lines:
         return [f'{filename}: file is empty']
+
+    # The ``perl(MODULE)`` virtual-dependency rule applies to every spec
+    # (the perl guidelines describe the ``Requires``/``Provides`` format
+    # in general), so it is checked before the build-system gate below.
+    subpackages = _subpackage_names(lines)
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith('#'):
+            continue
+        m = _RE_REQ_PROV.match(stripped)
+        if not m:
+            continue
+        value = m.group(1).strip()
+        for token in re.split(r'[\s,]+', value):
+            token = token.rstrip('=<>~')
+            pkg_m = _RE_PERL_PACKAGE.match(token)
+            if not pkg_m:
+                continue
+            pkg = pkg_m.group(0)
+            if pkg not in subpackages:
+                errors.append(
+                    f'{filename}: requires/provides must use the '
+                    f'perl(MODULE) virtual dependency format, not the '
+                    f'package name "{pkg}"',
+                )
 
     # Only the header region is inspected: ``BuildRequires`` inside a
     # ``%package`` subpackage block declares the subpackage build
