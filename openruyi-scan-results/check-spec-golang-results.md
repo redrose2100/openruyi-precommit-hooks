@@ -8,29 +8,43 @@
 
 | 扫描 spec 文件数 | golang | golangmodules | 适用小计 | 通过 | 问题 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| 5267 | 12 | 718 | 730 | 730 | 0 |
+| 5267 | 12 | 718 | 730 | 725 | 5 |
 
 ## 问题类型分布
 
-未发现缺失依赖的情况（0 条）。
+| 类型 | 数量 |
+| --- | ---: |
+| `golangmodules` 缺 `Provides: go(<import path>)` | 1 |
+| `Provides: go(...)` 缺版本约束（`= <version>`） | 4 |
 
-## 问题清单（0 条）
+## 问题清单（5 条）
 
-未发现违规 spec。
+| 包 | 违规类型 |
+| --- | --- |
+| `go-github-brianvoe-gofakeit` | 缺 `Provides: go(...)` |
+| `go-github-fatih-color` | `Provides: go(github.com/fatih/color)` 缺版本约束 |
+| `go-github-lithammer-shortuuid` | `Provides: go(github.com/lithammer/shortuuid)` 缺版本约束 |
+| `go-github-russross-blackfriday` | `Provides: go(github.com/russross/blackfriday)` 缺版本约束 |
+| `go-github-russross-blackfriday-v2` | `Provides: go(github.com/russross/blackfriday/v2)` 缺版本约束 |
 
 ## 说明
 
 - 规则仅适用于 `BuildSystem: golang` 或 `BuildSystem: golangmodules`
   的 spec（共 730 个）：
-  头部区域 `BuildRequires` 必须声明 `go` 与 `go-rpm-macros`
-  两项依赖。
-  （与 cmake/autotools 指南不同，golang 页面未提及预装工具豁免，
-  因此两项均为必需声明。）
+  1. 头部区域 `BuildRequires` 必须声明 `go` 与 `go-rpm-macros`
+     两项依赖（与 cmake/autotools 指南不同，golang 页面未提及
+     预装工具豁免，因此两项均为必需声明）；
+  2. `golangmodules`（纯库打包构建系统）必须在头部或
+     `%package` 子包块内声明至少一条 `Provides: go(<import path>)`；
+  3. 每条 `Provides: go(<import path>)` 必须带显式版本约束
+     `= <version>`（如 `= %{version}`）。
 - 其余 4537 个非 golang/golangmodules spec 不适用本规则，未计入统计。
-- `%package` 子包段落内的 `BuildRequires`、宏展开值（如 `%{?foo}`）以及注释行不视为有效声明。
-- 头部定义 `_name` 与 `go_import_path` 宏（"至少应该"）：属建议性要求，未纳入强检查点。
+- `%package` 子包段落内的 `BuildRequires`、宏展开值（如 `%{?foo}`）
+  以及注释行不视为有效声明。
+- 头部定义 `_name` 与 `go_import_path` 宏（"至少应该"）：
+  属建议性要求，未纳入强检查点。
 - 跨构建系统宏调用（`%go_common`、`%buildsystem_golangmodules_install`
- 等）取决于最终产物形态（二进制/库），无法静态判定，
+  等）取决于最终产物形态（二进制/库），无法静态判定，
   不在本规则范围内。
 
 > 规则说明：[docs/check-spec-golang.md](../docs/check-spec-golang.md)

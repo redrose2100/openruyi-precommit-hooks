@@ -41,7 +41,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 19 | `check-spec-bcond` | 校验 spec 文件条件构建开关符合官方规则（用 `%bcond <name> <0\|1>` 声明、不用旧式 `%bcond_with`/`%bcond_without`、`%{with}/%{without}` 引用不得指向未声明开关） | [docs/check-spec-bcond.md](docs/check-spec-bcond.md) |
 | 20 | `check-spec-autotools` | 校验 `BuildSystem: autotools` 的 spec 文件必须在头部 `BuildRequires` 声明 `autoconf`、`automake`、`libtool`、`make` 四项依赖（gcc 预装豁免） | [docs/check-spec-autotools.md](docs/check-spec-autotools.md) |
 | 21 | `check-spec-cmake` | 校验 `BuildSystem: cmake` 的 spec 文件必须在头部 `BuildRequires` 声明 `cmake` 依赖（gcc 预装豁免） | [docs/check-spec-cmake.md](docs/check-spec-cmake.md) |
-| 22 | `check-spec-golang` | 校验 `BuildSystem: golang`/`golangmodules` 的 spec 文件必须在头部 `BuildRequires` 声明 `go`、`go-rpm-macros` 两项依赖（无预装豁免） | [docs/check-spec-golang.md](docs/check-spec-golang.md) |
+| 22 | `check-spec-golang` | 校验 `BuildSystem: golang`/`golangmodules` 的 spec 文件必须在头部 `BuildRequires` 声明 `go`、`go-rpm-macros` 两项依赖（无预装豁免）；`golangmodules`（纯库）必须声明 `Provides: go(<import path>)`，且每条 `Provides: go(...)` 必须带 `= <version>` 版本约束 | [docs/check-spec-golang.md](docs/check-spec-golang.md) |
 | 23 | `check-spec-meson` | 校验 `BuildSystem: meson` 的 spec 文件必须在头部 `BuildRequires` 声明 `meson` 依赖（无预装豁免） | [docs/check-spec-meson.md](docs/check-spec-meson.md) |
 | 24 | `check-spec-perl` | 校验 `BuildSystem: perlbuild`/`perlmaker` 的 spec 文件必须在头部 `BuildRequires` 声明 `perl-rpm-packaging`、`perl-rpm-macros`、`perl-macros` 三项依赖（无预装豁免） | [docs/check-spec-perl.md](docs/check-spec-perl.md) |
 | 25 | `check-spec-pyproject` | 校验 `BuildSystem: pyproject` 的 spec 文件必须在头部 `BuildRequires` 声明 `pyproject-rpm-macros`、`BuildOption(install)` 必须携带模块名、`BuildOption(check)` 上方必须写明跳过原因注释 | [docs/check-spec-pyproject.md](docs/check-spec-pyproject.md) |

@@ -33,6 +33,22 @@
   新增规则文档 `docs/check-spec-golang.md` 与扫描结果
   `openruyi-scan-results/check-spec-golang-results.md`
   （730 个 golang/golangmodules spec 全部通过、0 个缺失依赖）。
+- 规则 hook `check-spec-golang` 新增检查点（依据「编程语言 ·
+  Golang」指南依赖关系章节「库软件包本身必须要显式在 RPM Spec
+  内写出自己提供的导入路径和版本」）：`BuildSystem: golangmodules`
+  （纯库打包构建系统）必须在头部或 `%package` 子包块内声明至少
+  一条 `Provides: go(<import path>)`；每条 `Provides: go(...)`
+  必须带显式版本约束（`= <version>`，如 `= %{version}`）。
+  静态检查：`Provides` 字段在头部区域与全部 `%package` 子包块内
+  收集，`golangmodules` 无任何 `go()` 虚拟提供即报错；`go(...)`
+  提供行内未写出 `= <version>` 即报错（`%files`/`%description`/
+  `%changelog` 与脚本段内容不检查）。更新规则文档
+  `docs/check-spec-golang.md` 与扫描结果
+  `openruyi-scan-results/check-spec-golang-results.md`
+  （730 个 golang/golangmodules spec 中 725 个通过、5 个问题：
+  gofakeit 缺 `Provides: go(...)`；fatih-color、shortuuid、
+  blackfriday、blackfriday-v2 四个包的 `Provides: go(...)`
+  缺版本约束）。
 - 规则 hook `check-spec-meson`：校验 `BuildSystem: meson` 的 spec
   文件必须在头部 `BuildRequires` 声明 `meson` 构建依赖
   （meson 指南未提及预装工具豁免，`meson` 为必需声明）。静态检查
