@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 25 个）
+## 可用的 Hooks（共 26 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -54,7 +54,8 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 2. 在 `setup.cfg` 的 `[options.entry_points] console_scripts` 中注册命令行入口。
 3. 在 `.pre-commit-hooks.yaml` 中声明新的 hook 元数据。
 4. 在 `tests/` 下新建对应测试，测试资源放在 `testing/resources/`。
-5. 更新 `README.md` 的 Hooks 列表与 `CHANGELOG.md`。
+5. 更新 `README.md` 的 Hooks 列表与标题「可用的 Hooks（共 N 个）」
+   中的总数（每新增一个 hook 数量 +1），并更新 `CHANGELOG.md`。
 
 ## 提交规范
 
