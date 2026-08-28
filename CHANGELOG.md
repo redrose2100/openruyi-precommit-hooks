@@ -67,6 +67,22 @@
   `docs/check-spec-perl.md` 与扫描结果
   `openruyi-scan-results/check-spec-perl-results.md`
   （394 个 perlbuild/perlmaker spec 全部通过、0 个缺失依赖）。
+- 规则 hook `check-spec-perl` 新增检查点（依据「编程语言 ·
+  Perl」指南 Requires 和 Provides 标签章节「应使用 `perl(MODULE)`
+  格式，而不是直接依赖包名」）：`Requires:`/`Provides:` 字段
+  中出现 `perl-CPANDIST` 包名（`perl-[A-Z]\S*`）时，必须改写成
+  `perl(MODULE)` 虚拟依赖格式；仅当 spec 内声明了同名
+  `%package perl-X` 子包（如 `git.spec` 的 `%package perl-Git`）
+  时才允许使用包名。静态检查：收集全部 `%package` 子包名，
+  逐行匹配 `Requires:`/`Provides:` 值并按空白/逗号拆分 token、
+  剥离 `=<>~` 版本约束符号，命中 `perl-[A-Z]...` 且不在子包集合
+  内即报错。本检查点适用于全部 spec（不限于 perlbuild/perlmaker）。
+  更新规则文档 `docs/check-spec-perl.md` 与扫描结果
+  `openruyi-scan-results/check-spec-perl-results.md`
+  （5267 个 spec 中 5265 个通过、2 个问题：docbook-utils 的
+  `Requires: perl-SGMLSpm`、help2man 的
+  `Requires: perl-Locale-gettext`，应分别改写为
+  `perl(SGMLSpm)`、`perl(Gettext)`）。
 - 规则 hook `check-spec-pyproject`：校验 `BuildSystem: pyproject`
   的 spec 文件必须满足三项静态检查点（pyproject 指南的
   「至少需要」依赖、install 模块名、check 原因注释）。静态检查：
