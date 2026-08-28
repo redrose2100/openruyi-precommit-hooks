@@ -200,3 +200,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-pyproject
+  name: check-spec-pyproject
+  description: Ensure spec files using the pyproject build system declare the pyproject-rpm-macros BuildRequires, pass a module name to BuildOption(install), and write a comment above BuildOption(check) explaining why modules are skipped.
+  entry: check-spec-pyproject
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

@@ -51,6 +51,20 @@
   `docs/check-spec-perl.md` 与扫描结果
   `openruyi-scan-results/check-spec-perl-results.md`
   （394 个 perlbuild/perlmaker spec 全部通过、0 个缺失依赖）。
+- 规则 hook `check-spec-pyproject`：校验 `BuildSystem: pyproject`
+  的 spec 文件必须满足三项静态检查点（pyproject 指南的
+  「至少需要」依赖、install 模块名、check 原因注释）。静态检查：
+  截取头部（首个 `%description`/`%package` 之前）收集
+  `BuildSystem` 与 `BuildRequires`，剥离 `%{...}` 宏后按
+空白/逗号/括号拆分依赖名，`BuildRequires` 缺失
+  `pyproject-rpm-macros` 即报错；`BuildOption(install)` 值为空
+  （未携带模块名）即报错；`BuildOption(check)` 块首行上方最近
+  非空行不是注释（未写明跳过原因）即报错。`BuildSystem` 值非
+  `pyproject` 直接跳过。新增规则文档
+  `docs/check-spec-pyproject.md` 与扫描结果
+  `openruyi-scan-results/check-spec-pyproject-results.md`
+  （852 个 pyproject spec 中 785 个通过、67 个问题：6 个缺失
+  `pyproject-rpm-macros` + 61 个 `BuildOption(check)` 无原因注释）。
 
 ## 0.1.0 (2026-08-26)
 
