@@ -186,8 +186,10 @@ def _check_spec_golang(filename: str) -> list[str]:
             if name.startswith('package'):
                 section = 'package'
                 continue
-            if (name.startswith('files') or name.startswith('description')
-                    or name in _SKIP_SECTIONS):
+            if (
+                name.startswith('files') or name.startswith('description') or
+                name in _SKIP_SECTIONS
+            ):
                 section = name
                 continue
             # ``%if``/``%define``/``%{...}`` etc. do not change section.
