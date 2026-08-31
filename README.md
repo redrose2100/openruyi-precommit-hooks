@@ -16,7 +16,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
     # -   id: ...
 ```
 
-## 可用的 Hooks（共 26 个）
+## 可用的 Hooks（共 27 个）
 
 | # | Hook ID | 说明 | 文档 |
 | --- | --- | --- | --- |
@@ -46,6 +46,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 | 24 | `check-spec-perl` | 校验 `BuildSystem: perlbuild`/`perlmaker` 的 spec 文件必须在头部 `BuildRequires` 声明 `perl-rpm-packaging`、`perl-rpm-macros`、`perl-macros` 三项依赖（无预装豁免）；`Requires:`/`Provides:` 必须使用 `perl(MODULE)` 虚拟依赖格式，不得直接写 `perl-CPANDIST` 包名（同名 `%package` 子包除外） | [docs/check-spec-perl.md](docs/check-spec-perl.md) |
 | 25 | `check-spec-pyproject` | 校验 `BuildSystem: pyproject` 的 spec 文件必须在头部 `BuildRequires` 声明 `pyproject-rpm-macros`、`BuildOption(install)` 必须携带模块名、`BuildOption(check)` 上方必须写明跳过原因注释 | [docs/check-spec-pyproject.md](docs/check-spec-pyproject.md) |
 | 26 | `check-spec-rust` | 校验 `BuildSystem: rust`/`rustcrates` 的 spec 文件在头部 `BuildRequires` 声明对应必需依赖（`rust`+`rust-rpm-macros` 或仅 `rust-rpm-macros`）、`rustcrates` 不得用 `BuildOption(build)` 覆盖构建阶段、`BuildOption(check)` 上方必须写明跳过原因注释 | [docs/check-spec-rust.md](docs/check-spec-rust.md) |
+| 27 | `check-spec-subpackage` | 校验 `%package` 子包块内 `Requires` 若引用主包（`%{name}` 或主包字面名）必须带严格版本比较符（如 `Requires: %{name}%{?_isa} = %{version}-%{release}`）；子包引用、`go(...)`/`perl(...)` 等虚拟能力、宏续接包名豁免 | [docs/check-spec-subpackage.md](docs/check-spec-subpackage.md) |
 
 ## 新增一个 Hook
 

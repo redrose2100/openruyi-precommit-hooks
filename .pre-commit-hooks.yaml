@@ -216,3 +216,11 @@
   types_or: [spec]
   # Only check staged files; skip if nothing changed.
   pass_filenames: true
+- id: check-spec-subpackage
+  name: check-spec-subpackage
+  description: "Ensure a %package subpackage that depends on the main package pins it at a strict version (e.g. Requires: %{name}%{?_isa} = %{version}-%{release}) as required by the openRuyi SplitPackage guidelines."
+  entry: check-spec-subpackage
+  language: python
+  types_or: [spec]
+  # Only check staged files; skip if nothing changed.
+  pass_filenames: true

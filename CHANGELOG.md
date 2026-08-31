@@ -112,6 +112,23 @@
   与扫描结果 `openruyi-scan-results/check-spec-rust-results.md`
   （1897 个 rust/rustcrates spec 中 1896 个通过、1 个问题：
   `cbindgen` 的 `BuildOption(check)` 无原因注释）。
+- 规则 hook `check-spec-subpackage`：校验 `%package` 子包块内
+  `Requires` 若引用主包（`%{name}` 或主包字面名）必须带严格版本
+  比较符（SplitPackage 指南「需要主包的子包必须严格指定版本地依赖
+  主包」，推荐 `Requires: %{name}%{?_isa} = %{version}-%{release}`）。
+  静态检查：提取 `Name` 字段，遍历 `%package` 子包块（跳过主包块
+  与宏展开的主包名），匹配裸 `Requires:`（`Requires(pre):` 等
+  scriptlet 变体天然不匹配被跳过）；豁免整值虚拟能力
+  （`go(...)`/`pkgconfig(...)`/`perl(...)`/`python3dist(...)` 等）、
+  子包引用（`%{name}-devel`/`<主包名>-<功能>`）、宏续接包名
+  （`gcc%{gcc_version}-c++` 展开为另一包）；命中主包引用且无版本
+  比较符即报错。适用于全部 spec。新增规则文档
+  `docs/check-spec-subpackage.md` 与扫描结果
+  `openruyi-scan-results/check-spec-subpackage-results.md`
+  （5267 个 spec 中 5262 个通过、5 个问题：e2fsprogs 的
+  `e2fsprogs-scrub` → e2fsprogs、libmodulemd 的 `devel` →
+  libmodulemd、swig 的 `ccache-swig` → swig、obs-build 的
+  `mkdrpms` → %{name}、perl 的 `macros` → perl）。
 
 ## 0.1.0 (2026-08-26)
 
