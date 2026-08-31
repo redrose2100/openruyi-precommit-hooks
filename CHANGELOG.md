@@ -130,6 +130,16 @@
   libmodulemd、swig 的 `ccache-swig` → swig、obs-build 的
   `mkdrpms` → %{name}、perl 的 `macros` → perl）。
 
+### 变更
+
+- `check-spec-subpackage` 的错误消息与扫描结果补充行号：错误消息
+  改为 `文件:行号:` 前缀（如 `foo.spec:56: subpackage ...`，与
+  `check-spec-bcond` 一致），扫描结果
+  `openruyi-scan-results/check-spec-subpackage-results.md` 的问题
+  清单新增「行号」列（e2fsprogs:56、libmodulemd:58、obs-build:61、
+  perl:86、swig:78）。规则文档 `docs/check-spec-subpackage.md` 的
+  失败示例同步更新，并新增 swig（ccache-swig）形态的测试用例。
+
 ## 0.1.0 (2026-08-26)
 
 ### 变更

@@ -106,4 +106,5 @@ Requires:       go(github.com/moby/docker-image-spec)
 Summary:        Scrub tool
 Requires:       e2fsprogs
 ```
-→ `subpackage "e2fsprogs-scrub" depends on the main package "e2fsprogs" without a strict version; add a version comparison such as "Requires: %{name}%{?_isa} = %{version}-%{release}" (found "e2fsprogs")`
+→ `foo.spec:10: subpackage "e2fsprogs-scrub" depends on the main package "e2fsprogs" without a strict version; add a version comparison such as "Requires: %{name}%{?_isa} = %{version}-%{release}" (found "e2fsprogs")`
+（`foo.spec:10` 中 `10` 为违规 `Requires` 行所在行号）

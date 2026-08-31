@@ -119,7 +119,7 @@ def _check_spec_subpackage(filename: str) -> list[str]:
     # Current ``%package`` subpackage name; ``None`` means the main
     # package block (top level).
     cur_subpkg: str | None = None
-    for i, raw in enumerate(lines):
+    for lineno, raw in enumerate(lines, start=1):
         stripped = raw.strip()
         if not stripped or stripped.startswith('#'):
             continue
@@ -160,9 +160,9 @@ def _check_spec_subpackage(filename: str) -> list[str]:
             continue
         shown = _truncate(value)
         errors.append(
-            f'{filename}: subpackage "{cur_subpkg}" depends on the main '
-            f'package "{name}" without a strict version; add a version '
-            f'comparison such as "Requires: %{{name}}%{{?_isa}} = '
+            f'{filename}:{lineno}: subpackage "{cur_subpkg}" depends on '
+            f'the main package "{name}" without a strict version; add a '
+            f'version comparison such as "Requires: %{{name}}%{{?_isa}} = '
             f'%{{version}}-%{{release}}" (found "{shown}")',
         )
     return errors

@@ -18,13 +18,13 @@
 
 ## 问题清单（5 个文件）
 
-| spec 文件 | 问题 |
-| --- | --- |
-| `e2fsprogs/e2fsprogs.spec` | 子包 `e2fsprogs-scrub` 的 `Requires` 引用主包但无严格版本（found "e2fsprogs"） |
-| `libmodulemd/libmodulemd.spec` | 子包 `devel` 的 `Requires` 引用主包但无严格版本（found "libmodulemd"） |
-| `obs-build/obs-build.spec` | 子包 `mkdrpms` 的 `Requires` 引用主包但无严格版本（found "%{name}"） |
-| `perl/perl.spec` | 子包 `macros` 的 `Requires` 引用主包但无严格版本（found "perl"） |
-| `swig/swig.spec` | 子包 `ccache-swig` 的 `Requires` 引用主包但无严格版本（found "swig"） |
+| spec 文件 | 行号 | 问题 |
+| --- | ---: | --- |
+| `e2fsprogs/e2fsprogs.spec` | 56 | 子包 `e2fsprogs-scrub` 的 `Requires` 引用主包但无严格版本（found "e2fsprogs"） |
+| `libmodulemd/libmodulemd.spec` | 58 | 子包 `devel` 的 `Requires` 引用主包但无严格版本（found "libmodulemd"） |
+| `obs-build/obs-build.spec` | 61 | 子包 `mkdrpms` 的 `Requires` 引用主包但无严格版本（found "%{name}"） |
+| `perl/perl.spec` | 86 | 子包 `macros` 的 `Requires` 引用主包但无严格版本（found "perl"） |
+| `swig/swig.spec` | 78 | 子包 `ccache-swig` 的 `Requires` 引用主包但无严格版本（found "swig"） |
 
 ## 说明
 

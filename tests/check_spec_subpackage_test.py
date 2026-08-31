@@ -1,6 +1,9 @@
 # flake8: noqa: E501  -- spec file contents are reproduced verbatim
 from __future__ import annotations
 
+import io
+from contextlib import redirect_stdout
+
 from openruyi_precommit_hooks.check_spec_subpackage import main
 
 
@@ -8,6 +11,15 @@ def _write(tmp_path, name, content):
     p = tmp_path / name
     p.write_text(content, encoding='utf-8')
     return str(p)
+
+
+def _check(tmp_path, name, content):
+    """Write a spec and run the hook, returning (returncode, output)."""
+    f = _write(tmp_path, name, content)
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        retv = main([f])
+    return retv, buf.getvalue()
 
 
 # --- passing cases ----------------------------------------------------------
@@ -205,7 +217,7 @@ def test_ok_libperl_not_confused_with_main_perl(tmp_path):
 # --- failing cases ----------------------------------------------------------
 
 def test_bad_subpackage_requires_main_bare(tmp_path):
-    f = _write(
+    retv, out = _check(
         tmp_path,
         'bad1.spec',
         'Name:           e2fsprogs\n'
@@ -219,11 +231,13 @@ def test_bad_subpackage_requires_main_bare(tmp_path):
         'Summary:        Scrub tool.\n'
         'Requires:       e2fsprogs\n',
     )
-    assert main([f]) == 1
+    assert retv == 1
+    assert 'bad1.spec:10: ' in out
+    assert 'e2fsprogs-scrub' in out
 
 
 def test_bad_subpackage_requires_main_bare_macro(tmp_path):
-    f = _write(
+    retv, out = _check(
         tmp_path,
         'bad2.spec',
         'Name:           obs-build\n'
@@ -237,13 +251,15 @@ def test_bad_subpackage_requires_main_bare_macro(tmp_path):
         'Summary:        mkdrpms.\n'
         'Requires:       %{name}\n',
     )
-    assert main([f]) == 1
+    assert retv == 1
+    assert 'bad2.spec:10: ' in out
+    assert 'mkdrpms' in out
 
 
 def test_bad_devel_requires_main_bare(tmp_path):
     # the libmodulemd shape: a plain devel subpackage that needs the
     # main package at a strict version
-    f = _write(
+    retv, out = _check(
         tmp_path,
         'bad3.spec',
         'Name:           libmodulemd\n'
@@ -257,13 +273,15 @@ def test_bad_devel_requires_main_bare(tmp_path):
         'Summary:        Development files.\n'
         'Requires:       libmodulemd\n',
     )
-    assert main([f]) == 1
+    assert retv == 1
+    assert 'bad3.spec:10: ' in out
+    assert 'libmodulemd' in out
 
 
 def test_bad_short_main_name_bare(tmp_path):
     # the perl shape: a bare ``Requires: perl`` in a %package macros
     # block with no version comparison
-    f = _write(
+    retv, out = _check(
         tmp_path,
         'bad4.spec',
         'Name:           perl\n'
@@ -277,4 +295,33 @@ def test_bad_short_main_name_bare(tmp_path):
         'Summary:        Macros.\n'
         'Requires:       perl\n',
     )
-    assert main([f]) == 1
+    assert retv == 1
+    assert 'bad4.spec:10: ' in out
+    assert 'macros' in out
+
+
+def test_bad_subpackage_requires_main_bare_with_leading_lines(tmp_path):
+    # the swig shape: a ``%package -n ccache-swig`` subpackage whose
+    # ``Requires: swig`` sits further down the file; the reported line
+    # number must point at the offending line, not at the block start
+    retv, out = _check(
+        tmp_path,
+        'bad5.spec',
+        'Name:           swig\n'
+        'Version:        4.2.1\n'
+        'BuildSystem:    autotools\n'
+        '\n'
+        '%description\n'
+        'SWIG is a software development tool.\n'
+        '\n'
+        '%package        devel\n'
+        'Summary:        Development files for swig.\n'
+        'Requires:       swig%{?_isa} = %{version}-%{release}\n'
+        '\n'
+        '%package        -n ccache-swig\n'
+        'Summary:        SWIG with ccache support.\n'
+        'Requires:       swig\n',
+    )
+    assert retv == 1
+    assert 'bad5.spec:14: ' in out
+    assert 'ccache-swig' in out
