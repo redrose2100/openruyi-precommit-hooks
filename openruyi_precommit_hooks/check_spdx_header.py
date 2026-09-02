@@ -4,21 +4,6 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# Every spec file in the openRuyi distribution must start with an SPDX
-# header block declaring copyright and license information, e.g.:
-#
-#     # SPDX-FileCopyrightText: (C) 2026 Institute of Software,
-#     #                         Chinese Academy of Sciences (ISCAS)
-#     # SPDX-FileCopyrightText: (C) 2026 openRuyi Project Contributors
-#     # SPDX-FileContributor: Your Name <your.email@example.com>
-#     #
-#     # SPDX-License-Identifier: MulanPSL-2.0
-#
-# The mandatory lines are the two `SPDX-FileCopyrightText` lines and the
-# final `SPDX-License-Identifier: MulanPSL-2.0` line, and they must
-# appear in this order at the *start* of the file (only leading blank
-# lines may precede the block). `SPDX-FileContributor` lines are
-# optional.
 
 _RE_COPYRIGHT_ISCAS = re.compile(
     r'^#\s*SPDX-FileCopyrightText:\s*\(C\)\s*'
@@ -39,9 +24,7 @@ _RE_LICENSE = re.compile(
 
 
 def _header_block(lines: list[str]) -> list[str]:
-    """Return the stripped consecutive comment lines at the top of the file."""
     i = 0
-    # allow a few leading blank lines before the header
     while i < len(lines) and not lines[i].strip():
         i += 1
     block: list[str] = []
@@ -52,7 +35,6 @@ def _header_block(lines: list[str]) -> list[str]:
 
 
 def _classify(line: str) -> str:
-    """Classify a stripped header line for presence/order checking."""
     if _RE_COPYRIGHT_ISCAS.match(line):
         return 'iscas'
     if _RE_COPYRIGHT_RUYI.match(line):
@@ -77,10 +59,6 @@ def _dedup(errors: list[str]) -> list[str]:
 
 
 def _check_spdx_header(filename: str) -> list[str]:
-    """Validate the SPDX header of ``filename``.
-
-    Returns a list of human readable error messages; empty on success.
-    """
     errors: list[str] = []
     try:
         with open(filename, encoding='utf-8') as f:
@@ -119,8 +97,6 @@ def _check_spdx_header(filename: str) -> list[str]:
             '"# SPDX-License-Identifier: MulanPSL-2.0"',
         )
 
-    # order check: ISCAS -> ruyi -> (contributors) -> one blank "#"
-    #               -> license
     if has_iscas and has_ruyi and has_license:
         i_iscas = seq.index('iscas')
         i_ruyi = seq.index('ruyi')

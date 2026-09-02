@@ -4,39 +4,11 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# The ``BuildArch`` field of an openRuyi spec file must follow the
-# packaging guidelines
-# (https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#buildarch-%E5%8F%AF%E9%80%89):
-#
-#   1. ``BuildArch`` is used to declare the target architecture.
-#   2. The ``BuildArch`` field should be located between the last
-#      ``Source`` field and the ``BuildSystem`` field.
-#   3. When ``BuildArch`` is ``noarch``, the package is independent of
-#      the CPU architecture.
-#
-# ``BuildArch`` is an optional field.  Statically checkable rules in
-# this hook:
-#   * a ``BuildArch:`` field must not be empty (an empty value cannot
-#     declare a target architecture);
-#   * the ``BuildArch`` field must be located after the last ``Source``
-#     field and before the ``BuildSystem`` field (when both are
-#     present);
-#   * the value must be ``noarch`` -- the only architecture value used
-#     by the openRuyi repository (a package that is not architecture
-#     independent simply omits the field).
-#
-# Field presence is covered by ``check-spec-structure`` (``BuildArch``
-# is optional, so a missing field is not an error here).  Whether a
-# package really is architecture independent cannot be judged
-# statically.
 
 _RE_BUILDARCH = re.compile(r'^BuildArch\s*:\s*(.*)')
-# ``Source`` also matches the numbered variants ``Source0`` … ``SourceN``.
 _RE_SOURCE = re.compile(r'^Source\d*\s*:')
 _RE_BUILDSYSTEM = re.compile(r'^BuildSystem\s*:')
-# The only architecture value used by the openRuyi repository.
 _NOARCH = 'noarch'
-# Avoid echoing a very long value verbatim in an error message.
 _MAX_SHOWN = 60
 
 
@@ -47,10 +19,6 @@ def _truncate(value: str) -> str:
 
 
 def _check_spec_buildarch(filename: str) -> list[str]:
-    """Validate the ``BuildArch`` field of ``filename``.
-
-    Returns a list of human readable error messages; empty on success.
-    """
     errors: list[str] = []
     try:
         with open(filename, encoding='utf-8') as f:
@@ -63,9 +31,6 @@ def _check_spec_buildarch(filename: str) -> list[str]:
     if not lines:
         return [f'{filename}: file is empty']
 
-    # Only the header region is inspected: ``BuildArch`` inside a
-    # ``%package`` subpackage block is a different field (it declares
-    # the subpackage architecture) and is not covered by this rule.
     cut = len(lines)
     for i, line in enumerate(lines):
         if re.match(r'^%(?:description|package)\b', line.strip()):
@@ -92,8 +57,6 @@ def _check_spec_buildarch(filename: str) -> list[str]:
                 buildsystem_idx = i
 
     if buildarch_value is None:
-        # ``BuildArch`` is optional; field presence is covered by
-        # ``check-spec-structure``.
         return errors
 
     if not buildarch_value:
@@ -111,9 +74,6 @@ def _check_spec_buildarch(filename: str) -> list[str]:
             f'(found "{shown}")',
         )
 
-    # Position check: ``BuildArch`` should be located after the last
-    # ``Source`` field and before the ``BuildSystem`` field.  When one
-    # of the two anchors is missing the position cannot be judged.
     if last_source_idx != -1 and buildsystem_idx != -1:
         if not (last_source_idx < buildarch_idx < buildsystem_idx):
             errors.append(

@@ -4,9 +4,6 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# The mandatory header fields of an openRuyi spec file and the order in
-# which they must appear.  Every field must be present -- a package
-# without a VCS checkout simply does not qualify.
 _HEADER_FIELDS = (
     'Name',
     'Version',
@@ -21,10 +18,6 @@ _HEADER_FIELDS = (
     'Requires',
 )
 
-# Well-known source-code hosting platforms.  When the ``URL`` field of a
-# spec points at one of these, the ``VCS`` field may be omitted (see the
-# packaging guidelines:
-# https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#vcs).
 _SOURCE_REPO_HOSTS = frozenset({
     'github.com',
     'gitlab.com',
@@ -38,8 +31,6 @@ _SOURCE_REPO_HOSTS = frozenset({
     'src.fedoraproject.org',
 })
 
-# Sections that must be separated from the preceding content by a blank
-# line (conditional blocks like `%if` are exempt).
 _SECTIONS = (
     '%description',
     '%package',
@@ -53,11 +44,6 @@ _SECTIONS = (
 
 
 def _is_section_line(line: str) -> bool:
-    """Return True if ``line`` opens one of the tracked sections.
-
-    Section tags may carry parameters, e.g. ``%description devel`` or
-    ``%files -f %{name}.lang``.
-    """
     stripped = line.strip()
     for tag in _SECTIONS:
         if stripped == tag or stripped.startswith(tag + ' ') or \
@@ -67,11 +53,6 @@ def _is_section_line(line: str) -> bool:
 
 
 def _field_name(stripped: str) -> str | None:
-    """Return the header field name of ``stripped``, or None.
-
-    ``Source`` also matches the numbered variants ``Source0`` …
-    ``SourceN``; continuation lines (indented field bodies) return None.
-    """
     for field in _HEADER_FIELDS:
         if field == 'Source':
             if re.match(r'^Source\d*:', stripped):
@@ -83,10 +64,6 @@ def _field_name(stripped: str) -> str | None:
 
 
 def _header_seq(lines: list[str], cut: int) -> list[str]:
-    """Extract header field order up to line ``cut``.
-
-    Continuation lines and blank/comment/directive lines are ignored.
-    """
     seq: list[str] = []
     for line in lines[:cut]:
         stripped = line.strip()
@@ -102,10 +79,6 @@ def _header_seq(lines: list[str], cut: int) -> list[str]:
 
 
 def _get_url_value(lines: list[str], cut: int) -> str | None:
-    """Return the value of the ``URL`` header field, or None.
-
-    Only the first uncommented ``URL:`` line before ``cut`` is used.
-    """
     for line in lines[:cut]:
         stripped = line.strip()
         if stripped.startswith('URL:'):
@@ -114,14 +87,6 @@ def _get_url_value(lines: list[str], cut: int) -> str | None:
 
 
 def _is_source_repo_url(value: str) -> bool:
-    """Return True if ``value`` looks like a source repository link.
-
-    The packaging guidelines allow ``VCS`` to be omitted when ``URL``
-    already points at the source repository.  A link is treated as a
-    source repository when it uses the ``git:`` scheme, ends with
-    ``.git``, or is hosted on a well-known source-code hosting platform
-    (``github.com``, ``gitlab.*``, ``git.*``, ``codeberg.org``, …).
-    """
     value = value.strip()
     if value.startswith('git:'):
         return True
@@ -139,7 +104,6 @@ def _is_source_repo_url(value: str) -> bool:
 
 
 def _check_header_order(lines: list[str], filename: str) -> list[str]:
-    """Check that all header fields are present and in canonical order."""
     errors: list[str] = []
     cut = len(lines)
     for i, line in enumerate(lines):
@@ -149,8 +113,6 @@ def _check_header_order(lines: list[str], filename: str) -> list[str]:
     seq = _header_seq(lines, cut)
 
     missing = [f for f in _HEADER_FIELDS if f not in seq]
-    # ``VCS`` may be omitted when ``URL`` already points at the source
-    # repository (see the packaging guidelines).
     if 'VCS' in missing:
         url = _get_url_value(lines, cut)
         if url is not None and _is_source_repo_url(url):
@@ -160,12 +122,10 @@ def _check_header_order(lines: list[str], filename: str) -> list[str]:
             f'{filename}: missing required header field(s): '
             f'{", ".join(missing)}',
         )
-        # still report ordering problems below if any are present
     order = {field: idx for idx, field in enumerate(_HEADER_FIELDS)}
     positions: list[tuple[str, int]] = []
     for field in seq:
         positions.append((field, order[field]))
-    # violations: a later field must never appear before an earlier one
     for i in range(len(positions)):
         for j in range(i + 1, len(positions)):
             if positions[i][1] > positions[j][1]:
@@ -180,14 +140,6 @@ def _check_header_order(lines: list[str], filename: str) -> list[str]:
 
 
 def _is_directive(line: str) -> bool:
-    """Return True if ``line`` is a structural spec directive.
-
-    Structural directives are the tracked section tags and the
-    conditional/preprocessor keywords (``%if``, ``%ifarch``, ``%ifos``,
-    ``%ifnarch``, ``%ifnos``, ``%else``, ``%endif``).  Bare macros such
-    as ``%{_bindir}`` and macro invocations such as ``%find_lang`` or
-    ``%make_install`` expand to content, so they are *not* structural.
-    """
     stripped = line.strip()
     if not stripped.startswith('%'):
         return False
@@ -201,13 +153,6 @@ def _is_directive(line: str) -> bool:
 
 
 def _check_section_spacing(lines: list[str], filename: str) -> list[str]:
-    """Check that sections are preceded by a blank line.
-
-    Content lines (header fields, file lists, script lines) must be
-    separated from a section tag by at least one blank line.  Other
-    section tags and conditional directives (``%if``/``%else``/``%endif``)
-    directly above the section do not require a blank line.
-    """
     errors: list[str] = []
     for i, line in enumerate(lines):
         if not _is_section_line(line):
@@ -225,10 +170,6 @@ def _check_section_spacing(lines: list[str], filename: str) -> list[str]:
 
 
 def _check_spec_structure(filename: str) -> list[str]:
-    """Validate the structure of ``filename``.
-
-    Returns a list of human readable error messages; empty on success.
-    """
     errors: list[str] = []
     try:
         with open(filename, encoding='utf-8') as f:
