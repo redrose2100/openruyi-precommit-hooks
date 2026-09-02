@@ -11,7 +11,7 @@ Some out-of-the-box hooks for [pre-commit](https://pre-commit.com).
 
 ```yaml
 -   repo: https://github.com/redrose2100/openruyi-precommit-hooks
-    rev: v0.1.0  # 填写你要引用的版本
+    rev: v0.2.0  # 填写你要引用的版本
     hooks:
     # -   id: ...
 ```
