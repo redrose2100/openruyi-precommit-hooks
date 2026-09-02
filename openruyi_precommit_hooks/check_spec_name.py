@@ -4,31 +4,12 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# The ``Name`` field of an openRuyi spec file must follow the naming
-# guidelines (https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines):
-#
-#   1. ``Name`` must always be present.
-#   2. The package name should be lowercase and prefer ``-`` over ``_``
-#      as the separator.  Underscores are only allowed in the exceptions
-#      defined by the supplemental spec (e.g. upstream names that
-#      naturally contain an underscore like ``nss_wrapper``).
-#   3. The package name must not encode an ABI (SONAME major) or the
-#      upstream major version (e.g. a name like ``libfoo2``).
-#
-# The `perl-*` modules are exempt from the lowercase rule: the CPAN
-# distribution groups must be capitalized per the supplemental spec.
-# Names that expand a macro (e.g. ``python-%{pypi_name}``) cannot be
-# statically checked, so they are skipped.
 
 _RE_NAME = re.compile(r'^Name\s*:\s*(\S+)')
 _RE_LIB_ABI = re.compile(r'^lib[a-z]+[0-9]+$')
 
 
 def _check_spec_name(filename: str) -> list[str]:
-    """Validate the ``Name`` field of ``filename``.
-
-    Returns a list of human readable error messages; empty on success.
-    """
     errors: list[str] = []
     try:
         with open(filename, encoding='utf-8') as f:
@@ -50,8 +31,6 @@ def _check_spec_name(filename: str) -> list[str]:
     if name is None:
         return [f'{filename}: missing required field "Name"']
 
-    # A macro-expanded name (e.g. ``python-%{pypi_name}``) cannot be
-    # checked statically.
     if '%' in name:
         return errors
 

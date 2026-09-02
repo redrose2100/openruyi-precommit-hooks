@@ -4,49 +4,16 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# The ``BuildSystem: cmake`` spec files of the openRuyi project must
-# follow the cmake build system guidelines
-# (https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines/BuildSystems/cmake):
-#
-#   A spec that uses the ``cmake`` build system must declare this
-#   ``BuildRequires``:
-#
-#       BuildRequires:  cmake
-#
-#   ``gcc`` is preinstalled in the build environment and may be omitted.
-#
-# Statically checkable rules in this hook:
-#   * when ``BuildSystem`` is ``cmake``, ``cmake`` must be declared in
-#     the header ``BuildRequires`` fields.
-#
-# The other cmake guidelines (migrating ``%build``/``%install`` commands
-# into ``BuildOption``/``%build -p``/``%install -a``, and the ``%conf``
-# preset macros listed in the build system notes) are either covered by
-# ``check-spec-buildoption`` or describe the build platform behaviour
-# and cannot be judged statically.
-#
-# Field presence of ``BuildSystem`` is covered by ``check-spec-structure``;
-# the general one-dependency-per-line formatting of ``BuildRequires`` is
-# covered by ``check-spec-buildrequires``.
 
 _RE_BUILDSYSTEM = re.compile(r'^BuildSystem\s*:\s*(.*)')
 _RE_BUILDREQUIRES = re.compile(r'^BuildRequires\s*:\s*(.*)')
 
-# The dependency every cmake spec must declare.
 _CMAKE_BUILDREQUIRES = frozenset({'cmake'})
 
 
 def _dependencies_in_values(values: list[str]) -> set[str]:
-    """Extract the set of dependency names from ``BuildRequires`` values.
-
-    Values are read from the raw ``BuildRequires:`` lines.  A value can
-    declare several packages (the general rule of one dependency per
-    line is enforced by ``check-spec-buildrequires``), so every token is
-    collected here.
-    """
     deps: set[str] = set()
     for value in values:
-        # strip rpm macros so ``%{?foo}-devel`` does not pollute the set
         value = re.sub(r'%\{[^}]*\}', ' ', value)
         value = re.sub(
             r'(?<![A-Za-z0-9_.-])%[A-Za-z_][A-Za-z0-9_]*(?![A-Za-z0-9_.])',
@@ -55,19 +22,12 @@ def _dependencies_in_values(values: list[str]) -> set[str]:
         )
         for token in re.split(r'[\s,()]', value):
             token = token.strip()
-            # ``-`` is a valid package-name character (e.g. ``go-rpm-macros``
-            # or ``zlib-devel``), but a bare ``-suffix`` left over from a
-            # stripped macro (``%{?foo}-devel``) must not count as a name.
             if re.match(r'^[A-Za-z0-9_.+/]+(?:-[A-Za-z0-9_.+/]+)*$', token):
                 deps.add(token)
     return deps
 
 
 def _check_spec_cmake(filename: str) -> list[str]:
-    """Validate the cmake build requirements of ``filename``.
-
-    Returns a list of human readable error messages; empty on success.
-    """
     errors: list[str] = []
     try:
         with open(filename, encoding='utf-8') as f:
@@ -80,9 +40,6 @@ def _check_spec_cmake(filename: str) -> list[str]:
     if not lines:
         return [f'{filename}: file is empty']
 
-    # Only the header region is inspected: ``BuildRequires`` inside a
-    # ``%package`` subpackage block declares the subpackage build
-    # dependencies and is not covered by this rule.
     cut = len(lines)
     for i, line in enumerate(lines):
         if re.match(r'^%(?:description|package)\b', line.strip()):
@@ -104,7 +61,6 @@ def _check_spec_cmake(filename: str) -> list[str]:
             buildrequires.append(m.group(1).strip())
 
     if buildsystem_value != 'cmake':
-        # This hook only applies to ``BuildSystem: cmake`` specs.
         return errors
 
     deps = _dependencies_in_values(buildrequires)

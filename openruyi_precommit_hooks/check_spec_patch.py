@@ -4,44 +4,6 @@ import argparse
 import re
 from collections.abc import Sequence
 
-# The ``Patch`` and ``%patchlist`` fields of an openRuyi spec file must
-# follow the packaging guidelines
-# (https://www.openruyi.cn/zh-Hans/docs/guide/packaging-guidelines#patch-and-patchlist-%E5%8F%AF%E9%80%89):
-#
-#   1. Every patch referenced by a spec must have at least one comment
-#      line above it explaining its purpose or giving an upstream link
-#      (unless the purpose is already explained inside the patch).
-#   2. Patch file names must start with a four digit number, and the
-#      number range expresses the patch type:
-#
-#          0001-0999: upstream patches for the same version
-#          1000-1999: CVE fixes or cross-version backports
-#          2000-2999: openRuyi specific patches (not expected upstream)
-#
-#   3. When there are more than 3 patches, the spec should use
-#      ``%patchlist``, and the list must be placed above
-#      ``%description``.
-#   4. Patch placement:
-#        * when the spec has a ``BuildOption`` field, patches should be
-#          located between ``BuildSystem`` and ``BuildOption``;
-#        * when the spec has no ``BuildOption`` field, patches should be
-#          located between ``BuildSystem`` and ``BuildRequires``.
-#
-# ``Patch`` and ``%patchlist`` are optional fields.  Statically
-# checkable rules in this hook:
-#   * every ``Patch:`` field must have a comment line directly above it;
-#   * every ``%patchlist`` entry must have a comment line directly above
-#     it;
-#   * patch file names must start with a four digit number in one of the
-#     documented ranges (0001-0999, 1000-1999, 2000-2999);
-#   * when a spec has more than 3 patches it should use ``%patchlist``;
-#   * ``%patchlist`` must be placed above ``%description``;
-#   * ``Patch`` fields should be located between ``BuildSystem`` and
-#     ``BuildOption`` (when present) or between ``BuildSystem`` and
-#     ``BuildRequires`` (when ``BuildOption`` is absent).
-#
-# Whether a patch's purpose is really explained inside the patch file
-# cannot be judged statically.
 
 _RE_PATCH = re.compile(r'^Patch(\d*)\s*:\s*(.*)')
 _RE_PATCHLIST = re.compile(r'^%patchlist\b')
@@ -52,12 +14,8 @@ _RE_BUILDREQUIRES = re.compile(r'^BuildRequires\s*:')
 _RE_SECTION = re.compile(
     r'^%(?:description|package|prep|build|install|check|files|changelog)\b',
 )
-# A patch file name must start with a four digit number in one of the
-# documented ranges.
 _RE_PATCH_NAME = re.compile(r'^(\d{4})')
-# The documented four digit prefix ranges.
 _PREFIX_RANGES = ('0001-0999', '1000-1999', '2000-2999')
-# Avoid echoing a very long value verbatim in an error message.
 _MAX_SHOWN = 60
 
 
@@ -68,10 +26,6 @@ def _truncate(value: str) -> str:
 
 
 def _check_spec_patch(filename: str) -> list[str]:
-    """Validate the ``Patch`` / ``%patchlist`` usage of ``filename``.
-
-    Returns a list of human readable error messages; empty on success.
-    """
     errors: list[str] = []
     try:
         with open(filename, encoding='utf-8') as f:
@@ -84,9 +38,6 @@ def _check_spec_patch(filename: str) -> list[str]:
     if not lines:
         return [f'{filename}: file is empty']
 
-    # Only the header region is inspected: ``Patch`` / ``%patchlist``
-    # inside a ``%package`` subpackage block is a different context and
-    # is not covered by this rule.
     cut = len(lines)
     for i, line in enumerate(lines):
         if _RE_SECTION.match(line.strip()):
@@ -95,10 +46,9 @@ def _check_spec_patch(filename: str) -> list[str]:
 
     header = lines[:cut]
 
-    # Collect ``Patch:`` fields and ``%patchlist`` blocks.
-    patches: list[tuple[int, str]] = []  # (line_idx, patch file name)
+    patches: list[tuple[int, str]] = []
     patchlist_idx = -1
-    patchlist_entries: list[tuple[int, str]] = []  # (line_idx, name)
+    patchlist_entries: list[tuple[int, str]] = []
     in_patchlist = False
     for i, line in enumerate(header):
         stripped = line.strip()
@@ -118,8 +68,6 @@ def _check_spec_patch(filename: str) -> list[str]:
         if m:
             patches.append((i, m.group(2).strip()))
 
-    # Checkpoint 1: every ``Patch:`` field must have a comment line
-    # directly above it.
     for idx, name in patches:
         if idx > 0 and _RE_COMMENT.match(lines[idx - 1]):
             continue
@@ -129,8 +77,6 @@ def _check_spec_patch(filename: str) -> list[str]:
             f'it explaining its purpose or giving an upstream link',
         )
 
-    # Checkpoint 1 (patchlist): every ``%patchlist`` entry must have a
-    # comment line directly above it.
     for idx, name in patchlist_entries:
         if idx > 0 and _RE_COMMENT.match(lines[idx - 1]):
             continue
@@ -141,8 +87,6 @@ def _check_spec_patch(filename: str) -> list[str]:
             f'upstream link',
         )
 
-    # Checkpoint 2: patch file names must start with a four digit number
-    # in one of the documented ranges.
     all_names = [
         name for _, name in patches
     ] + [name for _, name in patchlist_entries]
@@ -164,18 +108,12 @@ def _check_spec_patch(filename: str) -> list[str]:
                 f'({", ".join(_PREFIX_RANGES)})',
             )
 
-    # Checkpoint 3: when there are more than 3 patches the spec should
-    # use ``%patchlist``.
     if len(patches) > 3 and patchlist_idx == -1:
         errors.append(
             f'{filename}: more than 3 patches should use %patchlist '
             f'(found {len(patches)} Patch fields)',
         )
 
-    # Checkpoint 4: ``%patchlist`` must be placed above ``%description``.
-    # The ``%patchlist`` block itself is searched in the whole file (it
-    # may appear below ``%description``, which is exactly the violation
-    # this checkpoint reports).
     patchlist_idx_full = -1
     for i, line in enumerate(lines):
         if _RE_PATCHLIST.match(line.strip()):
@@ -193,10 +131,6 @@ def _check_spec_patch(filename: str) -> list[str]:
                 f'%description',
             )
 
-    # Checkpoint 5: ``Patch`` fields should be located between
-    # ``BuildSystem`` and ``BuildOption`` (when present) or between
-    # ``BuildSystem`` and ``BuildRequires`` (when ``BuildOption`` is
-    # absent).
     if patches:
         buildsystem_idx = -1
         buildoption_idx = -1
