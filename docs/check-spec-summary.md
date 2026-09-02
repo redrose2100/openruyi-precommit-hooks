@@ -43,7 +43,7 @@
 
 ```yaml
 -   repo: https://github.com/redrose2100/openruyi-precommit-hooks
-    rev: v0.1.0   # 使用最新 tag
+    rev: v0.2.0   # 使用最新 tag
     hooks:
     -   id: check-spec-summary
 ```

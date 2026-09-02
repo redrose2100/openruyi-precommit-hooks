@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 未发布
+## 0.2.0 (2026-09-02)
 
 ### 新增
 
@@ -139,6 +139,10 @@
   清单新增「行号」列（e2fsprogs:56、libmodulemd:58、obs-build:61、
   perl:86、swig:78）。规则文档 `docs/check-spec-subpackage.md` 的
   失败示例同步更新，并新增 swig（ccache-swig）形态的测试用例。
+- 全部 27 个规则 hook 的实现删除注释与 docstring（与参考仓库
+  `pre-commit/pre-commit-hooks` 的实现风格保持一致），删除模块级
+  指南注释块、常量旁注释、函数内解释性注释与模块/函数 docstring，
+  共减少 1409 行；字符串字面量内的 `#`（如正则）不受影响。
 
 ## 0.1.0 (2026-08-26)
 
