@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from openruyi_precommit_hooks.check_spdx_header import main
 
 GOOD_HEADER_WITH_CONTRIBUTOR = '''\
@@ -80,7 +82,9 @@ Name:           foo
     assert retv == 1
 
 
-def test_missing_license_identifier(tmp_path: Path) -> None:
+def test_missing_license_identifier(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str],
+) -> None:
     content = '''\
 # SPDX-FileCopyrightText: (C) 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2026 openRuyi Project Contributors
@@ -88,10 +92,15 @@ def test_missing_license_identifier(tmp_path: Path) -> None:
 Name:           foo
 '''
     retv = main([_write(tmp_path, 'bad3.spec', content)])
+    captured = capsys.readouterr()
     assert retv == 1
+    assert 'missing required header line' in captured.out
+    assert 'SPDX-License-Identifier: MulanPSL-2.0' in captured.out
 
 
-def test_wrong_license_identifier(tmp_path: Path) -> None:
+def test_wrong_license_identifier(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str],
+) -> None:
     content = '''\
 # SPDX-FileCopyrightText: (C) 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2026 openRuyi Project Contributors
@@ -100,6 +109,27 @@ def test_wrong_license_identifier(tmp_path: Path) -> None:
 Name:           foo
 '''
     retv = main([_write(tmp_path, 'bad4.spec', content)])
+    captured = capsys.readouterr()
+    assert retv == 1
+    # The license line exists but is not the default license; the message
+    # must not claim the line is missing.
+    assert 'missing required header line' not in captured.out
+    assert 'must be the default license "MulanPSL-2.0"' in captured.out
+    assert 'found "MIT"' in captured.out
+
+
+def test_wrong_license_identifier_with_blank_separator(tmp_path: Path) -> None:
+    # Z572 review scenario: license line exists but uses a non-default
+    # license, so only the "not the default license" error is reported.
+    content = '''\
+# SPDX-FileCopyrightText: (C) 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2026 openRuyi Project Contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+
+Name:           foo
+'''
+    retv = main([_write(tmp_path, 'bad4b.spec', content)])
     assert retv == 1
 
 

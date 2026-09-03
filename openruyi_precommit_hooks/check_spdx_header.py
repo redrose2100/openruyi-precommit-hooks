@@ -18,8 +18,8 @@ _RE_COPYRIGHT_RUYI = re.compile(
 )
 _RE_CONTRIBUTOR = re.compile(r'^#\s*SPDX-FileContributor:\s*.+\s*$')
 _RE_BLANK_COMMENT = re.compile(r'^#\s*$')
-_RE_LICENSE = re.compile(
-    r'^#\s*SPDX-License-Identifier:\s*MulanPSL-2\.0\s*$',
+_RE_LICENSE_ANY = re.compile(
+    r'^#\s*SPDX-License-Identifier:\s*(\S+)\s*$',
 )
 
 
@@ -43,7 +43,7 @@ def _classify(line: str) -> str:
         return 'contributor'
     if _RE_BLANK_COMMENT.match(line):
         return 'blank'
-    if _RE_LICENSE.match(line):
+    if _RE_LICENSE_ANY.match(line):
         return 'license'
     return 'other'
 
@@ -76,7 +76,6 @@ def _check_spdx_header(filename: str) -> list[str]:
 
     has_iscas = 'iscas' in seq
     has_ruyi = 'ruyi' in seq
-    has_license = 'license' in seq
 
     if not has_iscas:
         errors.append(
@@ -91,16 +90,33 @@ def _check_spdx_header(filename: str) -> list[str]:
             '"# SPDX-FileCopyrightText: (C) <year> '
             'openRuyi Project Contributors"',
         )
-    if not has_license:
+
+    license_value = None
+    license_idx = -1
+    for i, c in enumerate(seq):
+        if c == 'license':
+            m = _RE_LICENSE_ANY.match(block[i])
+            if m:
+                license_value = m.group(1)
+            license_idx = i
+            break
+    if license_value is None:
         errors.append(
             f'{filename}: missing required header line '
             '"# SPDX-License-Identifier: MulanPSL-2.0"',
         )
+        return _dedup(errors)
+    if license_value != 'MulanPSL-2.0':
+        errors.append(
+            f'{filename}: SPDX-License-Identifier must be the default '
+            f'license "MulanPSL-2.0" (found "{license_value}")',
+        )
+        return _dedup(errors)
 
-    if has_iscas and has_ruyi and has_license:
+    if has_iscas and has_ruyi:
         i_iscas = seq.index('iscas')
         i_ruyi = seq.index('ruyi')
-        i_license = seq.index('license')
+        i_license = license_idx
         if i_iscas < i_ruyi < i_license:
             between = seq[i_ruyi + 1:i_license]
             n_blank = between.count('blank')
