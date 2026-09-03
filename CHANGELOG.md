@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 未发布
+
+### 变更
+
+- `check-spdx-header` 的许可证标识检查提示语优化：当 `SPDX-License-Identifier`
+  行存在但值不是默认的 `MulanPSL-2.0` 时，不再报"缺少必需头行
+  `# SPDX-License-Identifier: MulanPSL-2.0`"（该表述有误导性，行其实存在），
+  改为明确指出"必须使用默认许可证 `MulanPSL-2.0`（实际为 `<许可证值>`）"，
+  与 PR [openRuyi-Project/openRuyi#1221](https://github.com/openRuyi-Project/openRuyi/pull/1221)
+  评审意见一致。规则文档 `docs/check-spdx-header.md` 的检查点 6 描述与
+  失败示例同步更新。
+
 ## 0.2.0 (2026-09-02)
 
 ### 新增

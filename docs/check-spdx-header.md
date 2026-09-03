@@ -32,7 +32,7 @@
 | 3 | openRuyi 版权声明 | 包含 `# SPDX-FileCopyrightText: (C) <年份> openRuyi Project Contributors`（必选） | 缺失即失败 |
 | 4 | 贡献者署名 | `# SPDX-FileContributor: ...`（可选，可有多行或没有） | 不参与判定 |
 | 5 | 分隔空行 | 版权块与许可证行之间**恰好一行** `#` 空注释行（必选） | 缺少或超过一行即失败 |
-| 6 | 许可证标识 | 包含 `# SPDX-License-Identifier: MulanPSL-2.0`（必选） | 缺失或不是 `MulanPSL-2.0` 即失败 |
+| 6 | 许可证标识 | 包含 `# SPDX-License-Identifier: MulanPSL-2.0`（必选），且许可证值必须为默认的 `MulanPSL-2.0` | 缺失即失败；存在但不是默认 `MulanPSL-2.0` 即失败 |
 
 ### 年份写法
 
@@ -98,4 +98,10 @@ Name:           foo
 # SPDX-License-Identifier: MIT
 
 Name:           foo
+```
+
+此时许可证行存在但不是默认的 `MulanPSL-2.0`，错误消息会明确指出这一点：
+
+```
+foo.spec: SPDX-License-Identifier must be the default license "MulanPSL-2.0" (found "MIT")
 ```
