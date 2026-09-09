@@ -6,7 +6,26 @@ from collections.abc import Sequence
 
 
 _RE_NAME = re.compile(r'^Name\s*:\s*(\S+)')
+_RE_UPSTREAM_FIELD = re.compile(r'^(?:URL|VCS|Source\d*)\s*:\s*(\S+)')
 _RE_LIB_ABI = re.compile(r'^lib[a-z]+[0-9]+$')
+
+
+def _upstream_tokens(lines: list[str]) -> set[str]:
+    """Collect identifier tokens from upstream metadata fields.
+
+    ``URL``/``VCS``/``Source`` values usually point at the upstream
+    project, so a ``lib<name><number>`` package whose name matches one
+    of these identifiers is the actual upstream name (e.g. ``libxml2``,
+    ``libssh2``) rather than an encoded ABI or major version.
+    """
+    tokens: set[str] = set()
+    for line in lines:
+        m = _RE_UPSTREAM_FIELD.match(line.strip())
+        if not m:
+            continue
+        value = re.sub(r'%\{[^}]*\}', '', m.group(1))
+        tokens.update(re.findall(r'[A-Za-z0-9]+', value.lower()))
+    return tokens
 
 
 def _check_spec_name(filename: str) -> list[str]:
@@ -45,10 +64,12 @@ def _check_spec_name(filename: str) -> list[str]:
             f'(found "{name}")',
         )
     if _RE_LIB_ABI.match(name):
-        errors.append(
-            f'{filename}: package name should not encode an ABI or '
-            f'major version (found "{name}")',
-        )
+        tokens = _upstream_tokens(lines)
+        if name.lower() not in tokens:
+            errors.append(
+                f'{filename}: package name should not encode an ABI or '
+                f'major version (found "{name}")',
+            )
     return errors
 
 

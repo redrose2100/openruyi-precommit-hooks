@@ -30,7 +30,7 @@
 | 1 | 字段存在 | `Name` 必须定义软件包名称 | 缺失 `Name` 字段即失败 |
 | 2 | 全小写 | 软件包名称应当为小写 | 名称含大写字母即失败（`perl-*` 模块例外豁免） |
 | 3 | 分隔符 | 优先使用短横线 `-` 作为分隔符；下划线 `_` 仅在补充规范允许的例外情形下使用 | 名称含 `_` 即报告 |
-| 4 | 版本编码 | 软件包名称不得编码 ABI（如 SONAME major）或上游主版本号 | 名称形如 `lib<字母><数字>`（如 `libfoo2`）即失败 |
+| 4 | 版本编码 | 软件包名称不得编码 ABI（如 SONAME major）或上游主版本号 | 名称形如 `lib<字母><数字>`（如 `libfoo2`）即失败；若该名称同时是上游项目名（`URL`/`VCS`/`Source` 中出现同名标识符，如 `libxml2`）则豁免 |
 | 5 | 上游别名 | 包名与上游名称不一致时，可通过 `Provides:` 提供上游名称别名 | 不参与判定 |
 
 **跳过**（无法静态判定）：
@@ -41,6 +41,13 @@
 **注意**：下划线检查会报告所有含 `_` 的名称（包括
 `nss_wrapper` 这类规范允许的例外），是否采纳由打包者决定；
 `perl-*` 模块整体豁免小写检查，但下划线/ABI 检查仍生效。
+
+**ABI/主版本号豁免**：`lib<字母><数字>` 形式的名称若本身是上游项目
+名（而非编码的版本号），且 `URL`/`VCS`/`Source` 等上游元数据字段中
+出现同名标识符（如 `libxml2` 的 `URL` 含 `libxml2`），则视为合规。
+这对应于 [openRuyi-Project/openRuyi#1232](https://github.com/openRuyi-Project/openRuyi/issues/1232)
+评审意见：`libxml2`、`libssh2`、`libgit2`、`libp11`、`libtasn1`
+等是上游源名称而非版本号。
 
 ## 用法
 
@@ -71,6 +78,12 @@ Name:           perl-Archive-Tar
 ```spec
 Name:           python-%{pypi_name}
 ```
+
+```spec
+Name:           libxml2
+URL:            https://gitlab.gnome.org/GNOME/libxml2
+```
+→ 豁免（`libxml2` 是上游项目名，见 ABI/主版本号豁免说明）
 
 ### 不通过 ❌
 

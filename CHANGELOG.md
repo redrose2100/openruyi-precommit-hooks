@@ -11,6 +11,14 @@
   与 PR [openRuyi-Project/openRuyi#1221](https://github.com/openRuyi-Project/openRuyi/pull/1221)
   评审意见一致。规则文档 `docs/check-spdx-header.md` 的检查点 6 描述与
   失败示例同步更新。
+- `check-spec-name` 的 ABI/主版本号检查增加上游名称豁免：当名称形如
+  `lib<字母><数字>`（如 `libxml2`）但本身是上游项目名时（`URL`/`VCS`/
+  `Source` 等上游元数据字段中出现同名标识符），不再报"名称编码 ABI 或
+  主版本号"。对应 [openRuyi-Project/openRuyi#1232](https://github.com/openRuyi-Project/openRuyi/issues/1232)
+  评审意见（`libxml2`、`libssh2`、`libgit2`、`libp11`、`libtasn1` 等是
+  上游源名称而非版本号）。规则文档 `docs/check-spec-name.md` 与扫描结果
+  `openruyi-scan-results/check-spec-name-results.md`（ABI 类问题 8 条
+  全部豁免）同步更新。
 
 ## 0.2.0 (2026-09-02)
 

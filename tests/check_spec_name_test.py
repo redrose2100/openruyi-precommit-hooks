@@ -77,6 +77,48 @@ def test_abi_version_encoded(tmp_path: Path) -> None:
     assert retv == 1
 
 
+def test_abi_name_is_upstream_project(tmp_path: Path) -> None:
+    # ``libxml2`` is the upstream project name (matches the URL), not
+    # an encoded major version -- see openRuyi-Project/openRuyi#1232.
+    content = (
+        'Name:           libxml2\n'
+        'URL:            https://gitlab.gnome.org/GNOME/libxml2\n'
+    )
+    retv = main([_write(tmp_path, 'good5.spec', content)])
+    assert retv == 0
+
+
+def test_abi_name_upstream_from_vcs(tmp_path: Path) -> None:
+    # Upstream name may also appear in the ``VCS`` field.
+    content = (
+        'Name:           libssh2\n'
+        'VCS:            git:https://github.com/libssh2/libssh2\n'
+    )
+    retv = main([_write(tmp_path, 'good6.spec', content)])
+    assert retv == 0
+
+
+def test_abi_name_upstream_from_source(tmp_path: Path) -> None:
+    # ``Source`` pointing at the upstream tarball also counts.
+    content = (
+        'Name:           libp11\n'
+        'Source:         https://github.com/OpenSC/libp11/archive/'
+        'refs/tags/libp11-%{version}.tar.gz\n'
+    )
+    retv = main([_write(tmp_path, 'good7.spec', content)])
+    assert retv == 0
+
+
+def test_abi_name_macro_stripped_in_url(tmp_path: Path) -> None:
+    # ``%{name}``-style macros are stripped before token comparison.
+    content = (
+        'Name:           libfoo2\n'
+        'URL:            https://example.org/libfoo2/\n'
+    )
+    retv = main([_write(tmp_path, 'good8.spec', content)])
+    assert retv == 0
+
+
 def test_multiple_violations(tmp_path: Path) -> None:
     content = 'Name:           LibFoo_2\n'
     retv = main([_write(tmp_path, 'bad6.spec', content)])
